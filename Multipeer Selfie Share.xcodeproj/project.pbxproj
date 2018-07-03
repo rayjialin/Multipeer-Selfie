@@ -1,0 +1,536 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 50;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		3885324420EAA9C100ADAD10 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3885324320EAA9C100ADAD10 /* AppDelegate.swift */; };
+		3885324620EAA9C100ADAD10 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3885324520EAA9C100ADAD10 /* HomeViewController.swift */; };
+		3885324920EAA9C100ADAD10 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3885324720EAA9C100ADAD10 /* Main.storyboard */; };
+		3885324B20EAA9C200ADAD10 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3885324A20EAA9C200ADAD10 /* Assets.xcassets */; };
+		3885324E20EAA9C200ADAD10 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3885324C20EAA9C200ADAD10 /* LaunchScreen.storyboard */; };
+		3885325920EAA9C300ADAD10 /* Multipeer_Selfie_ShareTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3885325820EAA9C300ADAD10 /* Multipeer_Selfie_ShareTests.swift */; };
+		3885326420EAA9E300ADAD10 /* CameraServiceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3885326320EAA9E300ADAD10 /* CameraServiceManager.swift */; };
+		3885326C20EAAC0B00ADAD10 /* BroadcastViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3885326B20EAAC0B00ADAD10 /* BroadcastViewController.swift */; };
+		3885326E20EAAC2B00ADAD10 /* BrowserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3885326D20EAAC2B00ADAD10 /* BrowserViewController.swift */; };
+		3885327020EBB4D400ADAD10 /* UIMethods.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3885326F20EBB4D400ADAD10 /* UIMethods.swift */; };
+		3885327220EBB51B00ADAD10 /* BrowserViewController+delegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3885327120EBB51B00ADAD10 /* BrowserViewController+delegate.swift */; };
+		3885327420EBB63A00ADAD10 /* BrowserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3885327320EBB63A00ADAD10 /* BrowserView.swift */; };
+		3885327620EBBFBC00ADAD10 /* UIElementState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3885327520EBBFBC00ADAD10 /* UIElementState.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		3885325520EAA9C300ADAD10 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 3885323820EAA9C100ADAD10 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 3885323F20EAA9C100ADAD10;
+			remoteInfo = "Multipeer Selfie Share";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		3885324020EAA9C100ADAD10 /* Multipeer Selfie Share.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Multipeer Selfie Share.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		3885324320EAA9C100ADAD10 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		3885324520EAA9C100ADAD10 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
+		3885324820EAA9C100ADAD10 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		3885324A20EAA9C200ADAD10 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		3885324D20EAA9C200ADAD10 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		3885324F20EAA9C200ADAD10 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		3885325420EAA9C300ADAD10 /* Multipeer Selfie ShareTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Multipeer Selfie ShareTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		3885325820EAA9C300ADAD10 /* Multipeer_Selfie_ShareTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Multipeer_Selfie_ShareTests.swift; sourceTree = "<group>"; };
+		3885325A20EAA9C300ADAD10 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		3885326320EAA9E300ADAD10 /* CameraServiceManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraServiceManager.swift; sourceTree = "<group>"; };
+		3885326B20EAAC0B00ADAD10 /* BroadcastViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BroadcastViewController.swift; sourceTree = "<group>"; };
+		3885326D20EAAC2B00ADAD10 /* BrowserViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrowserViewController.swift; sourceTree = "<group>"; };
+		3885326F20EBB4D400ADAD10 /* UIMethods.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIMethods.swift; sourceTree = "<group>"; };
+		3885327120EBB51B00ADAD10 /* BrowserViewController+delegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "BrowserViewController+delegate.swift"; sourceTree = "<group>"; };
+		3885327320EBB63A00ADAD10 /* BrowserView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrowserView.swift; sourceTree = "<group>"; };
+		3885327520EBBFBC00ADAD10 /* UIElementState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIElementState.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		3885323D20EAA9C100ADAD10 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3885325120EAA9C300ADAD10 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		3885323720EAA9C100ADAD10 = {
+			isa = PBXGroup;
+			children = (
+				3885324220EAA9C100ADAD10 /* Multipeer Selfie Share */,
+				3885325720EAA9C300ADAD10 /* Multipeer Selfie ShareTests */,
+				3885324120EAA9C100ADAD10 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		3885324120EAA9C100ADAD10 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				3885324020EAA9C100ADAD10 /* Multipeer Selfie Share.app */,
+				3885325420EAA9C300ADAD10 /* Multipeer Selfie ShareTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		3885324220EAA9C100ADAD10 /* Multipeer Selfie Share */ = {
+			isa = PBXGroup;
+			children = (
+				3885324320EAA9C100ADAD10 /* AppDelegate.swift */,
+				3885326920EAAA1B00ADAD10 /* Utilities */,
+				3885326820EAAA0E00ADAD10 /* StoryBoards */,
+				3885326720EAA9F500ADAD10 /* Model */,
+				3885326620EAA9F000ADAD10 /* View */,
+				3885326520EAA9E700ADAD10 /* Controller */,
+				3885324A20EAA9C200ADAD10 /* Assets.xcassets */,
+				3885324F20EAA9C200ADAD10 /* Info.plist */,
+			);
+			path = "Multipeer Selfie Share";
+			sourceTree = "<group>";
+		};
+		3885325720EAA9C300ADAD10 /* Multipeer Selfie ShareTests */ = {
+			isa = PBXGroup;
+			children = (
+				3885325820EAA9C300ADAD10 /* Multipeer_Selfie_ShareTests.swift */,
+				3885325A20EAA9C300ADAD10 /* Info.plist */,
+			);
+			path = "Multipeer Selfie ShareTests";
+			sourceTree = "<group>";
+		};
+		3885326520EAA9E700ADAD10 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				3885324520EAA9C100ADAD10 /* HomeViewController.swift */,
+				3885326B20EAAC0B00ADAD10 /* BroadcastViewController.swift */,
+				3885326D20EAAC2B00ADAD10 /* BrowserViewController.swift */,
+				3885327120EBB51B00ADAD10 /* BrowserViewController+delegate.swift */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		3885326620EAA9F000ADAD10 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				3885327320EBB63A00ADAD10 /* BrowserView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		3885326720EAA9F500ADAD10 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		3885326820EAAA0E00ADAD10 /* StoryBoards */ = {
+			isa = PBXGroup;
+			children = (
+				3885324720EAA9C100ADAD10 /* Main.storyboard */,
+				3885324C20EAA9C200ADAD10 /* LaunchScreen.storyboard */,
+			);
+			path = StoryBoards;
+			sourceTree = "<group>";
+		};
+		3885326920EAAA1B00ADAD10 /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				3885326320EAA9E300ADAD10 /* CameraServiceManager.swift */,
+				3885327520EBBFBC00ADAD10 /* UIElementState.swift */,
+				3885326F20EBB4D400ADAD10 /* UIMethods.swift */,
+			);
+			path = Utilities;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		3885323F20EAA9C100ADAD10 /* Multipeer Selfie Share */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 3885325D20EAA9C300ADAD10 /* Build configuration list for PBXNativeTarget "Multipeer Selfie Share" */;
+			buildPhases = (
+				3885323C20EAA9C100ADAD10 /* Sources */,
+				3885323D20EAA9C100ADAD10 /* Frameworks */,
+				3885323E20EAA9C100ADAD10 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Multipeer Selfie Share";
+			productName = "Multipeer Selfie Share";
+			productReference = 3885324020EAA9C100ADAD10 /* Multipeer Selfie Share.app */;
+			productType = "com.apple.product-type.application";
+		};
+		3885325320EAA9C300ADAD10 /* Multipeer Selfie ShareTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 3885326020EAA9C300ADAD10 /* Build configuration list for PBXNativeTarget "Multipeer Selfie ShareTests" */;
+			buildPhases = (
+				3885325020EAA9C300ADAD10 /* Sources */,
+				3885325120EAA9C300ADAD10 /* Frameworks */,
+				3885325220EAA9C300ADAD10 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				3885325620EAA9C300ADAD10 /* PBXTargetDependency */,
+			);
+			name = "Multipeer Selfie ShareTests";
+			productName = "Multipeer Selfie ShareTests";
+			productReference = 3885325420EAA9C300ADAD10 /* Multipeer Selfie ShareTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		3885323820EAA9C100ADAD10 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 0940;
+				LastUpgradeCheck = 0940;
+				ORGANIZATIONNAME = "ruijia lin";
+				TargetAttributes = {
+					3885323F20EAA9C100ADAD10 = {
+						CreatedOnToolsVersion = 9.4.1;
+					};
+					3885325320EAA9C300ADAD10 = {
+						CreatedOnToolsVersion = 9.4.1;
+						TestTargetID = 3885323F20EAA9C100ADAD10;
+					};
+				};
+			};
+			buildConfigurationList = 3885323B20EAA9C100ADAD10 /* Build configuration list for PBXProject "Multipeer Selfie Share" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 3885323720EAA9C100ADAD10;
+			productRefGroup = 3885324120EAA9C100ADAD10 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				3885323F20EAA9C100ADAD10 /* Multipeer Selfie Share */,
+				3885325320EAA9C300ADAD10 /* Multipeer Selfie ShareTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		3885323E20EAA9C100ADAD10 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3885324E20EAA9C200ADAD10 /* LaunchScreen.storyboard in Resources */,
+				3885324B20EAA9C200ADAD10 /* Assets.xcassets in Resources */,
+				3885324920EAA9C100ADAD10 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3885325220EAA9C300ADAD10 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		3885323C20EAA9C100ADAD10 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3885327220EBB51B00ADAD10 /* BrowserViewController+delegate.swift in Sources */,
+				3885327620EBBFBC00ADAD10 /* UIElementState.swift in Sources */,
+				3885324620EAA9C100ADAD10 /* HomeViewController.swift in Sources */,
+				3885327020EBB4D400ADAD10 /* UIMethods.swift in Sources */,
+				3885327420EBB63A00ADAD10 /* BrowserView.swift in Sources */,
+				3885324420EAA9C100ADAD10 /* AppDelegate.swift in Sources */,
+				3885326C20EAAC0B00ADAD10 /* BroadcastViewController.swift in Sources */,
+				3885326420EAA9E300ADAD10 /* CameraServiceManager.swift in Sources */,
+				3885326E20EAAC2B00ADAD10 /* BrowserViewController.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3885325020EAA9C300ADAD10 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3885325920EAA9C300ADAD10 /* Multipeer_Selfie_ShareTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		3885325620EAA9C300ADAD10 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 3885323F20EAA9C100ADAD10 /* Multipeer Selfie Share */;
+			targetProxy = 3885325520EAA9C300ADAD10 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		3885324720EAA9C100ADAD10 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				3885324820EAA9C100ADAD10 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		3885324C20EAA9C200ADAD10 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				3885324D20EAA9C200ADAD10 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		3885325B20EAA9C300ADAD10 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		3885325C20EAA9C300ADAD10 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		3885325E20EAA9C300ADAD10 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 6FGZ4M8EYW;
+				INFOPLIST_FILE = "Multipeer Selfie Share/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.RJL.Multipeer-Selfie-Share";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		3885325F20EAA9C300ADAD10 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 6FGZ4M8EYW;
+				INFOPLIST_FILE = "Multipeer Selfie Share/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.RJL.Multipeer-Selfie-Share";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		3885326120EAA9C300ADAD10 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 6FGZ4M8EYW;
+				INFOPLIST_FILE = "Multipeer Selfie ShareTests/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.RJL.Multipeer-Selfie-ShareTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Multipeer Selfie Share.app/Multipeer Selfie Share";
+			};
+			name = Debug;
+		};
+		3885326220EAA9C300ADAD10 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 6FGZ4M8EYW;
+				INFOPLIST_FILE = "Multipeer Selfie ShareTests/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.RJL.Multipeer-Selfie-ShareTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Multipeer Selfie Share.app/Multipeer Selfie Share";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		3885323B20EAA9C100ADAD10 /* Build configuration list for PBXProject "Multipeer Selfie Share" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3885325B20EAA9C300ADAD10 /* Debug */,
+				3885325C20EAA9C300ADAD10 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		3885325D20EAA9C300ADAD10 /* Build configuration list for PBXNativeTarget "Multipeer Selfie Share" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3885325E20EAA9C300ADAD10 /* Debug */,
+				3885325F20EAA9C300ADAD10 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		3885326020EAA9C300ADAD10 /* Build configuration list for PBXNativeTarget "Multipeer Selfie ShareTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3885326120EAA9C300ADAD10 /* Debug */,
+				3885326220EAA9C300ADAD10 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 3885323820EAA9C100ADAD10 /* Project object */;
+}
