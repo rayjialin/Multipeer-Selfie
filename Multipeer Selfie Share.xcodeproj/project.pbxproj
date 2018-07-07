@@ -16,10 +16,14 @@
 		3885326420EAA9E300ADAD10 /* CameraServiceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3885326320EAA9E300ADAD10 /* CameraServiceManager.swift */; };
 		3885326C20EAAC0B00ADAD10 /* BroadcastViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3885326B20EAAC0B00ADAD10 /* BroadcastViewController.swift */; };
 		3885326E20EAAC2B00ADAD10 /* BrowserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3885326D20EAAC2B00ADAD10 /* BrowserViewController.swift */; };
-		3885327020EBB4D400ADAD10 /* UIMethods.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3885326F20EBB4D400ADAD10 /* UIMethods.swift */; };
 		3885327220EBB51B00ADAD10 /* BrowserViewController+delegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3885327120EBB51B00ADAD10 /* BrowserViewController+delegate.swift */; };
 		3885327420EBB63A00ADAD10 /* BrowserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3885327320EBB63A00ADAD10 /* BrowserView.swift */; };
 		3885327620EBBFBC00ADAD10 /* UIElementState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3885327520EBBFBC00ADAD10 /* UIElementState.swift */; };
+		3885327820EBE4F700ADAD10 /* Popover.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3885327720EBE4F700ADAD10 /* Popover.swift */; };
+		3885327A20EBF04F00ADAD10 /* BroadcasterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3885327920EBF04F00ADAD10 /* BroadcasterView.swift */; };
+		3885327C20EBF23F00ADAD10 /* KDCircularProgress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3885327B20EBF23F00ADAD10 /* KDCircularProgress.swift */; };
+		3885327E20EC033A00ADAD10 /* AVPreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3885327D20EC033A00ADAD10 /* AVPreviewView.swift */; };
+		38BA8E6F20ECF8AD0046035B /* BroadcastViewController+delegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38BA8E6E20ECF8AD0046035B /* BroadcastViewController+delegate.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -46,10 +50,14 @@
 		3885326320EAA9E300ADAD10 /* CameraServiceManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraServiceManager.swift; sourceTree = "<group>"; };
 		3885326B20EAAC0B00ADAD10 /* BroadcastViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BroadcastViewController.swift; sourceTree = "<group>"; };
 		3885326D20EAAC2B00ADAD10 /* BrowserViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrowserViewController.swift; sourceTree = "<group>"; };
-		3885326F20EBB4D400ADAD10 /* UIMethods.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIMethods.swift; sourceTree = "<group>"; };
 		3885327120EBB51B00ADAD10 /* BrowserViewController+delegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "BrowserViewController+delegate.swift"; sourceTree = "<group>"; };
 		3885327320EBB63A00ADAD10 /* BrowserView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrowserView.swift; sourceTree = "<group>"; };
 		3885327520EBBFBC00ADAD10 /* UIElementState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIElementState.swift; sourceTree = "<group>"; };
+		3885327720EBE4F700ADAD10 /* Popover.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Popover.swift; sourceTree = "<group>"; };
+		3885327920EBF04F00ADAD10 /* BroadcasterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BroadcasterView.swift; sourceTree = "<group>"; };
+		3885327B20EBF23F00ADAD10 /* KDCircularProgress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KDCircularProgress.swift; sourceTree = "<group>"; };
+		3885327D20EC033A00ADAD10 /* AVPreviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AVPreviewView.swift; sourceTree = "<group>"; };
+		38BA8E6E20ECF8AD0046035B /* BroadcastViewController+delegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "BroadcastViewController+delegate.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -117,6 +125,7 @@
 			children = (
 				3885324520EAA9C100ADAD10 /* HomeViewController.swift */,
 				3885326B20EAAC0B00ADAD10 /* BroadcastViewController.swift */,
+				38BA8E6E20ECF8AD0046035B /* BroadcastViewController+delegate.swift */,
 				3885326D20EAAC2B00ADAD10 /* BrowserViewController.swift */,
 				3885327120EBB51B00ADAD10 /* BrowserViewController+delegate.swift */,
 			);
@@ -127,6 +136,7 @@
 			isa = PBXGroup;
 			children = (
 				3885327320EBB63A00ADAD10 /* BrowserView.swift */,
+				3885327920EBF04F00ADAD10 /* BroadcasterView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -152,7 +162,9 @@
 			children = (
 				3885326320EAA9E300ADAD10 /* CameraServiceManager.swift */,
 				3885327520EBBFBC00ADAD10 /* UIElementState.swift */,
-				3885326F20EBB4D400ADAD10 /* UIMethods.swift */,
+				3885327B20EBF23F00ADAD10 /* KDCircularProgress.swift */,
+				3885327720EBE4F700ADAD10 /* Popover.swift */,
+				3885327D20EC033A00ADAD10 /* AVPreviewView.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -207,9 +219,11 @@
 				TargetAttributes = {
 					3885323F20EAA9C100ADAD10 = {
 						CreatedOnToolsVersion = 9.4.1;
+						LastSwiftMigration = 1000;
 					};
 					3885325320EAA9C300ADAD10 = {
 						CreatedOnToolsVersion = 9.4.1;
+						LastSwiftMigration = 1000;
 						TestTargetID = 3885323F20EAA9C100ADAD10;
 					};
 				};
@@ -258,15 +272,19 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3885327C20EBF23F00ADAD10 /* KDCircularProgress.swift in Sources */,
 				3885327220EBB51B00ADAD10 /* BrowserViewController+delegate.swift in Sources */,
 				3885327620EBBFBC00ADAD10 /* UIElementState.swift in Sources */,
 				3885324620EAA9C100ADAD10 /* HomeViewController.swift in Sources */,
-				3885327020EBB4D400ADAD10 /* UIMethods.swift in Sources */,
 				3885327420EBB63A00ADAD10 /* BrowserView.swift in Sources */,
 				3885324420EAA9C100ADAD10 /* AppDelegate.swift in Sources */,
 				3885326C20EAAC0B00ADAD10 /* BroadcastViewController.swift in Sources */,
+				3885327820EBE4F700ADAD10 /* Popover.swift in Sources */,
+				3885327E20EC033A00ADAD10 /* AVPreviewView.swift in Sources */,
 				3885326420EAA9E300ADAD10 /* CameraServiceManager.swift in Sources */,
+				38BA8E6F20ECF8AD0046035B /* BroadcastViewController+delegate.swift in Sources */,
 				3885326E20EAAC2B00ADAD10 /* BrowserViewController.swift in Sources */,
+				3885327A20EBF04F00ADAD10 /* BroadcasterView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -435,7 +453,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.RJL.Multipeer-Selfie-Share";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -453,7 +471,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.RJL.Multipeer-Selfie-Share";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
@@ -473,7 +491,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.RJL.Multipeer-Selfie-ShareTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Multipeer Selfie Share.app/Multipeer Selfie Share";
 			};
@@ -494,7 +512,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.RJL.Multipeer-Selfie-ShareTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Multipeer Selfie Share.app/Multipeer Selfie Share";
 			};

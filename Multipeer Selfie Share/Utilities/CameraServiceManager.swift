@@ -12,8 +12,8 @@ import MultipeerConnectivity
 // TO DO: MAKE THIS AN @objc PROTOCOL AND MAKE SOME OF THESE FUNCTIONS OPTIONAL
 protocol CameraServiceManagerDelegate {
     func connectedDevicesChanged(manager: CameraServiceManager, state: MCSessionState, connectedDevices: [String])
-    func shutterButtonTapped(manager: CameraServiceManager, _ sendPhoto: Bool)
-    func toggleFlash(manager: CameraServiceManager)
+    func shutterButtonTapped(manager: CameraServiceManager, image: UIImage?)
+    func toggleFlash(manager: CameraServiceManager, flashState: String)
     func acceptInvitation(manager: CameraServiceManager)
     func didStartReceivingData(manager: CameraServiceManager, withName resourceName: String, withProgress progress: Progress)
     func didFinishReceivingData(manager: CameraServiceManager, url: NSURL)
@@ -21,30 +21,30 @@ protocol CameraServiceManagerDelegate {
 
 class CameraServiceManager: NSObject {
     
-    private let myPeerId =  MCPeerID(displayName: UIDevice.current.name)
-    var serviceBroadcaster = MCNearbyServiceAdvertiser()
-    var serviceBrowser = MCNearbyServiceBrowser()
-    let serviceType = "Selfie"
-    var delegate: CameraServiceManagerDelegate?
-    
+    var flashState = ""
+    var localUrl: URL?
+    let myPeerId =  MCPeerID(displayName: UIDevice.current.name)
+    var serviceBroadcaster: MCNearbyServiceAdvertiser
+    var serviceBrowser: MCNearbyServiceBrowser
+    let serviceType = "selfie-party"
+    var delegate: CameraServiceManagerDelegate?    
+    var broadcaster: MCPeerID?
     lazy var session: MCSession = {
-        let session = MCSession(peer: myPeerId, securityIdentity: nil, encryptionPreference: MCEncryptionPreference.required)
+        let session = MCSession(peer: myPeerId, securityIdentity: nil, encryptionPreference: MCEncryptionPreference.optional)
         return session
     }()
     
     override init() {
-        super.init()
         
         serviceBroadcaster = MCNearbyServiceAdvertiser(peer: myPeerId, discoveryInfo: nil, serviceType: serviceType)
         serviceBrowser = MCNearbyServiceBrowser(peer: myPeerId, serviceType: serviceType)
-        
-        serviceBroadcaster.delegate = self
-        serviceBrowser.delegate = self
-        
+        super.init()
+        session.delegate = self
     }
     
     deinit {
         serviceBroadcaster.stopAdvertisingPeer()
+        serviceBrowser.stopBrowsingForPeers()
     }
     
     func takePhoto(sendPhoto: Bool) {
@@ -55,8 +55,7 @@ class CameraServiceManager: NSObject {
             } else {
                 boolString = "false"
             }
-            // ATTEMPT TO SEND DATA TO CAMERA
-//            try self.session.sendData((boolString.dataUsingEncoding(NSUTF8StringEncoding))!, toPeers: self.session.connectedPeers, withMode: MCSessionSendDataMode.Reliable)
+            
             guard let data = boolString.data(using: .utf8) else {return}
             try session.send(data, toPeers: session.connectedPeers, with: .reliable)
         }
@@ -64,34 +63,35 @@ class CameraServiceManager: NSObject {
             print("SOMETHING WENT WRONG IN CameraServiceManager.takePhoto()")
         }
     }
-    
-    
 }
 
-extension CameraServiceManager: MCNearbyServiceAdvertiserDelegate {
-    func advertiser(_ advertiser: MCNearbyServiceAdvertiser, didReceiveInvitationFromPeer peerID: MCPeerID, withContext context: Data?, invitationHandler: @escaping (Bool, MCSession?) -> Void) {
-        
-        print("DidReceiveInvitationFromPeer: \(peerID)")
-        invitationHandler(true, session)
-    }
-    
-    
-}
 
-extension CameraServiceManager: MCNearbyServiceBrowserDelegate {
-    func browser(_ browser: MCNearbyServiceBrowser, foundPeer peerID: MCPeerID, withDiscoveryInfo info: [String : String]?) {
-        
-        print("FoundPeer: \(peerID)")
-        
-        browser.invitePeer(peerID, to: session, withContext: nil, timeout: 10)
-    }
-    
-    func browser(_ browser: MCNearbyServiceBrowser, lostPeer peerID: MCPeerID) {
-        print("LostPeer: \(peerID)")
-    }
-    
-    
-}
+//extension CameraServiceManager: MCNearbyServiceAdvertiserDelegate {
+//    func advertiser(_ advertiser: MCNearbyServiceAdvertiser, didReceiveInvitationFromPeer peerID: MCPeerID, withContext context: Data?, invitationHandler: @escaping (Bool, MCSession?) -> Void) {
+//
+//        print("DidReceiveInvitationFromPeer: \(peerID)")
+//        invitationHandler(true, session)
+//    }
+//
+//    func advertiser(_ advertiser: MCNearbyServiceAdvertiser, didNotStartAdvertisingPeer error: Error) {
+//        print("DidNotStartAdvertisingForPeers")
+//    }
+//
+//}
+//extension CameraServiceManager: MCNearbyServiceBrowserDelegate {
+//    func browser(_ browser: MCNearbyServiceBrowser, foundPeer peerID: MCPeerID, withDiscoveryInfo info: [String : String]?) {
+//
+//        print("FoundPeer: \(peerID)")
+//
+//        browser.invitePeer(peerID, to: session, withContext: nil, timeout: 10)
+//    }
+//
+//    func browser(_ browser: MCNearbyServiceBrowser, lostPeer peerID: MCPeerID) {
+//        print("LostPeer: \(peerID)")
+//    }
+
+
+//}
 
 //
 // @class MCSession
@@ -143,28 +143,28 @@ extension CameraServiceManager: MCSessionDelegate {
     
     func session(_ session: MCSession, didReceive data: Data, fromPeer peerID: MCPeerID) {
         print("DidReceiveData: \(data)")
-        let dataString = NSString(data: data, encoding: String.Encoding.utf8.rawValue)
         
-        // Check dataString and act accordingly
-        if dataString == "toggleFlash" {
-            delegate?.toggleFlash(manager: self)
-        }else if dataString == "acceptInvitation" {
-            delegate?.acceptInvitation(manager: self)
-        }else {
-            // CREATE VARIABLE REPRESENTING WHETHER OR NOT TO SEND PHOTO BACK TO CONTROLLER
-            if (dataString == "true" || dataString  == "false") {
-                let sendPhoto: Bool?
-                if (dataString == "true") {
-                    sendPhoto = true
-                } else {
-                    sendPhoto = false
-                }
-                
-                guard let confirmSendPhoto = sendPhoto else {return}
-                delegate?.shutterButtonTapped(manager: self, confirmSendPhoto)
+        if let image = UIImage(data: data) {
+            delegate?.shutterButtonTapped(manager: self, image: image)
+        }else{
+            let dataString = NSString(data: data, encoding: String.Encoding.utf8.rawValue)
+            
+            // Check dataString and act accordingly
+            switch dataString {
+            case "flashOn":
+                delegate?.toggleFlash(manager: self, flashState: "flashOn")
+            case "flashOff":
+                delegate?.toggleFlash(manager: self, flashState: "flashOff")
+            case "flashAuto":
+                delegate?.toggleFlash(manager: self, flashState: "flashAuto")
+            case "shutterPressed":
+                delegate?.shutterButtonTapped(manager: self, image: nil)
+            case "photoCaptured":
+                delegate?.shutterButtonTapped(manager: self, image: nil)
+            default:
+                print("receiving error")
             }
         }
-        
     }
     
     func session(_ session: MCSession, didReceive stream: InputStream, withName streamName: String, fromPeer peerID: MCPeerID) {
@@ -172,26 +172,27 @@ extension CameraServiceManager: MCSessionDelegate {
     }
     
     func session(_ session: MCSession, didStartReceivingResourceWithName resourceName: String, fromPeer peerID: MCPeerID, with progress: Progress) {
-        delegate?.didStartReceivingData(manager: self, withName: resourceName, withProgress: progress)
+        //        delegate?.didStartReceivingData(manager: self, withName: resourceName, withProgress: progress)
     }
     
     func session(_ session: MCSession, didFinishReceivingResourceWithName resourceName: String, fromPeer peerID: MCPeerID, at localURL: URL?, withError error: Error?) {
-        let downloadPath = NSSearchPathForDirectoriesInDomains(.downloadsDirectory, .userDomainMask, true)[0]
-        let photoDestinationURL = NSURL.fileURL(withPath: downloadPath + UUID().uuidString + ".jpg")
         
-        do {
-            guard let localURL = localURL else {return}
-            let fileHandle: FileHandle = try FileHandle(forReadingFrom: localURL)
-            let data = fileHandle.readDataToEndOfFile()
-            guard let image = UIImage(data: data) else {return}
-            UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil)
-            delegate?.didFinishReceivingData(manager: self, url: photoDestinationURL as NSURL)
-        }
-        catch{
-            print("PROBLEM IN CameraServiceManager extension > didFinishReceivingResourceWithName")
-        }
+        //        let downloadPath = NSSearchPathForDirectoriesInDomains(.downloadsDirectory, .userDomainMask, true)[0]
+        //        let photoDestinationURL = NSURL.fileURL(withPath: downloadPath + UUID().uuidString + ".jpg")
+        //
+        //        do {
+        //            guard let localURL = localURL else {return}
+        //            let fileHandle: FileHandle = try FileHandle(forReadingFrom: localURL)
+        //            let data = fileHandle.readDataToEndOfFile()
+        //            guard let image = UIImage(data: data) else {return}
+        //            UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil)
+        //            delegate?.didFinishReceivingData(manager: self, url: photoDestinationURL as NSURL)
+        //        }
+        //        catch{
+        //            print("PROBLEM IN CameraServiceManager extension > didFinishReceivingResourceWithName")
+        //        }
     }
-
+    
 }
 
 extension MCSessionState {
