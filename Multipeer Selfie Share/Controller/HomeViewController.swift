@@ -32,7 +32,6 @@ class HomeViewController: UIViewController {
         textView.translatesAutoresizingMaskIntoConstraints = false
         textView.text = "All of the devices should be on the same WIFI or have bluetooth enabled to be able to detect each other"
         textView.textAlignment = .center
-        textView.backgroundColor = UIColor(red: 0.969, green: 0.969, blue: 0.969, alpha: 1)
         textView.font = UIFont.boldSystemFont(ofSize: 16)
         textView.backgroundColor = .clear
         return textView
@@ -52,7 +51,7 @@ class HomeViewController: UIViewController {
         button.translatesAutoresizingMaskIntoConstraints = false
         button.showsTouchWhenHighlighted = true
         button.setTitle("Camera", for: .normal)
-        button.backgroundColor = UIColor(red: 48, green: 159, blue: 215, alpha: 1)
+        button.backgroundColor = UIColor.lightGray
         button.layer.cornerRadius = 16
         button.addTarget(self, action: #selector(registerCameraRole), for: UIControl.Event.touchUpInside)
         return button
@@ -63,7 +62,7 @@ class HomeViewController: UIViewController {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
         button.showsTouchWhenHighlighted = true
-        button.backgroundColor = UIColor(red: 48, green: 159, blue: 215, alpha: 1)
+        button.backgroundColor = UIColor.lightGray
         button.layer.cornerRadius = 16
         button.setTitle("Remote", for: .normal)
         button.addTarget(self, action: #selector(registerRemoteRole), for: UIControl.Event.touchUpInside)
