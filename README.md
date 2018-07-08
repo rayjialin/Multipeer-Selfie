@@ -1,4 +1,4 @@
-# Multipeer-Selfie-Share
+# Multipeer-Selfie
 
 This app leverages the Multipeer Connectivity Framework to allow the devices to communicate over WiFi or Bluetooth.  This app allows 7 devices to be connected at the same time.  the max allowed devices can be changed in the code.
 

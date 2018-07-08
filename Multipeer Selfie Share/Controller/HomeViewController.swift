@@ -20,7 +20,7 @@ class HomeViewController: UIViewController {
     let titleTextField: UITextField = {
         let textField = UITextField()
         textField.translatesAutoresizingMaskIntoConstraints = false
-        textField.text = "Selfie Party"
+        textField.text = "Multipeer Selfie"
         textField.adjustsFontSizeToFitWidth = true
         textField.font = UIFont.boldSystemFont(ofSize: 36)
         textField.textAlignment = .center
@@ -53,7 +53,7 @@ class HomeViewController: UIViewController {
         button.setTitle("Camera", for: .normal)
         button.backgroundColor = UIColor.lightGray
         button.layer.cornerRadius = 16
-        button.addTarget(self, action: #selector(registerCameraRole), for: UIControl.Event.touchUpInside)
+        button.addTarget(self, action: #selector(registerCameraRole), for: .touchUpInside)
         return button
     }()
     
@@ -65,7 +65,7 @@ class HomeViewController: UIViewController {
         button.backgroundColor = UIColor.lightGray
         button.layer.cornerRadius = 16
         button.setTitle("Remote", for: .normal)
-        button.addTarget(self, action: #selector(registerRemoteRole), for: UIControl.Event.touchUpInside)
+        button.addTarget(self, action: #selector(registerRemoteRole), for: .touchUpInside)
         return button
     }()
     

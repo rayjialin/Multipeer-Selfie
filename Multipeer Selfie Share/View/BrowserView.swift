@@ -23,12 +23,15 @@ class BrowserView: UIView {
             switch torchMode {
             case .auto:
                 flashButton.imageView?.image = #imageLiteral(resourceName: "flashAuto")
+                break
             case .off:
                 flashButton.imageView?.image = #imageLiteral(resourceName: "flashOff")
+                break
             case .on:
                 flashButton.imageView?.image = #imageLiteral(resourceName: "flashOn")
-            default:
-                flashButton.imageView?.image = #imageLiteral(resourceName: "flashOff")
+                break
+//            default:
+//                flashButton.imageView?.image = #imageLiteral(resourceName: "flashOff")
             }
         }
     }
@@ -53,7 +56,7 @@ class BrowserView: UIView {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
         button.showsTouchWhenHighlighted = true
-        button.setImage(#imageLiteral(resourceName: "circle"), for: UIControl.State.normal)
+        button.setImage(#imageLiteral(resourceName: "circle"), for: .normal)
         return button
     }()
     
@@ -62,7 +65,7 @@ class BrowserView: UIView {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
         button.showsTouchWhenHighlighted = true
-        button.setImage(#imageLiteral(resourceName: "flashOff"), for: UIControl.State.normal)
+        button.setImage(#imageLiteral(resourceName: "flashOff"), for: .normal)
         return button
     }()
     
@@ -71,8 +74,8 @@ class BrowserView: UIView {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
         button.showsTouchWhenHighlighted = true
-        button.setImage(#imageLiteral(resourceName: "timer"), for: UIControl.State.normal)
-        button.addTarget(self, action: #selector(handleSetTimer), for: UIControl.Event.touchUpInside)
+        button.setImage(#imageLiteral(resourceName: "timer"), for: .normal)
+        button.addTarget(self, action: #selector(handleSetTimer), for: .touchUpInside)
         return button
     }()
     
@@ -92,7 +95,7 @@ class BrowserView: UIView {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
         button.showsTouchWhenHighlighted = true
-        button.setImage(#imageLiteral(resourceName: "connect"), for: UIControl.State.normal)
+        button.setImage(#imageLiteral(resourceName: "connect"), for: .normal)
         return button
     }()
     

@@ -30,8 +30,8 @@ class BrowserViewController: UIViewController {
         cameraService.delegate = self
         
         browserView.connectButton.addTarget(self, action: #selector(handleConnect), for: .touchUpInside)
-        browserView.takePhotoButton.addTarget(self, action: #selector(handleTakePhoto), for: UIControl.Event.touchUpInside)
-        browserView.flashButton.addTarget(self, action: #selector(handleFlashToggle), for: UIControl.Event.touchUpInside)
+        browserView.takePhotoButton.addTarget(self, action: #selector(handleTakePhoto), for: .touchUpInside)
+        browserView.flashButton.addTarget(self, action: #selector(handleFlashToggle), for: .touchUpInside)
         
         let tap = UITapGestureRecognizer(target: self, action: #selector(viewCapturedPhoto))
         browserView.thumbNailImage.addGestureRecognizer(tap)
@@ -67,19 +67,19 @@ class BrowserViewController: UIViewController {
         
         switch flashButton.currentImage {
         case #imageLiteral(resourceName: "flashAuto"):
-            flashButton.setImage(#imageLiteral(resourceName: "flashOn"), for: UIControl.State.normal)
+            flashButton.setImage(#imageLiteral(resourceName: "flashOn"), for: .normal)
             cameraService.flashState = flashState.flashOn.strValue()
             break
         case #imageLiteral(resourceName: "flashOn"):
-            flashButton.setImage(#imageLiteral(resourceName: "flashOff"), for: UIControl.State.normal)
+            flashButton.setImage(#imageLiteral(resourceName: "flashOff"), for: .normal)
             cameraService.flashState = flashState.flashOff.strValue()
             break
         case #imageLiteral(resourceName: "flashOff"):
-            flashButton.setImage(#imageLiteral(resourceName: "flashAuto"), for: UIControl.State.normal)
+            flashButton.setImage(#imageLiteral(resourceName: "flashAuto"), for: .normal)
             cameraService.flashState = flashState.flashAuto.strValue()
             break
         default:
-            flashButton.setImage(#imageLiteral(resourceName: "flashAuto"), for: UIControl.State.normal)
+            flashButton.setImage(#imageLiteral(resourceName: "flashAuto"), for: .normal)
             cameraService.flashState = flashState.flashAuto.strValue()
         }
         
