@@ -15,7 +15,6 @@ class BrowserView: UIView {
     var trailingConstraint = NSLayoutConstraint()
     var widthConstraint = NSLayoutConstraint()
     var heightConstraint = NSLayoutConstraint()
-    
     let timePicker = UIPickerView()
     let popover = Popover()
     

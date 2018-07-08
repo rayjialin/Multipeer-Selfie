@@ -16,7 +16,6 @@ class BroadcasterView: UIView {
     let session = AVCaptureSession()
     let broadcasterViewController = BroadcastViewController()
     
-    
     override init(frame: CGRect) {
         super.init(frame: frame)
 
@@ -25,11 +24,9 @@ class BroadcasterView: UIView {
                 if let error = error {
                     print(error)
                 }
-                
                 try? self.broadcasterViewController.displayPreview(on: self)
             }
         }
-        
         configureCameraController()
     }
     

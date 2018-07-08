@@ -118,24 +118,8 @@ class BrowserViewController: UIViewController {
     }
     
     @objc private func viewCapturedPhoto(){
-        //        browserView.trailingConstraint.isActive = false
-        //        browserView.bottomConstraint.isActive = false
-        //        browserView.widthConstraint.isActive = false
-        //        browserView.heightConstraint.isActive = false
-        //
-        //        DispatchQueue.main.async {
-        //            UIView.animate(withDuration: 1, delay: 0, options: [.curveEaseInOut], animations: {
-        //                if self.browserView.thumbNailImage.frame == self.view.frame {
-        //                    self.browserView.thumbNailImage.frame = self.capturedImageFrame
-        //                }else {
-        //                    self.browserView.thumbNailImage.frame = self.view.frame
-        //                }
-        //            }, completion: nil)
-        //        }
-        
-//            UIApplication.shared.open(URL(string:"photos-redirect://")!, options: [:], completionHandler: nil)
-        guard let localURL = cameraService.localUrl else {return}
-        UIApplication.shared.open(localURL, options: [:], completionHandler: nil)
+        guard let photosURL = URL(string:"photos-redirect://") else {return}
+        UIApplication.shared.open(photosURL, options: [:], completionHandler: nil)
     }
     
     @objc private func updateTimer() {

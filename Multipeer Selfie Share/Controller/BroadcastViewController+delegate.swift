@@ -59,8 +59,6 @@ extension BroadcastViewController: CameraServiceManagerDelegate {
     func didFinishReceivingData(manager: CameraServiceManager, url: NSURL) {
 
     }
-
-
 }
 
 extension BroadcastViewController: AVCapturePhotoCaptureDelegate {

@@ -22,7 +22,6 @@ protocol CameraServiceManagerDelegate {
 class CameraServiceManager: NSObject {
     
     var flashState = ""
-    var localUrl: URL?
     let myPeerId =  MCPeerID(displayName: UIDevice.current.name)
     var serviceBroadcaster: MCNearbyServiceAdvertiser
     var serviceBrowser: MCNearbyServiceBrowser
@@ -46,94 +45,7 @@ class CameraServiceManager: NSObject {
         serviceBroadcaster.stopAdvertisingPeer()
         serviceBrowser.stopBrowsingForPeers()
     }
-    
-    func takePhoto(sendPhoto: Bool) {
-        do {
-            var boolString = ""
-            if (sendPhoto) {
-                boolString = "true"
-            } else {
-                boolString = "false"
-            }
-            
-            guard let data = boolString.data(using: .utf8) else {return}
-            try session.send(data, toPeers: session.connectedPeers, with: .reliable)
-        }
-        catch {
-            print("SOMETHING WENT WRONG IN CameraServiceManager.takePhoto()")
-        }
-    }
 }
-
-
-//extension CameraServiceManager: MCNearbyServiceAdvertiserDelegate {
-//    func advertiser(_ advertiser: MCNearbyServiceAdvertiser, didReceiveInvitationFromPeer peerID: MCPeerID, withContext context: Data?, invitationHandler: @escaping (Bool, MCSession?) -> Void) {
-//
-//        print("DidReceiveInvitationFromPeer: \(peerID)")
-//        invitationHandler(true, session)
-//    }
-//
-//    func advertiser(_ advertiser: MCNearbyServiceAdvertiser, didNotStartAdvertisingPeer error: Error) {
-//        print("DidNotStartAdvertisingForPeers")
-//    }
-//
-//}
-//extension CameraServiceManager: MCNearbyServiceBrowserDelegate {
-//    func browser(_ browser: MCNearbyServiceBrowser, foundPeer peerID: MCPeerID, withDiscoveryInfo info: [String : String]?) {
-//
-//        print("FoundPeer: \(peerID)")
-//
-//        browser.invitePeer(peerID, to: session, withContext: nil, timeout: 10)
-//    }
-//
-//    func browser(_ browser: MCNearbyServiceBrowser, lostPeer peerID: MCPeerID) {
-//        print("LostPeer: \(peerID)")
-//    }
-
-
-//}
-
-//
-// @class MCSession
-//   @abstract
-//      A MCSession facilitates communication among all peers in a multipeer
-//      session.
-//
-//   @discussion
-//      To start a multipeer session with remote peers, a MCPeerID that
-//      represents the local peer needs to be supplied to the init method.
-//
-//      Once a peer is added to the session on both sides, the delegate
-//      callback -session:peer:didChangeState: will be called with
-//      MCSessionStateConnected state for the remote peer.
-//
-//      Data messages can be sent to a connected peer with the -sendData:
-//      toPeers:withMode:error: method.
-//
-//      The receiver of data messages will receive a delegate callback
-//      -session:didReceiveData:fromPeer:.
-//
-//      Resources referenced by NSURL (e.g. a file) can be sent to a connected
-//      peer with the -sendResourceAtURL:toPeer:withTimeout:completionHandler:
-//      method. The completionHandler will be called when the resource is fully
-//      received by the remote peer, or if an error occurred during
-//      transmission. The receiver of data messages will receive a delegate
-//      callbacks -session:didStartReceivingResourceWithName:fromPeer:
-//      withProgress: when it starts receiving the resource and -session:
-//      didFinishReceivingResourceWithName:fromPeer:atURL:withError:
-//      when the resource has been fully received.
-//
-//      A byte stream can be sent to a connected peer with the
-//      -startStreamWithName:toPeer:error: method. On success, an
-//      NSOutputStream  object is returned, and can be used to send bytes to
-//      the remote peer once the stream is properly set up. The receiver of the
-//      byte stream will receive a delegate callback -session:didReceiveStream:
-//      withName:fromPeer:
-//
-//      Delegate calls occur on a private serial queue. If your app needs to
-//      perform an action on a particular run loop or operation queue, its
-//      delegate method should explicitly dispatch or schedule that work.
-//
 
 extension CameraServiceManager: MCSessionDelegate {
     func session(_ session: MCSession, peer peerID: MCPeerID, didChange state: MCSessionState) {
@@ -168,29 +80,13 @@ extension CameraServiceManager: MCSessionDelegate {
     }
     
     func session(_ session: MCSession, didReceive stream: InputStream, withName streamName: String, fromPeer peerID: MCPeerID) {
-        
     }
     
     func session(_ session: MCSession, didStartReceivingResourceWithName resourceName: String, fromPeer peerID: MCPeerID, with progress: Progress) {
-        //        delegate?.didStartReceivingData(manager: self, withName: resourceName, withProgress: progress)
+
     }
     
     func session(_ session: MCSession, didFinishReceivingResourceWithName resourceName: String, fromPeer peerID: MCPeerID, at localURL: URL?, withError error: Error?) {
-        
-        //        let downloadPath = NSSearchPathForDirectoriesInDomains(.downloadsDirectory, .userDomainMask, true)[0]
-        //        let photoDestinationURL = NSURL.fileURL(withPath: downloadPath + UUID().uuidString + ".jpg")
-        //
-        //        do {
-        //            guard let localURL = localURL else {return}
-        //            let fileHandle: FileHandle = try FileHandle(forReadingFrom: localURL)
-        //            let data = fileHandle.readDataToEndOfFile()
-        //            guard let image = UIImage(data: data) else {return}
-        //            UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil)
-        //            delegate?.didFinishReceivingData(manager: self, url: photoDestinationURL as NSURL)
-        //        }
-        //        catch{
-        //            print("PROBLEM IN CameraServiceManager extension > didFinishReceivingResourceWithName")
-        //        }
     }
     
 }
