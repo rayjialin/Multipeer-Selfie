@@ -7,6 +7,15 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		387AF6B820FB87600069B027 /* PhotosViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 387AF6B720FB87600069B027 /* PhotosViewController.swift */; };
+		387AF6BA20FB87700069B027 /* PhotoDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 387AF6B920FB87700069B027 /* PhotoDetailViewController.swift */; };
+		387AF6BD20FB8CAE0069B027 /* RealmSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 387AF6BB20FB8CAC0069B027 /* RealmSwift.framework */; };
+		387AF6BE20FB8CAE0069B027 /* RealmSwift.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 387AF6BB20FB8CAC0069B027 /* RealmSwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		387AF6BF20FB8CAE0069B027 /* Realm.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 387AF6BC20FB8CAE0069B027 /* Realm.framework */; };
+		387AF6C020FB8CAE0069B027 /* Realm.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 387AF6BC20FB8CAE0069B027 /* Realm.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		387AF6C320FB8D310069B027 /* PhotoModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 387AF6C220FB8D310069B027 /* PhotoModel.swift */; };
+		3882B86E20FB909300C0C907 /* PhotosCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3882B86D20FB909300C0C907 /* PhotosCell.swift */; };
+		3882B87020FB967E00C0C907 /* BaseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3882B86F20FB967E00C0C907 /* BaseView.swift */; };
 		3885324420EAA9C100ADAD10 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3885324320EAA9C100ADAD10 /* AppDelegate.swift */; };
 		3885324620EAA9C100ADAD10 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3885324520EAA9C100ADAD10 /* HomeViewController.swift */; };
 		3885324920EAA9C100ADAD10 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3885324720EAA9C100ADAD10 /* Main.storyboard */; };
@@ -36,7 +45,30 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		387AF6C120FB8CAE0069B027 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				387AF6C020FB8CAE0069B027 /* Realm.framework in Embed Frameworks */,
+				387AF6BE20FB8CAE0069B027 /* RealmSwift.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
+		387AF6B720FB87600069B027 /* PhotosViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotosViewController.swift; sourceTree = "<group>"; };
+		387AF6B920FB87700069B027 /* PhotoDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoDetailViewController.swift; sourceTree = "<group>"; };
+		387AF6BB20FB8CAC0069B027 /* RealmSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = RealmSwift.framework; sourceTree = "<group>"; };
+		387AF6BC20FB8CAE0069B027 /* Realm.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Realm.framework; sourceTree = "<group>"; };
+		387AF6C220FB8D310069B027 /* PhotoModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = PhotoModel.swift; path = "Multipeer Selfie Share/Controller/PhotoModel.swift"; sourceTree = SOURCE_ROOT; };
+		3882B86D20FB909300C0C907 /* PhotosCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotosCell.swift; sourceTree = "<group>"; };
+		3882B86F20FB967E00C0C907 /* BaseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseView.swift; sourceTree = "<group>"; };
+		3882B87220FBB17500C0C907 /* CollectionViewSlantedLayout.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CollectionViewSlantedLayout.framework; path = Carthage/Build/iOS/CollectionViewSlantedLayout.framework; sourceTree = "<group>"; };
 		3885324020EAA9C100ADAD10 /* Multipeer Selfie Share.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Multipeer Selfie Share.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3885324320EAA9C100ADAD10 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3885324520EAA9C100ADAD10 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
@@ -65,6 +97,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				387AF6BF20FB8CAE0069B027 /* Realm.framework in Frameworks */,
+				387AF6BD20FB8CAE0069B027 /* RealmSwift.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -78,12 +112,23 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3882B87120FBB17500C0C907 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				3882B87220FBB17500C0C907 /* CollectionViewSlantedLayout.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		3885323720EAA9C100ADAD10 = {
 			isa = PBXGroup;
 			children = (
+				387AF6BC20FB8CAE0069B027 /* Realm.framework */,
+				387AF6BB20FB8CAC0069B027 /* RealmSwift.framework */,
 				3885324220EAA9C100ADAD10 /* Multipeer Selfie Share */,
 				3885325720EAA9C300ADAD10 /* Multipeer Selfie ShareTests */,
 				3885324120EAA9C100ADAD10 /* Products */,
+				3882B87120FBB17500C0C907 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -128,6 +173,8 @@
 				38BA8E6E20ECF8AD0046035B /* BroadcastViewController+delegate.swift */,
 				3885326D20EAAC2B00ADAD10 /* BrowserViewController.swift */,
 				3885327120EBB51B00ADAD10 /* BrowserViewController+delegate.swift */,
+				387AF6B720FB87600069B027 /* PhotosViewController.swift */,
+				387AF6B920FB87700069B027 /* PhotoDetailViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -137,6 +184,8 @@
 			children = (
 				3885327320EBB63A00ADAD10 /* BrowserView.swift */,
 				3885327920EBF04F00ADAD10 /* BroadcasterView.swift */,
+				3882B86D20FB909300C0C907 /* PhotosCell.swift */,
+				3882B86F20FB967E00C0C907 /* BaseView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -144,6 +193,7 @@
 		3885326720EAA9F500ADAD10 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				387AF6C220FB8D310069B027 /* PhotoModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -179,6 +229,7 @@
 				3885323C20EAA9C100ADAD10 /* Sources */,
 				3885323D20EAA9C100ADAD10 /* Frameworks */,
 				3885323E20EAA9C100ADAD10 /* Resources */,
+				387AF6C120FB8CAE0069B027 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -275,14 +326,19 @@
 				3885327C20EBF23F00ADAD10 /* KDCircularProgress.swift in Sources */,
 				3885327220EBB51B00ADAD10 /* BrowserViewController+delegate.swift in Sources */,
 				3885327620EBBFBC00ADAD10 /* UIElementState.swift in Sources */,
+				387AF6BA20FB87700069B027 /* PhotoDetailViewController.swift in Sources */,
 				3885324620EAA9C100ADAD10 /* HomeViewController.swift in Sources */,
 				3885327420EBB63A00ADAD10 /* BrowserView.swift in Sources */,
+				387AF6C320FB8D310069B027 /* PhotoModel.swift in Sources */,
 				3885324420EAA9C100ADAD10 /* AppDelegate.swift in Sources */,
+				3882B86E20FB909300C0C907 /* PhotosCell.swift in Sources */,
 				3885326C20EAAC0B00ADAD10 /* BroadcastViewController.swift in Sources */,
 				3885327820EBE4F700ADAD10 /* Popover.swift in Sources */,
 				3885327E20EC033A00ADAD10 /* AVPreviewView.swift in Sources */,
 				3885326420EAA9E300ADAD10 /* CameraServiceManager.swift in Sources */,
 				38BA8E6F20ECF8AD0046035B /* BroadcastViewController+delegate.swift in Sources */,
+				387AF6B820FB87600069B027 /* PhotosViewController.swift in Sources */,
+				3882B87020FB967E00C0C907 /* BaseView.swift in Sources */,
 				3885326E20EAAC2B00ADAD10 /* BrowserViewController.swift in Sources */,
 				3885327A20EBF04F00ADAD10 /* BroadcasterView.swift in Sources */,
 			);
@@ -447,6 +503,11 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 6FGZ4M8EYW;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				INFOPLIST_FILE = "Multipeer Selfie Share/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -467,6 +528,11 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 6FGZ4M8EYW;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				INFOPLIST_FILE = "Multipeer Selfie Share/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (

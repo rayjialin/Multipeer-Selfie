@@ -1,0 +1,18 @@
+{
+  "Mac" : [
+
+  ],
+  "watchOS" : [
+
+  ],
+  "tvOS" : [
+
+  ],
+  "commitish" : "3.0.1",
+  "iOS" : [
+    {
+      "name" : "CollectionViewSlantedLayout",
+      "hash" : "dc4baf020ffbaeefff678e1328ccac59237fe3653a4c71f293ed220c161c0554"
+    }
+  ]
+}

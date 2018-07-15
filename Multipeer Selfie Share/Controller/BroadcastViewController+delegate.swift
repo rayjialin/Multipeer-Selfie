@@ -23,7 +23,7 @@ extension BroadcastViewController: CameraServiceManagerDelegate {
         }
     }
 
-    func shutterButtonTapped(manager: CameraServiceManager, image: UIImage?) {
+    func shutterButtonTapped(manager: CameraServiceManager, data: Data?) {
         if cameraService.session.connectedPeers.count > 0 {
             captureImage { (data, error) in
                 if let error = error {

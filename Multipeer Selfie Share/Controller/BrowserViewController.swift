@@ -9,6 +9,7 @@
 
 import UIKit
 import MultipeerConnectivity
+import RealmSwift
 
 class BrowserViewController: UIViewController {
     
@@ -20,6 +21,8 @@ class BrowserViewController: UIViewController {
     var capturedImageFrame = CGRect()
     var timer = Timer()
     var isTimerRunning = false
+    let photo = Photo()
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,11 +35,15 @@ class BrowserViewController: UIViewController {
         browserView.connectButton.addTarget(self, action: #selector(handleConnect), for: .touchUpInside)
         browserView.takePhotoButton.addTarget(self, action: #selector(handleTakePhoto), for: .touchUpInside)
         browserView.flashButton.addTarget(self, action: #selector(handleFlashToggle), for: .touchUpInside)
-        
-        let tap = UITapGestureRecognizer(target: self, action: #selector(viewCapturedPhoto))
-        browserView.thumbNailImage.addGestureRecognizer(tap)
-        
+        browserView.backButton.addTarget(self, action: #selector(handleBackButtonPressed), for: .touchUpInside)
+//        let tap = UITapGestureRecognizer(target: self, action: #selector(viewCapturedPhoto))
+//        browserView.thumbNailImage.addGestureRecognizer(tap)
     }
+    
+    @objc private func handleBackButtonPressed(){
+        dismiss(animated: true, completion: nil)
+    }
+    
     
     func joinSession() {
         let mcBrowser = MCBrowserViewController(serviceType: "selfie-party", session: cameraService.session)
@@ -117,10 +124,10 @@ class BrowserViewController: UIViewController {
         }
     }
     
-    @objc private func viewCapturedPhoto(){
-        guard let photosURL = URL(string:"photos-redirect://") else {return}
-        UIApplication.shared.open(photosURL, options: [:], completionHandler: nil)
-    }
+//    @objc private func viewCapturedPhoto(){
+//        guard let photosURL = URL(string:"photos-redirect://") else {return}
+//        UIApplication.shared.open(photosURL, options: [:], completionHandler: nil)
+//    }
     
     @objc private func updateTimer() {
         if browserView.second > 1{

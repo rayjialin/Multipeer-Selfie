@@ -8,18 +8,39 @@
 
 import Foundation
 import MultipeerConnectivity
+import RealmSwift
 
 extension BrowserViewController: CameraServiceManagerDelegate {
     func connectedDevicesChanged(manager: CameraServiceManager, state: MCSessionState, connectedDevices: [String]) {
         
     }
     
-    func shutterButtonTapped(manager: CameraServiceManager, image: UIImage?) {
-        guard let image = image else {return}
-        UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil);
+    func shutterButtonTapped(manager: CameraServiceManager, data: Data?) {
+        guard let data = data else {return}
+        
+        photo.photoData = data
+        
+        // instantiate realm object and write image data to realm object
+        do {
+            let realm = try Realm()
+            do {
+                try realm.write {
+                    realm.add(photo)
+                }
+            } catch {
+                print("Failed to write to Realm")
+            }
+        } catch {
+            print("Failed to get default Realm")
+        }
+        
+        // segue to collection view to see the captured photos
+        performSegue(withIdentifier: "segueToPhotos", sender: self)
+        
+        // re-enable shutter button and stop the timer bool
         DispatchQueue.main.async {
-            self.browserView.thumbNailImage.image = image
-            self.browserView.thumbNailImage.isHidden = false
+//            self.browserView.thumbNailImage.image = image
+//            self.browserView.thumbNailImage.isHidden = false
             self.browserView.takePhotoButton.isEnabled = true
             self.isTimerRunning = false
         }

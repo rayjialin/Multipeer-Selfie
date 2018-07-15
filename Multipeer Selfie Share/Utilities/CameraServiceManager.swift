@@ -12,7 +12,7 @@ import MultipeerConnectivity
 // TO DO: MAKE THIS AN @objc PROTOCOL AND MAKE SOME OF THESE FUNCTIONS OPTIONAL
 protocol CameraServiceManagerDelegate {
     func connectedDevicesChanged(manager: CameraServiceManager, state: MCSessionState, connectedDevices: [String])
-    func shutterButtonTapped(manager: CameraServiceManager, image: UIImage?)
+    func shutterButtonTapped(manager: CameraServiceManager, data: Data?)
     func toggleFlash(manager: CameraServiceManager, flashState: String)
     func acceptInvitation(manager: CameraServiceManager)
     func didStartReceivingData(manager: CameraServiceManager, withName resourceName: String, withProgress progress: Progress)
@@ -56,8 +56,8 @@ extension CameraServiceManager: MCSessionDelegate {
     func session(_ session: MCSession, didReceive data: Data, fromPeer peerID: MCPeerID) {
         print("DidReceiveData: \(data)")
         
-        if let image = UIImage(data: data) {
-            delegate?.shutterButtonTapped(manager: self, image: image)
+        if let _ = UIImage(data: data) {
+            delegate?.shutterButtonTapped(manager: self, data: data)
         }else{
             let dataString = NSString(data: data, encoding: String.Encoding.utf8.rawValue)
             
@@ -70,9 +70,9 @@ extension CameraServiceManager: MCSessionDelegate {
             case "flashAuto":
                 delegate?.toggleFlash(manager: self, flashState: "flashAuto")
             case "shutterPressed":
-                delegate?.shutterButtonTapped(manager: self, image: nil)
+                delegate?.shutterButtonTapped(manager: self, data: nil)
             case "photoCaptured":
-                delegate?.shutterButtonTapped(manager: self, image: nil)
+                delegate?.shutterButtonTapped(manager: self, data: nil)
             default:
                 print("receiving error")
             }

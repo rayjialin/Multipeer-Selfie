@@ -30,8 +30,6 @@ class BrowserView: UIView {
             case .on:
                 flashButton.imageView?.image = #imageLiteral(resourceName: "flashOn")
                 break
-//            default:
-//                flashButton.imageView?.image = #imageLiteral(resourceName: "flashOff")
             }
         }
     }
@@ -99,6 +97,13 @@ class BrowserView: UIView {
         return button
     }()
     
+    let backButton: UIButton = {
+        let button = UIButton()
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.setImage(#imageLiteral(resourceName: "backButton"), for: .normal)
+        return button
+    }()
+    
     override init(frame: CGRect) {
         second = 0
         torchMode = AVCaptureDevice.TorchMode.off
@@ -117,7 +122,7 @@ class BrowserView: UIView {
     }
     
     private func setupView() {
-        [takePhotoButton, flashButton, timerButton, timerLabel, thumbNailImage, connectButton].forEach {self.addSubview($0)}
+        [takePhotoButton, flashButton, timerButton, timerLabel, connectButton, backButton].forEach {self.addSubview($0)}
         
         //        let progress = displayFileProgress()
         //        self.addSubview(progress)
@@ -135,29 +140,34 @@ class BrowserView: UIView {
         timerButton.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.1).isActive = true
         timerButton.heightAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.1).isActive = true
         
-        flashButton.topAnchor.constraint(equalTo: timerButton.topAnchor).isActive = true
-        flashButton.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 10).isActive = true
-        flashButton.widthAnchor.constraint(equalTo: timerButton.widthAnchor).isActive = true
-        flashButton.heightAnchor.constraint(equalTo: timerButton.heightAnchor).isActive = true
-        
         timerLabel.topAnchor.constraint(equalTo: timerButton.topAnchor).isActive = true
         timerLabel.trailingAnchor.constraint(equalTo: timerButton.leadingAnchor, constant: -5).isActive = true
         timerLabel.widthAnchor.constraint(equalTo: timerButton.widthAnchor, multiplier: 0.6).isActive = true
         timerLabel.heightAnchor.constraint(equalTo: timerButton.heightAnchor).isActive = true
         
-        bottomConstraint = thumbNailImage.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -10)
-        bottomConstraint.isActive = true
-        trailingConstraint = thumbNailImage.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -10)
-        trailingConstraint.isActive = true
-        widthConstraint = thumbNailImage.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.2)
-        widthConstraint.isActive = true
-        heightConstraint = thumbNailImage.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: 0.2)
-        heightConstraint.isActive = true
+//        bottomConstraint = thumbNailImage.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -10)
+//        bottomConstraint.isActive = true
+//        trailingConstraint = thumbNailImage.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -10)
+//        trailingConstraint.isActive = true
+//        widthConstraint = thumbNailImage.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.2)
+//        widthConstraint.isActive = true
+//        heightConstraint = thumbNailImage.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: 0.2)
+//        heightConstraint.isActive = true
         
         connectButton.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -10).isActive = true
         connectButton.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 10).isActive = true
         connectButton.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.1).isActive = true
         connectButton.heightAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.1).isActive = true
+        
+        flashButton.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -10).isActive = true
+        flashButton.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -10).isActive = true
+        flashButton.widthAnchor.constraint(equalTo: timerButton.widthAnchor).isActive = true
+        flashButton.heightAnchor.constraint(equalTo: timerButton.heightAnchor).isActive = true
+        
+        backButton.topAnchor.constraint(equalTo: self.topAnchor, constant: 40).isActive = true
+        backButton.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 10).isActive = true
+        backButton.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.1).isActive = true
+        backButton.heightAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.1).isActive = true
     }
     
     @objc private func handleSetTimer(){
