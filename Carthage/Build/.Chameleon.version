@@ -1,0 +1,18 @@
+{
+  "Mac" : [
+
+  ],
+  "watchOS" : [
+
+  ],
+  "tvOS" : [
+
+  ],
+  "commitish" : "2.2.0",
+  "iOS" : [
+    {
+      "name" : "Chameleon",
+      "hash" : "832d55b12ad7f1239ac6a4faba0340774dae5d4c10dd0464f37cf172367cd9e8"
+    }
+  ]
+}

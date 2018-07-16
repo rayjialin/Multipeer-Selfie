@@ -38,14 +38,7 @@ class BroadcastViewController: UIViewController {
     var previewLayer: AVCaptureVideoPreviewLayer?
     var mcAdvertiserAssistant: MCAdvertiserAssistant!
     var photoCaptureCompletionBlock: ((Data?, Error?) -> Void)?
-    
-    let backButton: UIButton = {
-        let button = UIButton()
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.setImage(#imageLiteral(resourceName: "backButton"), for: .normal)
-        button.addTarget(self, action: #selector(handleBackButtonPressed), for: .touchUpInside)
-        return button
-    }()
+    let broadcasterView = BroadcasterView()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -63,16 +56,10 @@ class BroadcastViewController: UIViewController {
 
         configureCamera()
         cameraService.delegate = self
+        broadcasterView.frame = view.frame
+        view.addSubview(broadcasterView)
         
-        view.addSubview(backButton)
-        setupConstraint()
-    }
-    
-    private func setupConstraint(){
-        backButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 40).isActive = true
-        backButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10).isActive = true
-        backButton.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.1).isActive = true
-        backButton.heightAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.1).isActive = true
+        broadcasterView.backButton.addTarget(self, action: #selector(handleBackButtonPressed), for: .touchUpInside)
     }
     
     @objc private func handleBackButtonPressed(){

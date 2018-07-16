@@ -1,0 +1,11 @@
+framework module CollectionViewSlantedLayout {
+  umbrella header "CollectionViewSlantedLayout.h"
+
+  export *
+  module * { export * }
+}
+
+module CollectionViewSlantedLayout.Swift {
+    header "CollectionViewSlantedLayout-Swift.h"
+    requires objc
+}

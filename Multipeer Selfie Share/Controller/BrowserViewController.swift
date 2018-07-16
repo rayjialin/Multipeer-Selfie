@@ -28,7 +28,6 @@ class BrowserViewController: UIViewController {
         super.viewDidLoad()
         
         browserView.frame = view.frame
-        capturedImageFrame = browserView.thumbNailImage.frame
         view.addSubview(browserView)
         cameraService.delegate = self
         
@@ -36,8 +35,6 @@ class BrowserViewController: UIViewController {
         browserView.takePhotoButton.addTarget(self, action: #selector(handleTakePhoto), for: .touchUpInside)
         browserView.flashButton.addTarget(self, action: #selector(handleFlashToggle), for: .touchUpInside)
         browserView.backButton.addTarget(self, action: #selector(handleBackButtonPressed), for: .touchUpInside)
-//        let tap = UITapGestureRecognizer(target: self, action: #selector(viewCapturedPhoto))
-//        browserView.thumbNailImage.addGestureRecognizer(tap)
     }
     
     @objc private func handleBackButtonPressed(){
@@ -73,20 +70,20 @@ class BrowserViewController: UIViewController {
         guard let flashButton = sender as? UIButton else {return}
         
         switch flashButton.currentImage {
-        case #imageLiteral(resourceName: "flashAuto"):
-            flashButton.setImage(#imageLiteral(resourceName: "flashOn"), for: .normal)
+        case #imageLiteral(resourceName: "flashAutoIcon"):
+            flashButton.setImage(#imageLiteral(resourceName: "flashOnIcon"), for: .normal)
             cameraService.flashState = flashState.flashOn.strValue()
             break
-        case #imageLiteral(resourceName: "flashOn"):
-            flashButton.setImage(#imageLiteral(resourceName: "flashOff"), for: .normal)
+        case #imageLiteral(resourceName: "flashOnIcon"):
+            flashButton.setImage(#imageLiteral(resourceName: "flashOffIcon"), for: .normal)
             cameraService.flashState = flashState.flashOff.strValue()
             break
-        case #imageLiteral(resourceName: "flashOff"):
-            flashButton.setImage(#imageLiteral(resourceName: "flashAuto"), for: .normal)
+        case #imageLiteral(resourceName: "flashOffIcon"):
+            flashButton.setImage(#imageLiteral(resourceName: "flashAutoIcon"), for: .normal)
             cameraService.flashState = flashState.flashAuto.strValue()
             break
         default:
-            flashButton.setImage(#imageLiteral(resourceName: "flashAuto"), for: .normal)
+            flashButton.setImage(#imageLiteral(resourceName: "flashAutoIcon"), for: .normal)
             cameraService.flashState = flashState.flashAuto.strValue()
         }
         
