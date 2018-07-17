@@ -12,6 +12,13 @@ import AVKit
 
 class BroadcasterView: BaseView {
     
+    var lastCapturedPhoto: UIImage? {
+        didSet{
+            thumbnailImageView.image = lastCapturedPhoto
+            thumbnailImageView.isHidden = false
+        }
+    }
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         
@@ -21,7 +28,4 @@ class BroadcasterView: BaseView {
         fatalError("init(coder:) has not been implemented")
     }
     
-//    override func setupConstraint() {
-//        super.setupConstraint()
-//    }
 }

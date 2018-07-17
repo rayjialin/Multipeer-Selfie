@@ -8,6 +8,7 @@
 
 import UIKit
 import Chameleon
+import RealmSwift
 
 enum SegueToRole {
     case broadcast
@@ -77,13 +78,7 @@ class HomeViewController: UIViewController {
     let cameraRoleButton: DOFavoriteButton = {
         let button = DOFavoriteButton(frame: CGRect(x: 0, y: 0, width: 200, height: 200), image: #imageLiteral(resourceName: "cameraIcon"))
         button.translatesAutoresizingMaskIntoConstraints = false
-//        button.showsTouchWhenHighlighted = true
-        //        button.setImage(#imageLiteral(resourceName: "cameraIcon"), for: .normal)
         button.imageView?.contentMode = .scaleAspectFit
-        //        button.backgroundColor = UIColor.flatForestGreenColorDark()
-//        button.backgroundColor = ComplementaryFlatColorOf(UIColor.flatCoffeeColorDark())
-//        button.imageEdgeInsets = UIEdgeInsets(top: 20, left: 20, bottom: 20, right: 20)
-//        button.layer.cornerRadius = 16
         button.addTarget(self, action: #selector(registerCameraRole), for: .touchUpInside)
         button.imageColorOff = UIColor.flatGray()
         button.imageColorOn = UIColor.flatGreen()
@@ -96,12 +91,6 @@ class HomeViewController: UIViewController {
     let browserRoleButton: DOFavoriteButton = {
         let button = DOFavoriteButton(frame: CGRect(x: 0, y: 0, width: 200, height: 200), image: #imageLiteral(resourceName: "remoteIcon"))
         button.translatesAutoresizingMaskIntoConstraints = false
-//        button.showsTouchWhenHighlighted = true
-        //        button.backgroundColor = UIColor.flatGreenColorDark()
-//        button.backgroundColor = ComplementaryFlatColorOf(UIColor.flatCoffeeColorDark())
-//        button.imageEdgeInsets = UIEdgeInsets(top: 20, left: 20, bottom: 20, right: 20)
-//        button.layer.cornerRadius = 16
-//        button.setImage(#imageLiteral(resourceName: "remoteIcon"), for: .normal)
         button.imageView?.contentMode = .scaleAspectFit
         button.addTarget(self, action: #selector(registerRemoteRole), for: .touchUpInside)
         button.imageColorOff = UIColor.flatGray()
@@ -120,7 +109,7 @@ class HomeViewController: UIViewController {
         stackView.spacing = 5
         return stackView
     }()
-        
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -153,32 +142,39 @@ class HomeViewController: UIViewController {
         buttonStackView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 1).isActive = true
         buttonStackView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.2).isActive = true
         buttonStackView.topAnchor.constraint(equalTo: divider.bottomAnchor, constant: 10).isActive = true
-        
-//        cameraRoleButton.topAnchor.constraint(equalTo: chooseRoleTextField.bottomAnchor, constant: 20).isActive = true
-//        cameraRoleButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-//        cameraRoleButton.widthAnchor.constraint(equalTo: buttonStackView.widthAnchor, multiplier: 1).isActive = true
-//        cameraRoleButton.heightAnchor.constraint(equalTo: buttonStackView.heightAnchor, multiplier: 1).isActive = true
-        
-//        browserRoleButton.topAnchor.constraint(equalTo: cameraRoleButton.bottomAnchor, constant: 20).isActive = true
-//        browserRoleButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-//        browserRoleButton.widthAnchor.constraint(equalTo: buttonStackView.widthAnchor, multiplier: 1).isActive = true
-//        browserRoleButton.heightAnchor.constraint(equalTo: buttonStackView.heightAnchor, multiplier: 1).isActive = true
     }
     
     @objc private func registerCameraRole(sender: DOFavoriteButton){
+        cameraRoleButton.isEnabled = false
         sender.select()
         DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.3) {
             self.performSegue(withIdentifier: "segueToBroadcast", sender: SegueToRole.broadcast)
             self.cameraService.broadcaster = self.cameraService.myPeerId
             sender.deselect()
+            self.cameraRoleButton.isEnabled = true
+            // delete realm file in case photo model is updated
+            //            deleteRealmFile()
+            
         }
     }
     
     @objc private func registerRemoteRole(sender: DOFavoriteButton){
+        browserRoleButton.isEnabled = false
         sender.select()
         DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.3) {
             self.performSegue(withIdentifier: "segueToBrowse", sender: SegueToRole.browser)
             sender.deselect()
+            self.browserRoleButton.isEnabled = true
+            // delete realm file in case photo model is updated
+            //            deleteRealmFile()
+        }
+    }
+    
+    private func deleteRealmFile(){
+        do {
+            try FileManager.default.removeItem(at: Realm.Configuration.defaultConfiguration.fileURL!)
+        } catch {
+            print("deorr delete")
         }
     }
 }

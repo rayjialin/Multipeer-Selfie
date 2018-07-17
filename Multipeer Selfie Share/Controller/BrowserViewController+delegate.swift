@@ -11,14 +11,23 @@ import MultipeerConnectivity
 import RealmSwift
 
 extension BrowserViewController: CameraServiceManagerDelegate {
+    func updateTimerLabel(timerValue: String?) {
+        
+    }
+    
+    func switchCameraButtonTapped(manager: CameraServiceManager, switchCameraRequest: String?) {
+        
+    }
+    
     func connectedDevicesChanged(manager: CameraServiceManager, state: MCSessionState, connectedDevices: [String]) {
         
     }
     
     func shutterButtonTapped(manager: CameraServiceManager, data: Data?) {
         guard let data = data else {return}
-        
+        let photo = Photo()
         photo.photoData = data
+        photo.timestamp = Date()
         
         // instantiate realm object and write image data to realm object
         do {
@@ -35,10 +44,11 @@ extension BrowserViewController: CameraServiceManagerDelegate {
         }
         
         // segue to collection view to see the captured photos
-        performSegue(withIdentifier: "segueToPhotos", sender: self)
         
         // re-enable shutter button and stop the timer bool
         DispatchQueue.main.async {
+            self.browserView.thumbnailImageView.image = UIImage(data: data)
+            self.browserView.thumbnailImageView.isHidden = false
             self.browserView.takePhotoButton.isEnabled = true
             self.isTimerRunning = false
         }

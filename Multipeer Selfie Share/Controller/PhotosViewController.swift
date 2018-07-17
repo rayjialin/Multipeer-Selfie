@@ -31,7 +31,7 @@ class PhotosViewController: UIViewController {
         
         do {
             let realm = try Realm()
-            photos = realm.objects(Photo.self)
+            photos = realm.objects(Photo.self).sorted(byKeyPath: "timestamp", ascending: false)
         } catch {
             print("failed to create realm object")
         }
@@ -45,6 +45,10 @@ class PhotosViewController: UIViewController {
             let settingsController = segue.destination as! SettingsController
             let layout = collectionView.collectionViewLayout as! CollectionViewSlantedLayout
             settingsController.collectionViewLayout = layout
+        } else if segue.identifier == "segueToDetails" {
+            let detailViewController = segue.destination as! PhotoDetailViewController
+            guard let indexPath = sender as? IndexPath, let data = photos[indexPath.row].photoData else {return}
+            detailViewController.imageData = data
         }
     }
 
@@ -80,6 +84,8 @@ extension PhotosViewController: CollectionViewDelegateSlantedLayout {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         NSLog("Did select item at indexPath: [\(indexPath.section)][\(indexPath.row)]")
+        
+        performSegue(withIdentifier: "segueToDetails", sender: indexPath)
     }
     
     func collectionView(_ collectionView: UICollectionView,

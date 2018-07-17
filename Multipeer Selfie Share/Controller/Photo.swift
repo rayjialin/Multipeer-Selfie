@@ -10,5 +10,6 @@ import Foundation
 import RealmSwift
 
 class Photo: Object {
+    @objc dynamic var timestamp: Date? = nil
     @objc dynamic var photoData: Data? = nil
 }

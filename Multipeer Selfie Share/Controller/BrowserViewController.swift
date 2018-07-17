@@ -21,8 +21,19 @@ class BrowserViewController: UIViewController {
     var capturedImageFrame = CGRect()
     var timer = Timer()
     var isTimerRunning = false
-    let photo = Photo()
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        do {
+            let realm = try Realm()
+            let photos = realm.objects(Photo.self).sorted(byKeyPath: "timestamp", ascending: false)
+            guard let photo = photos.first?.photoData else {return}
+            browserView.lastCapturedPhoto = UIImage(data: photo)
+        } catch {
+            print("failed to create realm object")
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -35,10 +46,16 @@ class BrowserViewController: UIViewController {
         browserView.takePhotoButton.addTarget(self, action: #selector(handleTakePhoto), for: .touchUpInside)
         browserView.flashButton.addTarget(self, action: #selector(handleFlashToggle), for: .touchUpInside)
         browserView.backButton.addTarget(self, action: #selector(handleBackButtonPressed), for: .touchUpInside)
+        browserView.switchCameraButton.addTarget(self, action: #selector(handleCameraSwitch), for: .touchUpInside)
+        
+        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(imageTapped))
+        browserView.thumbnailImageView.addGestureRecognizer(tapGestureRecognizer)
     }
     
     @objc private func handleBackButtonPressed(){
         dismiss(animated: true, completion: nil)
+        cameraService.serviceBrowser.stopBrowsingForPeers()
+        cameraService.session.disconnect()
     }
     
     
@@ -88,36 +105,37 @@ class BrowserViewController: UIViewController {
         }
         
         flash(flashState: cameraService.flashState)
-        
+    }
+    
+    @objc private func imageTapped(sender: UITapGestureRecognizer) {
+        guard let _ = sender.view as? UIImageView else {return}
+        performSegue(withIdentifier: "segueToPhotosFromRemote", sender: self)
+    }
+    
+    @objc private func handleCameraSwitch(){
+        guard let switchCameraString = "switchCameraPressed".data(using: String.Encoding.utf8) else {return}
+        prepareSendRequest(data: switchCameraString)
     }
     
     func shutter() {
-        if cameraService.session.connectedPeers.count > 0 {
-            
-            guard let shutterString = "shutterPressed".data(using: String.Encoding.utf8) else {return}
-            
-            do {
-                try cameraService.session.send(shutterString, toPeers: cameraService.session.connectedPeers, with: .reliable)
-            } catch let error as NSError {
-                let ac = UIAlertController(title: "Send error", message: error.localizedDescription, preferredStyle: .alert)
-                ac.addAction(UIAlertAction(title: "OK", style: .default))
-                present(ac, animated: true)
-            }
-        }
+        guard let shutterString = "shutterPressed".data(using: String.Encoding.utf8) else {return}
+        prepareSendRequest(data: shutterString)
     }
     
     func flash(flashState: String){
+        guard let flashModelString = flashState.data(using: String.Encoding.utf8) else {return}
+        prepareSendRequest(data: flashModelString)
+    }
+    
+    private func prepareSendRequest(data: Data) {
         if cameraService.session.connectedPeers.count > 0 {
-            guard let flashModelString = flashState.data(using: String.Encoding.utf8) else {return}
-            
             do {
-                try cameraService.session.send(flashModelString, toPeers: cameraService.session.connectedPeers, with: .reliable)
+                try cameraService.session.send(data, toPeers: cameraService.session.connectedPeers, with: .reliable)
             } catch let error as NSError {
                 let ac = UIAlertController(title: "Send error", message: error.localizedDescription, preferredStyle: .alert)
                 ac.addAction(UIAlertAction(title: "OK", style: .default))
                 present(ac, animated: true)
             }
-            
         }
     }
     
@@ -136,6 +154,10 @@ class BrowserViewController: UIViewController {
             timer.invalidate()
             shutter()
         }
+    }
+    
+    override func viewWillLayoutSubviews() {
+        browserView.takePhotoButton.layer.cornerRadius = browserView.takePhotoButton.frame.width / 2
     }
     
 }

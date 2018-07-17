@@ -17,6 +17,8 @@ protocol CameraServiceManagerDelegate {
     func acceptInvitation(manager: CameraServiceManager)
     func didStartReceivingData(manager: CameraServiceManager, withName resourceName: String, withProgress progress: Progress)
     func didFinishReceivingData(manager: CameraServiceManager, url: NSURL)
+    func switchCameraButtonTapped(manager: CameraServiceManager, switchCameraRequest: String?)
+    func updateTimerLabel(timerValue: String?)
 }
 
 class CameraServiceManager: NSObject {
@@ -73,6 +75,8 @@ extension CameraServiceManager: MCSessionDelegate {
                 delegate?.shutterButtonTapped(manager: self, data: nil)
             case "photoCaptured":
                 delegate?.shutterButtonTapped(manager: self, data: nil)
+            case "switchCameraPressed":
+                delegate?.switchCameraButtonTapped(manager: self, switchCameraRequest: "switchCameraPressed")
             default:
                 print("receiving error")
             }

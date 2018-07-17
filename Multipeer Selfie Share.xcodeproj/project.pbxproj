@@ -15,6 +15,9 @@
 		380A62FA20FCB782004709FA /* Chameleon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 380A62F920FCB782004709FA /* Chameleon.framework */; };
 		380A62FB20FCB782004709FA /* Chameleon.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 380A62F920FCB782004709FA /* Chameleon.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		380A62FD20FCCD04004709FA /* DOFavoriteButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 380A62FC20FCCD04004709FA /* DOFavoriteButton.swift */; };
+		380A630120FD5B30004709FA /* SwiftyButton.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 380A630020FD5B30004709FA /* SwiftyButton.framework */; };
+		380A630220FD5B31004709FA /* SwiftyButton.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 380A630020FD5B30004709FA /* SwiftyButton.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		380A630420FE4D09004709FA /* SweetAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 380A630320FE4D09004709FA /* SweetAlert.swift */; };
 		387AF6BA20FB87700069B027 /* PhotoDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 387AF6B920FB87700069B027 /* PhotoDetailViewController.swift */; };
 		387AF6BD20FB8CAE0069B027 /* RealmSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 387AF6BB20FB8CAC0069B027 /* RealmSwift.framework */; };
 		387AF6BE20FB8CAE0069B027 /* RealmSwift.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 387AF6BB20FB8CAC0069B027 /* RealmSwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -61,6 +64,7 @@
 				380A62CD20FBC89B004709FA /* CollectionViewSlantedLayout.framework in Embed Frameworks */,
 				387AF6C020FB8CAE0069B027 /* Realm.framework in Embed Frameworks */,
 				387AF6BE20FB8CAE0069B027 /* RealmSwift.framework in Embed Frameworks */,
+				380A630220FD5B31004709FA /* SwiftyButton.framework in Embed Frameworks */,
 				380A62FB20FCB782004709FA /* Chameleon.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
@@ -75,6 +79,9 @@
 		380A62D420FBD294004709FA /* SettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
 		380A62F920FCB782004709FA /* Chameleon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Chameleon.framework; path = Carthage/Build/iOS/Chameleon.framework; sourceTree = "<group>"; };
 		380A62FC20FCCD04004709FA /* DOFavoriteButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DOFavoriteButton.swift; sourceTree = "<group>"; };
+		380A62FE20FD5B25004709FA /* SwiftyButton.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftyButton.framework; path = Carthage/Build/iOS/SwiftyButton.framework; sourceTree = "<group>"; };
+		380A630020FD5B30004709FA /* SwiftyButton.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftyButton.framework; path = Carthage/Build/iOS/SwiftyButton.framework; sourceTree = "<group>"; };
+		380A630320FE4D09004709FA /* SweetAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SweetAlert.swift; sourceTree = "<group>"; };
 		387AF6B920FB87700069B027 /* PhotoDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoDetailViewController.swift; sourceTree = "<group>"; };
 		387AF6BB20FB8CAC0069B027 /* RealmSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = RealmSwift.framework; sourceTree = "<group>"; };
 		387AF6BC20FB8CAE0069B027 /* Realm.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Realm.framework; sourceTree = "<group>"; };
@@ -112,6 +119,7 @@
 				380A62CC20FBC89B004709FA /* CollectionViewSlantedLayout.framework in Frameworks */,
 				387AF6BF20FB8CAE0069B027 /* Realm.framework in Frameworks */,
 				387AF6BD20FB8CAE0069B027 /* RealmSwift.framework in Frameworks */,
+				380A630120FD5B30004709FA /* SwiftyButton.framework in Frameworks */,
 				380A62FA20FCB782004709FA /* Chameleon.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -129,6 +137,7 @@
 		3882B87120FBB17500C0C907 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				380A62FE20FD5B25004709FA /* SwiftyButton.framework */,
 				3882B87220FBB17500C0C907 /* CollectionViewSlantedLayout.framework */,
 			);
 			name = Frameworks;
@@ -137,6 +146,7 @@
 		3885323720EAA9C100ADAD10 = {
 			isa = PBXGroup;
 			children = (
+				380A630020FD5B30004709FA /* SwiftyButton.framework */,
 				380A62F920FCB782004709FA /* Chameleon.framework */,
 				380A62CB20FBC89B004709FA /* CollectionViewSlantedLayout.framework */,
 				387AF6BC20FB8CAE0069B027 /* Realm.framework */,
@@ -229,6 +239,7 @@
 			children = (
 				3885326320EAA9E300ADAD10 /* CameraServiceManager.swift */,
 				3885327520EBBFBC00ADAD10 /* UIElementState.swift */,
+				380A630320FE4D09004709FA /* SweetAlert.swift */,
 				3885327B20EBF23F00ADAD10 /* KDCircularProgress.swift */,
 				3885327720EBE4F700ADAD10 /* Popover.swift */,
 				3885327D20EC033A00ADAD10 /* AVPreviewView.swift */,
@@ -248,6 +259,7 @@
 				3885323D20EAA9C100ADAD10 /* Frameworks */,
 				3885323E20EAA9C100ADAD10 /* Resources */,
 				387AF6C120FB8CAE0069B027 /* Embed Frameworks */,
+				380A630520FE8FD8004709FA /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -336,6 +348,22 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		380A630520FE8FD8004709FA /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "APP_PATH=\"${TARGET_BUILD_DIR}/${WRAPPER_NAME}\"\n\n# This script loops through the frameworks embedded in the application and\n# removes unused architectures.\nfind \"$APP_PATH\" -name '*.framework' -type d | while read -r FRAMEWORK\ndo\nFRAMEWORK_EXECUTABLE_NAME=$(defaults read \"$FRAMEWORK/Info.plist\" CFBundleExecutable)\nFRAMEWORK_EXECUTABLE_PATH=\"$FRAMEWORK/$FRAMEWORK_EXECUTABLE_NAME\"\necho \"Executable is $FRAMEWORK_EXECUTABLE_PATH\"\n\nEXTRACTED_ARCHS=()\n\nfor ARCH in $ARCHS\ndo\necho \"Extracting $ARCH from $FRAMEWORK_EXECUTABLE_NAME\"\nlipo -extract \"$ARCH\" \"$FRAMEWORK_EXECUTABLE_PATH\" -o \"$FRAMEWORK_EXECUTABLE_PATH-$ARCH\"\nEXTRACTED_ARCHS+=(\"$FRAMEWORK_EXECUTABLE_PATH-$ARCH\")\ndone\n\necho \"Merging extracted architectures: ${ARCHS}\"\nlipo -o \"$FRAMEWORK_EXECUTABLE_PATH-merged\" -create \"${EXTRACTED_ARCHS[@]}\"\nrm \"${EXTRACTED_ARCHS[@]}\"\n\necho \"Replacing original executable with thinned version\"\nrm \"$FRAMEWORK_EXECUTABLE_PATH\"\nmv \"$FRAMEWORK_EXECUTABLE_PATH-merged\" \"$FRAMEWORK_EXECUTABLE_PATH\"\n\ndone";
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		3885323C20EAA9C100ADAD10 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -346,6 +374,7 @@
 				3885327620EBBFBC00ADAD10 /* UIElementState.swift in Sources */,
 				387AF6BA20FB87700069B027 /* PhotoDetailViewController.swift in Sources */,
 				3885324620EAA9C100ADAD10 /* HomeViewController.swift in Sources */,
+				380A630420FE4D09004709FA /* SweetAlert.swift in Sources */,
 				380A62D520FBD294004709FA /* SettingViewController.swift in Sources */,
 				3885327420EBB63A00ADAD10 /* BrowserView.swift in Sources */,
 				387AF6C320FB8D310069B027 /* Photo.swift in Sources */,

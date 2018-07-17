@@ -9,6 +9,7 @@
 import UIKit
 import AVFoundation
 import Chameleon
+import SwiftyButton
 
 class BrowserView: BaseView {
 
@@ -38,14 +39,28 @@ class BrowserView: BaseView {
         }
     }
     
+    var lastCapturedPhoto: UIImage? {
+        didSet{
+            thumbnailImageView.image = lastCapturedPhoto
+            thumbnailImageView.isHidden = false
+        }
+    }
+    
     @objc dynamic var fileTransferProgress : Progress!
 
     // Take-Photo Button
     let takePhotoButton: UIButton = {
         let button = UIButton()
+//        button.frame.size = CGSize(width: 200, height: 200)
+//        button.layer.cornerRadius = 100
+//        button.clipsToBounds = true
         button.translatesAutoresizingMaskIntoConstraints = false
+        button.backgroundColor = UIColor.flatRed()
         button.showsTouchWhenHighlighted = true
-        button.setImage(#imageLiteral(resourceName: "circle"), for: .normal)
+//        button.colors = .init(button: UIColor.flatRed(), shadow: UIColor.flatRed())
+//        button.disabledColors = .init(button: UIColor.flatGray(), shadow: UIColor.flatGray())
+//        button.depth = 1
+//        button.shadowHeight = 10
         return button
     }()
     
@@ -55,7 +70,6 @@ class BrowserView: BaseView {
         super.init(frame: frame)
         
         setupView()
-        setupConstraint()
         
         timePicker.delegate = self
         timePicker.dataSource = self
@@ -70,17 +84,18 @@ class BrowserView: BaseView {
     
     func setupView() {
         
-        backgroundColor = UIColor(white: 0.4, alpha: 0.4)
-//        [takePhotoButton].forEach {self.addSubview($0)}
+        backgroundColor = UIColor.init(complementaryFlatColorOf: UIColor.flatBlack(), withAlpha: 0.9)
+        
+        [takePhotoButton].forEach {self.addSubview($0)}
+        takePhotoButton.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.8).isActive = true
+        takePhotoButton.heightAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.8).isActive = true
+        takePhotoButton.centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true
+        takePhotoButton.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
         
         //        let progress = displayFileProgress()
         //        self.addSubview(progress)
         //        progress.animate(toAngle: 360, duration: 5, completion: nil)
     }
-//
-//       override func setupConstraint() {
-//            super.setupConstraint()
-//    }
     
     @objc private func handleSetTimer(){
         // display popover menu to set timer
@@ -106,6 +121,7 @@ class BrowserView: BaseView {
 //        progress.center = CGPoint(x: self.center.x, y: self.center.y)
 //        return progress
 //    }
+    
 }
 
 extension BrowserView: UIPickerViewDelegate, UIPickerViewDataSource {

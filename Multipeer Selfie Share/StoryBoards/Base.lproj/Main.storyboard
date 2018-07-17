@@ -78,7 +78,7 @@
                         <viewLayoutGuide key="safeArea" id="HFn-Iw-VGH"/>
                     </view>
                     <connections>
-                        <segue destination="K7M-CS-S1J" kind="show" identifier="segueToPhotos" id="nQP-ey-GwM"/>
+                        <segue destination="K7M-CS-S1J" kind="show" identifier="segueToPhotosFromRemote" id="nQP-ey-GwM"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="nE8-fe-64Q" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -98,7 +98,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Kdx-ov-gUw" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3740" y="660"/>
+            <point key="canvasLocation" x="3718" y="287"/>
         </scene>
         <!--Broadcast View Controller-->
         <scene sceneID="2aq-Uv-lGq">
@@ -111,6 +111,9 @@
                         <viewLayoutGuide key="safeArea" id="qnu-YE-RfS"/>
                     </view>
                     <navigationItem key="navigationItem" id="WOq-mn-rxc"/>
+                    <connections>
+                        <segue destination="K7M-CS-S1J" kind="show" identifier="segueToPhotoFromCamera" id="TPv-sV-2c7"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gbT-vU-aGp" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -178,7 +181,7 @@
                                     <constraint firstAttribute="height" constant="30" id="BkK-w8-5bZ"/>
                                     <constraint firstAttribute="width" constant="30" id="is6-6k-cUI"/>
                                 </constraints>
-                                <state key="normal" image="settingIcon"/>
+                                <state key="normal" image="backIcon"/>
                                 <connections>
                                     <action selector="handleBackButtonPressed:" destination="zhg-RQ-aF8" eventType="touchUpInside" id="eXo-bl-ImS"/>
                                 </connections>
@@ -206,7 +209,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="KtE-Gl-2eN" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2862" y="350"/>
+            <point key="canvasLocation" x="2785" y="45"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="UI8-Ny-bba">
@@ -224,7 +227,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="TpM-2h-B1Q" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2054" y="350"/>
+            <point key="canvasLocation" x="2025" y="45"/>
         </scene>
         <!--Settings Controller-->
         <scene sceneID="CXk-Oe-Pg0">
@@ -455,11 +458,15 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Fx7-gA-EBB" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3740" y="0.0"/>
+            <point key="canvasLocation" x="3719" y="-439"/>
         </scene>
     </scenes>
     <resources>
+        <image name="backIcon" width="256" height="256"/>
         <image name="homeBg" width="1732" height="1155"/>
         <image name="settingIcon" width="256" height="256"/>
     </resources>
+    <inferredMetricsTieBreakers>
+        <segue reference="nQP-ey-GwM"/>
+    </inferredMetricsTieBreakers>
 </document>

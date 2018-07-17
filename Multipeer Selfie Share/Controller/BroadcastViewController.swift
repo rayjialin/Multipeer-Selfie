@@ -10,6 +10,7 @@
 import UIKit
 import AVFoundation
 import MultipeerConnectivity
+import RealmSwift
 
 enum CameraError: Swift.Error {
     case captureSessionAlreadyRunning
@@ -39,7 +40,24 @@ class BroadcastViewController: UIViewController {
     var mcAdvertiserAssistant: MCAdvertiserAssistant!
     var photoCaptureCompletionBlock: ((Data?, Error?) -> Void)?
     let broadcasterView = BroadcasterView()
-
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        captureSession?.startRunning()
+        
+//        if broadcasterView.lastCapturedPhoto?.images != nil{
+            do {
+                let realm = try Realm()
+                let photos = realm.objects(Photo.self).sorted(byKeyPath: "timestamp", ascending: false)
+                guard let photo = photos.first?.photoData else {return}
+                broadcasterView.lastCapturedPhoto = UIImage(data: photo)
+            } catch {
+                print("failed to create realm object")
+            }
+//        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -53,17 +71,30 @@ class BroadcastViewController: UIViewController {
                 try? self.displayPreview(on: self.view)
             }
         }
-
+        
         configureCamera()
         cameraService.delegate = self
         broadcasterView.frame = view.frame
         view.addSubview(broadcasterView)
         
         broadcasterView.backButton.addTarget(self, action: #selector(handleBackButtonPressed), for: .touchUpInside)
+        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(imageTapped))
+        broadcasterView.thumbnailImageView.addGestureRecognizer(tapGestureRecognizer)
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        captureSession?.stopRunning()
     }
     
     @objc private func handleBackButtonPressed(){
         dismiss(animated: true, completion: nil)
+        cameraService.serviceBroadcaster.stopAdvertisingPeer()
+        cameraService.session.disconnect()
+    }
+    
+    @objc private func imageTapped(sender: UITapGestureRecognizer) {
+        guard let _ = sender.view as? UIImageView else {return}
+        performSegue(withIdentifier: "segueToPhotoFromCamera", sender: self)
     }
     
     func startHosting() {
@@ -81,12 +112,24 @@ class BroadcastViewController: UIViewController {
                 
                 if flashState == "flashOff" {
                     device.torchMode = .off
+                    DispatchQueue.main.async {
+                        self.broadcasterView.flashButton.setImage(#imageLiteral(resourceName: "flashOffIcon"), for: .normal)
+                    }
                 } else if flashState == "flashOn" {
                     device.torchMode = .on
+                    DispatchQueue.main.async {
+                        self.broadcasterView.flashButton.setImage(#imageLiteral(resourceName: "flashOnIcon"), for: .normal)
+                    }
                 } else if flashState == "flashAuto" {
                     device.torchMode = .auto
+                    DispatchQueue.main.async {
+                        self.broadcasterView.flashButton.setImage(#imageLiteral(resourceName: "flashAutoIcon"), for: .normal)
+                    }
                 } else {
                     device.torchMode = .off
+                    DispatchQueue.main.async {
+                        self.broadcasterView.flashButton.setImage(#imageLiteral(resourceName: "flashOffIcon"), for: .normal)
+                    }
                 }
                 device.unlockForConfiguration()
             } catch {
@@ -107,7 +150,7 @@ class BroadcastViewController: UIViewController {
             let cameras = session.devices.compactMap {$0}
             
             guard !cameras.isEmpty else { throw CameraError.noCamerasAvailable }
-        
+            
             for camera in cameras {
                 if camera.position == .front {
                     frontCamera = camera
