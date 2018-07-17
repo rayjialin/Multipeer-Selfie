@@ -1,0 +1,8 @@
+.DS_Store
+Podfile.lock
+Pods/
+*/xcuserdata/*
+Multipeer Selfie Share.xcodeproj/project.xcworkspace/xcuserdata/*
+RealmSwift.framework
+Realm.framework
+Carthage/
