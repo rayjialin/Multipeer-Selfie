@@ -8,10 +8,10 @@ The whole idea of this app is to allow a group of users to setup an iPhone as ca
 This app leverages the Multipeer Connectivity Framework to allow the devices to communicate over WiFi or Bluetooth.  This app allows 7 devices to be connected at the same time.  the max allowed devices can be changed in the code.
 
 ## Screenshots
-![Alt text](/Docs/Assets/Screenshots/ss01.png=250x250?raw=true "Home Screen")
-![Alt text](/Docs/Assets/Screenshots/ss02.png=250x250?raw=true "Remote Screen")
-![Alt text](/Docs/Assets/Screenshots/ss05.png=250x250?raw=true "Photo Gallery Screen")
-![Alt text](/Docs/Assets/Screenshots/ss03.png=250x250?raw=true "Connection Screen")
+![alt text](https://github.com/rayjialin/Multipeer-Selfie/blob/master/Docs/Assets/Screenshots/ss01.png)
+![alt text](https://github.com/rayjialin/Multipeer-Selfie/blob/master/Docs/Assets/Screenshots/ss02.png)
+![alt text](https://github.com/rayjialin/Multipeer-Selfie/blob/master/Docs/Assets/Screenshots/ss05.png)
+![alt text](https://github.com/rayjialin/Multipeer-Selfie/blob/master/Docs/Assets/Screenshots/ss03.png)
 
 ## Technical Requirements
 * iOS version 8 or later
