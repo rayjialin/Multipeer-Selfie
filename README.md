@@ -11,6 +11,7 @@ This app leverages the Multipeer Connectivity Framework to allow the devices to 
 <p float="left">
     <img src="https://github.com/rayjialin/Multipeer-Selfie/blob/master/Docs/Assets/Screenshots/ss01.png" width="250" height="250">
     <img src="https://github.com/rayjialin/Multipeer-Selfie/blob/master/Docs/Assets/Screenshots/ss02.png" width="250" height="250">
+        <img src="https://github.com/rayjialin/Multipeer-Selfie/blob/master/Docs/Assets/Screenshots/ss05.png" width="250" height="250">
     <img src="https://github.com/rayjialin/Multipeer-Selfie/blob/master/Docs/Assets/Screenshots/ss03.png" width="250" height="250">
 </p>
 
