@@ -46,16 +46,16 @@ class BroadcastViewController: UIViewController {
         
         captureSession?.startRunning()
         
-//        if broadcasterView.lastCapturedPhoto?.images != nil{
-            do {
-                let realm = try Realm()
-                let photos = realm.objects(Photo.self).sorted(byKeyPath: "timestamp", ascending: false)
-                guard let photo = photos.first?.photoData else {return}
-                broadcasterView.lastCapturedPhoto = UIImage(data: photo)
-            } catch {
-                print("failed to create realm object")
-            }
-//        }
+        //        if broadcasterView.lastCapturedPhoto?.images != nil{
+        do {
+            let realm = try Realm()
+            let photos = realm.objects(Photo.self).sorted(byKeyPath: "timestamp", ascending: false)
+            guard let photo = photos.first?.photoData else {return}
+            broadcasterView.lastCapturedPhoto = UIImage(data: photo)
+        } catch {
+            print("failed to create realm object")
+        }
+        //        }
     }
     
     override func viewDidLoad() {
@@ -194,29 +194,39 @@ class BroadcastViewController: UIViewController {
         func configurePhotoOutput() throws {
             guard let captureSession = captureSession else { throw CameraError.captureSessionIsMissing }
             
-            photoOutput = AVCapturePhotoOutput()
-            photoOutput?.setPreparedPhotoSettingsArray([AVCapturePhotoSettings(format: [AVVideoCodecKey : AVVideoCodecType.jpeg])], completionHandler: nil)
+                        photoOutput = AVCapturePhotoOutput()
+                        photoOutput?.setPreparedPhotoSettingsArray([AVCapturePhotoSettings(format: [AVVideoCodecKey : AVVideoCodecType.jpeg])], completionHandler: nil)
             
-            if captureSession.canAddOutput(photoOutput!) { captureSession.addOutput(photoOutput!) }
-            
-            captureSession.startRunning()
-        }
-        
-        DispatchQueue(label: "prepare").async {
-            do {
-                createCaptureSession()
-                try configureCaptureDevices()
-                try configureDeviceInputs()
-                try configurePhotoOutput()
-            } catch {
-                DispatchQueue.main.async {
-                    completionHandler(error)
+                if captureSession.canAddOutput(photoOutput!) {
+                    captureSession.addOutput(photoOutput!)
+                    captureSession.startRunning()
                 }
-                return
-            }
             
-            DispatchQueue.main.async {
-                completionHandler(nil)
+//            let dataOutput = AVCaptureVideoDataOutput()
+//            dataOutput.videoSettings = [(kCVPixelBufferPixelFormatTypeKey as NSString): NSNumber(value: kCVPixelFormatType_420YpCbCr8PlanarFullRange as UInt32)] as [String : Any]
+//            dataOutput.alwaysDiscardsLateVideoFrames = true
+//            if captureSession.canAddOutput(dataOutput) == true {
+//                captureSession.addOutput(dataOutput)
+//                captureSession.startRunning()
+//            }
+            
+            
+            DispatchQueue(label: "prepare").async {
+                do {
+                    createCaptureSession()
+                    try configureCaptureDevices()
+                    try configureDeviceInputs()
+                    try configurePhotoOutput()
+                } catch {
+                    DispatchQueue.main.async {
+                        completionHandler(error)
+                    }
+                    return
+                }
+                
+                DispatchQueue.main.async {
+                    completionHandler(nil)
+                }
             }
         }
     }

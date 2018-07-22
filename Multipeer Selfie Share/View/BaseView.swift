@@ -134,8 +134,8 @@ class BaseView: UIView {
         thumbnailImageView.centerYAnchor.constraint(equalTo: footerContainerView.centerYAnchor).isActive = true
         thumbnailImageView.leadingAnchor.constraint(equalTo: footerContainerView.leadingAnchor, constant: 10).isActive = true
         
-        switchCameraButton.heightAnchor.constraint(equalTo: thumbnailImageView.heightAnchor, multiplier: 0.5).isActive = true
-        switchCameraButton.widthAnchor.constraint(equalTo: thumbnailImageView.heightAnchor, multiplier: 0.5).isActive = true
+        switchCameraButton.heightAnchor.constraint(equalTo: thumbnailImageView.heightAnchor, multiplier: 0.3).isActive = true
+        switchCameraButton.widthAnchor.constraint(equalTo: thumbnailImageView.heightAnchor, multiplier: 0.3).isActive = true
         switchCameraButton.centerYAnchor.constraint(equalTo: footerContainerView.centerYAnchor).isActive = true
         switchCameraButton.trailingAnchor.constraint(equalTo: footerContainerView.trailingAnchor, constant: -10).isActive = true
 
@@ -161,29 +161,28 @@ class BaseView: UIView {
         
         backButton.bottomAnchor.constraint(equalTo: view1.bottomAnchor, constant: -10).isActive = true
         backButton.centerXAnchor.constraint(equalTo: view1.centerXAnchor).isActive = true
-        backButton.heightAnchor.constraint(equalTo: thumbnailImageView.heightAnchor, multiplier: 0.5).isActive = true
-        backButton.widthAnchor.constraint(equalTo: thumbnailImageView.heightAnchor, multiplier: 0.5).isActive = true
+        backButton.heightAnchor.constraint(equalTo: thumbnailImageView.heightAnchor, multiplier: 0.3).isActive = true
+        backButton.widthAnchor.constraint(equalTo: thumbnailImageView.heightAnchor, multiplier: 0.3).isActive = true
 
         connectButton.bottomAnchor.constraint(equalTo: view2.bottomAnchor, constant: -10).isActive = true
         connectButton.centerXAnchor.constraint(equalTo: view2.centerXAnchor).isActive = true
-        connectButton.heightAnchor.constraint(equalTo: thumbnailImageView.heightAnchor, multiplier: 0.5).isActive = true
-        connectButton.widthAnchor.constraint(equalTo: thumbnailImageView.heightAnchor, multiplier: 0.5).isActive = true
+        connectButton.heightAnchor.constraint(equalTo: thumbnailImageView.heightAnchor, multiplier: 0.3).isActive = true
+        connectButton.widthAnchor.constraint(equalTo: thumbnailImageView.heightAnchor, multiplier: 0.3).isActive = true
         
         flashButton.bottomAnchor.constraint(equalTo: view3.bottomAnchor, constant: -10).isActive = true
         flashButton.centerXAnchor.constraint(equalTo: view3.centerXAnchor).isActive = true
-        flashButton.heightAnchor.constraint(equalTo: thumbnailImageView.heightAnchor, multiplier: 0.5).isActive = true
-        flashButton.widthAnchor.constraint(equalTo: thumbnailImageView.heightAnchor, multiplier: 0.5).isActive = true
+        flashButton.heightAnchor.constraint(equalTo: thumbnailImageView.heightAnchor, multiplier: 0.3).isActive = true
+        flashButton.widthAnchor.constraint(equalTo: thumbnailImageView.heightAnchor, multiplier: 0.3).isActive = true
 
         timerButton.bottomAnchor.constraint(equalTo: view4.bottomAnchor, constant: -10).isActive = true
         timerButton.centerXAnchor.constraint(equalTo: view4.centerXAnchor).isActive = true
-        timerButton.heightAnchor.constraint(equalTo: thumbnailImageView.heightAnchor, multiplier: 0.5).isActive = true
-        timerButton.widthAnchor.constraint(equalTo: thumbnailImageView.heightAnchor, multiplier: 0.5).isActive = true
+        timerButton.heightAnchor.constraint(equalTo: thumbnailImageView.heightAnchor, multiplier: 0.3).isActive = true
+        timerButton.widthAnchor.constraint(equalTo: thumbnailImageView.heightAnchor, multiplier: 0.3).isActive = true
         
         timerLabel.trailingAnchor.constraint(equalTo: timerButton.leadingAnchor, constant: -5).isActive = true
         timerLabel.centerYAnchor.constraint(equalTo: timerButton.centerYAnchor).isActive = true
         timerLabel.widthAnchor.constraint(equalTo: timerButton.widthAnchor).isActive = true
         timerLabel.heightAnchor.constraint(equalTo: timerButton.heightAnchor).isActive = true
-        
     }
     
 }

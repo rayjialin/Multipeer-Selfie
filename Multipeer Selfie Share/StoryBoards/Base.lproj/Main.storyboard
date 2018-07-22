@@ -78,7 +78,7 @@
                         <viewLayoutGuide key="safeArea" id="HFn-Iw-VGH"/>
                     </view>
                     <connections>
-                        <segue destination="K7M-CS-S1J" kind="show" identifier="segueToPhotosFromRemote" id="nQP-ey-GwM"/>
+                        <segue destination="zhg-RQ-aF8" kind="show" identifier="segueToPhotosFromRemote" id="EAr-Ov-2eI"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="nE8-fe-64Q" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -112,12 +112,27 @@
                     </view>
                     <navigationItem key="navigationItem" id="WOq-mn-rxc"/>
                     <connections>
-                        <segue destination="K7M-CS-S1J" kind="show" identifier="segueToPhotoFromCamera" id="TPv-sV-2c7"/>
+                        <segue destination="zhg-RQ-aF8" kind="show" identifier="segueToPhotoFromCamera" id="WyF-ZW-KnN"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gbT-vU-aGp" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1172" y="-367"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="JBM-1l-Ckm">
+            <objects>
+                <viewController id="3vz-Bb-NF2" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="6KV-aB-Hs4">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="qVr-re-7NL"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="R0i-q3-Hqv" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2174" y="-924"/>
         </scene>
         <!--Sample-->
         <scene sceneID="rEa-2q-KSR">
@@ -209,25 +224,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="KtE-Gl-2eN" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2785" y="45"/>
-        </scene>
-        <!--Navigation Controller-->
-        <scene sceneID="UI8-Ny-bba">
-            <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="K7M-CS-S1J" sceneMemberID="viewController">
-                    <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="4Mg-Af-HAg">
-                        <rect key="frame" x="0.0" y="20" width="375" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </navigationBar>
-                    <nil name="viewControllers"/>
-                    <connections>
-                        <segue destination="zhg-RQ-aF8" kind="relationship" relationship="rootViewController" id="Xob-sx-Pph"/>
-                    </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="TpM-2h-B1Q" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="2025" y="45"/>
+            <point key="canvasLocation" x="2433" y="-66"/>
         </scene>
         <!--Settings Controller-->
         <scene sceneID="CXk-Oe-Pg0">
@@ -242,7 +239,7 @@
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                             <items>
                                 <navigationItem id="aEK-q0-p5M">
-                                    <barButtonItem key="rightBarButtonItem" style="plain" systemItem="done" id="b0J-bi-E0x">
+                                    <barButtonItem key="rightBarButtonItem" style="done" systemItem="done" id="b0J-bi-E0x">
                                         <connections>
                                             <action selector="done:" destination="lXM-9s-J7L" id="Tfh-TY-owP"/>
                                         </connections>
@@ -467,6 +464,6 @@
         <image name="settingIcon" width="256" height="256"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="nQP-ey-GwM"/>
+        <segue reference="EAr-Ov-2eI"/>
     </inferredMetricsTieBreakers>
 </document>

@@ -18,6 +18,14 @@
 		380A630120FD5B30004709FA /* SwiftyButton.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 380A630020FD5B30004709FA /* SwiftyButton.framework */; };
 		380A630220FD5B31004709FA /* SwiftyButton.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 380A630020FD5B30004709FA /* SwiftyButton.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		380A630420FE4D09004709FA /* SweetAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 380A630320FE4D09004709FA /* SweetAlert.swift */; };
+		3810E1AA2101082400CE1955 /* GPUImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 380A637420FFF723004709FA /* GPUImage.framework */; };
+		3810E1AD2101088400CE1955 /* GPUImage.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 380A637420FFF723004709FA /* GPUImage.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		3810E1B02102125600CE1955 /* PhotoDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3810E1AF2102125600CE1955 /* PhotoDetailView.swift */; };
+		3810E1B521021C7A00CE1955 /* FilterCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3810E1B421021C7A00CE1955 /* FilterCell.swift */; };
+		3810E1B721021F4F00CE1955 /* PhotoDetailViewController+delegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3810E1B621021F4F00CE1955 /* PhotoDetailViewController+delegate.swift */; };
+		3810E1B92102249500CE1955 /* FilterModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3810E1B82102249500CE1955 /* FilterModel.swift */; };
+		3810E1BB2103E79300CE1955 /* PhotoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3810E1BA2103E79300CE1955 /* PhotoView.swift */; };
+		3810E1BD2103F18500CE1955 /* PhotosViewController+delegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3810E1BC2103F18500CE1955 /* PhotosViewController+delegate.swift */; };
 		387AF6BA20FB87700069B027 /* PhotoDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 387AF6B920FB87700069B027 /* PhotoDetailViewController.swift */; };
 		387AF6BD20FB8CAE0069B027 /* RealmSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 387AF6BB20FB8CAC0069B027 /* RealmSwift.framework */; };
 		387AF6BE20FB8CAE0069B027 /* RealmSwift.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 387AF6BB20FB8CAC0069B027 /* RealmSwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -73,6 +81,13 @@
 			remoteGlobalIDString = BC9E34F11E524A2200B8604F;
 			remoteInfo = GPUImageTests_iOS;
 		};
+		3810E1A42101081000CE1955 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 380A636820FFF723004709FA /* GPUImage.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = BC9E34E81E524A2200B8604F;
+			remoteInfo = GPUImage_iOS;
+		};
 		3885325520EAA9C300ADAD10 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 3885323820EAA9C100ADAD10 /* Project object */;
@@ -83,6 +98,16 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		3810E1AC2101085C00CE1955 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				3810E1AD2101088400CE1955 /* GPUImage.framework in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		387AF6C120FB8CAE0069B027 /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -111,6 +136,12 @@
 		380A630020FD5B30004709FA /* SwiftyButton.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftyButton.framework; path = Carthage/Build/iOS/SwiftyButton.framework; sourceTree = "<group>"; };
 		380A630320FE4D09004709FA /* SweetAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SweetAlert.swift; sourceTree = "<group>"; };
 		380A636820FFF723004709FA /* GPUImage.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = GPUImage.xcodeproj; sourceTree = "<group>"; };
+		3810E1AF2102125600CE1955 /* PhotoDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoDetailView.swift; sourceTree = "<group>"; };
+		3810E1B421021C7A00CE1955 /* FilterCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterCell.swift; sourceTree = "<group>"; };
+		3810E1B621021F4F00CE1955 /* PhotoDetailViewController+delegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PhotoDetailViewController+delegate.swift"; sourceTree = "<group>"; };
+		3810E1B82102249500CE1955 /* FilterModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = FilterModel.swift; path = "Multipeer Selfie Share/Controller/FilterModel.swift"; sourceTree = SOURCE_ROOT; };
+		3810E1BA2103E79300CE1955 /* PhotoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoView.swift; sourceTree = "<group>"; };
+		3810E1BC2103F18500CE1955 /* PhotosViewController+delegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PhotosViewController+delegate.swift"; sourceTree = "<group>"; };
 		387AF6B920FB87700069B027 /* PhotoDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoDetailViewController.swift; sourceTree = "<group>"; };
 		387AF6BB20FB8CAC0069B027 /* RealmSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = RealmSwift.framework; sourceTree = "<group>"; };
 		387AF6BC20FB8CAE0069B027 /* Realm.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Realm.framework; sourceTree = "<group>"; };
@@ -145,6 +176,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3810E1AA2101082400CE1955 /* GPUImage.framework in Frameworks */,
 				380A62CC20FBC89B004709FA /* CollectionViewSlantedLayout.framework in Frameworks */,
 				387AF6BF20FB8CAE0069B027 /* Realm.framework in Frameworks */,
 				387AF6BD20FB8CAE0069B027 /* RealmSwift.framework in Frameworks */,
@@ -241,7 +273,9 @@
 				3885326D20EAAC2B00ADAD10 /* BrowserViewController.swift */,
 				3885327120EBB51B00ADAD10 /* BrowserViewController+delegate.swift */,
 				380A62D020FBCEC0004709FA /* PhotosViewController.swift */,
+				3810E1BC2103F18500CE1955 /* PhotosViewController+delegate.swift */,
 				387AF6B920FB87700069B027 /* PhotoDetailViewController.swift */,
+				3810E1B621021F4F00CE1955 /* PhotoDetailViewController+delegate.swift */,
 				380A62D420FBD294004709FA /* SettingViewController.swift */,
 			);
 			path = Controller;
@@ -254,6 +288,9 @@
 				3885327920EBF04F00ADAD10 /* BroadcasterView.swift */,
 				380A62CE20FBCE96004709FA /* CustomCollectionCell.swift */,
 				3882B86F20FB967E00C0C907 /* BaseView.swift */,
+				3810E1BA2103E79300CE1955 /* PhotoView.swift */,
+				3810E1B421021C7A00CE1955 /* FilterCell.swift */,
+				3810E1AF2102125600CE1955 /* PhotoDetailView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -262,6 +299,7 @@
 			isa = PBXGroup;
 			children = (
 				387AF6C220FB8D310069B027 /* Photo.swift */,
+				3810E1B82102249500CE1955 /* FilterModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -301,10 +339,12 @@
 				3885323E20EAA9C100ADAD10 /* Resources */,
 				387AF6C120FB8CAE0069B027 /* Embed Frameworks */,
 				380A630520FE8FD8004709FA /* ShellScript */,
+				3810E1AC2101085C00CE1955 /* CopyFiles */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				3810E1A52101081000CE1955 /* PBXTargetDependency */,
 			);
 			name = "Multipeer Selfie Share";
 			productName = "Multipeer Selfie Share";
@@ -448,6 +488,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3885327C20EBF23F00ADAD10 /* KDCircularProgress.swift in Sources */,
+				3810E1BB2103E79300CE1955 /* PhotoView.swift in Sources */,
 				3885327220EBB51B00ADAD10 /* BrowserViewController+delegate.swift in Sources */,
 				3885327620EBBFBC00ADAD10 /* UIElementState.swift in Sources */,
 				387AF6BA20FB87700069B027 /* PhotoDetailViewController.swift in Sources */,
@@ -455,17 +496,22 @@
 				380A630420FE4D09004709FA /* SweetAlert.swift in Sources */,
 				380A62D520FBD294004709FA /* SettingViewController.swift in Sources */,
 				3885327420EBB63A00ADAD10 /* BrowserView.swift in Sources */,
+				3810E1B02102125600CE1955 /* PhotoDetailView.swift in Sources */,
 				387AF6C320FB8D310069B027 /* Photo.swift in Sources */,
 				380A62FD20FCCD04004709FA /* DOFavoriteButton.swift in Sources */,
 				380A62D120FBCEC0004709FA /* PhotosViewController.swift in Sources */,
+				3810E1BD2103F18500CE1955 /* PhotosViewController+delegate.swift in Sources */,
 				3885324420EAA9C100ADAD10 /* AppDelegate.swift in Sources */,
 				3885326C20EAAC0B00ADAD10 /* BroadcastViewController.swift in Sources */,
 				3885327820EBE4F700ADAD10 /* Popover.swift in Sources */,
+				3810E1B521021C7A00CE1955 /* FilterCell.swift in Sources */,
 				3885327E20EC033A00ADAD10 /* AVPreviewView.swift in Sources */,
 				3885326420EAA9E300ADAD10 /* CameraServiceManager.swift in Sources */,
 				38BA8E6F20ECF8AD0046035B /* BroadcastViewController+delegate.swift in Sources */,
 				3882B87020FB967E00C0C907 /* BaseView.swift in Sources */,
+				3810E1B92102249500CE1955 /* FilterModel.swift in Sources */,
 				380A62CF20FBCE96004709FA /* CustomCollectionCell.swift in Sources */,
+				3810E1B721021F4F00CE1955 /* PhotoDetailViewController+delegate.swift in Sources */,
 				3885326E20EAAC2B00ADAD10 /* BrowserViewController.swift in Sources */,
 				3885327A20EBF04F00ADAD10 /* BroadcasterView.swift in Sources */,
 			);
@@ -482,6 +528,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		3810E1A52101081000CE1955 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = GPUImage_iOS;
+			targetProxy = 3810E1A42101081000CE1955 /* PBXContainerItemProxy */;
+		};
 		3885325620EAA9C300ADAD10 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 3885323F20EAA9C100ADAD10 /* Multipeer Selfie Share */;
