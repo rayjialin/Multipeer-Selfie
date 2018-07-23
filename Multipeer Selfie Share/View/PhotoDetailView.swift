@@ -17,13 +17,72 @@ class PhotoDetailView: UIView {
         }
     }
     
-    let filterCollectionView: UICollectionView = {
+    // use as constraint to setup button size
+    let thumbnailImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.isHidden = true
+        imageView.isUserInteractionEnabled = true
+        return imageView
+    }()
+    
+    let headerContainerView: UIView = {
+        let containerView = UIView()
+        containerView.translatesAutoresizingMaskIntoConstraints = false
+        containerView.backgroundColor = UIColor.flatBlack()
+        return containerView
+    }()
+    
+    let view1: UIView = {
+        let containerView = UIView()
+        containerView.translatesAutoresizingMaskIntoConstraints = false
+        return containerView
+    }()
+    
+    let view2: UIView = {
+        let containerView = UIView()
+        containerView.translatesAutoresizingMaskIntoConstraints = false
+        return containerView
+    }()
+    
+    let view3: UIView = {
+        let containerView = UIView()
+        containerView.translatesAutoresizingMaskIntoConstraints = false
+        return containerView
+    }()
+    
+    let view4: UIView = {
+        let containerView = UIView()
+        containerView.translatesAutoresizingMaskIntoConstraints = false
+        return containerView
+    }()
+    
+    let backButton: UIButton = {
+        let button = UIButton()
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.setImage(#imageLiteral(resourceName: "backIcon"), for: .normal)
+        return button
+    }()
+    
+    
+    let footerCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .horizontal
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
-        collectionView.allowsMultipleSelection = true
+        collectionView.alwaysBounceHorizontal = true
+        collectionView.backgroundColor = .clear
+        return collectionView
+    }()
+    
+    let filterCollectionView: UICollectionView = {
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .horizontal
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.alwaysBounceHorizontal = true
         collectionView.isHidden = true
+        collectionView.backgroundColor = .clear
         return collectionView
     }()
     
@@ -44,13 +103,6 @@ class PhotoDetailView: UIView {
     
     let sweetAlert = SweetAlert()
     
-    let headerContainerView: UIView = {
-        let containerView = UIView()
-        containerView.translatesAutoresizingMaskIntoConstraints = false
-        containerView.backgroundColor = UIColor.flatBlack()
-        return containerView
-    }()
-    
     let footerContainerView: UIView = {
         let containerView = UIView()
         containerView.translatesAutoresizingMaskIntoConstraints = false
@@ -64,19 +116,6 @@ class PhotoDetailView: UIView {
         imageView.contentMode = .scaleAspectFit
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
-    }()
-    
-    let backButton: UIButton = {
-        let button = UIButton()
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.setImage(#imageLiteral(resourceName: "backIcon"), for: .normal)
-        return button
-    }()
-    
-    let view1: UIView = {
-        let containerView = UIView()
-        containerView.translatesAutoresizingMaskIntoConstraints = false
-        return containerView
     }()
     
     override init(frame: CGRect) {
@@ -93,12 +132,12 @@ class PhotoDetailView: UIView {
     private func setupView(){
         
         // adding ui elements to header container
-        [view1, backButton].forEach {
+        [view1, view2, backButton].forEach {
             headerContainerView.addSubview($0)
         }
         
         // adding ui elements to footer container
-        [filterButton].forEach {footerContainerView.addSubview($0)}
+        [footerCollectionView, thumbnailImageView, view3, view4, filterButton].forEach {footerContainerView.addSubview($0)}
         
         // adding ui elements to footer detail container
         [filterCollectionView].forEach {footerDetailContainer.addSubview($0)}
@@ -112,6 +151,12 @@ class PhotoDetailView: UIView {
     
     func setupConstraint(){
         
+        // use as constraint to setup button size
+        thumbnailImageView.heightAnchor.constraint(equalTo: footerContainerView.heightAnchor, multiplier: 0.8).isActive = true
+        thumbnailImageView.widthAnchor.constraint(equalTo: footerContainerView.heightAnchor, multiplier: 0.8).isActive = true
+        thumbnailImageView.centerYAnchor.constraint(equalTo: footerContainerView.centerYAnchor).isActive = true
+        thumbnailImageView.leadingAnchor.constraint(equalTo: footerContainerView.leadingAnchor, constant: 10).isActive = true
+        
         detailImageView.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
         detailImageView.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
         detailImageView.leadingAnchor.constraint(equalTo: self.leadingAnchor).isActive = true
@@ -120,8 +165,14 @@ class PhotoDetailView: UIView {
         footerDetailContainer.widthAnchor.constraint(equalTo: footerContainerView.widthAnchor).isActive = true
         footerDetailContainer.heightAnchor.constraint(equalTo: footerContainerView.heightAnchor, multiplier: 0.5).isActive = true
         footerDetailContainer.bottomAnchor.constraint(equalTo: footerContainerView.topAnchor).isActive = true
+        
+        filterCollectionView.topAnchor.constraint(equalTo: footerDetailContainer.topAnchor).isActive = true
+        filterCollectionView.leadingAnchor.constraint(equalTo: footerDetailContainer.leadingAnchor).isActive = true
+        filterCollectionView.trailingAnchor.constraint(equalTo: footerDetailContainer.trailingAnchor).isActive = true
+        filterCollectionView.bottomAnchor.constraint(equalTo: footerDetailContainer.bottomAnchor).isActive = true
 
         headerContainerView.topAnchor.constraint(equalTo: detailImageView.topAnchor).isActive = true
+        
         headerContainerView.widthAnchor.constraint(equalTo: detailImageView.widthAnchor).isActive = true
         headerContainerView.heightAnchor.constraint(equalTo: detailImageView.heightAnchor, multiplier: 0.1).isActive = true
         
@@ -134,15 +185,30 @@ class PhotoDetailView: UIView {
         view1.widthAnchor.constraint(equalTo: headerContainerView.widthAnchor, multiplier: 0.25).isActive = true
         view1.heightAnchor.constraint(equalTo: headerContainerView.heightAnchor, multiplier: 1).isActive = true
         
+        view2.centerXAnchor.constraint(equalTo: headerContainerView.centerXAnchor).isActive = true
+        view2.bottomAnchor.constraint(equalTo: headerContainerView.bottomAnchor).isActive = true
+        view2.widthAnchor.constraint(equalTo: headerContainerView.widthAnchor, multiplier: 0.5).isActive = true
+        view2.heightAnchor.constraint(equalTo: headerContainerView.heightAnchor, multiplier: 0.8).isActive = true
+        //
+        view3.leadingAnchor.constraint(equalTo: footerContainerView.leadingAnchor).isActive = true
+        view3.topAnchor.constraint(equalTo: footerContainerView.topAnchor).isActive = true
+        view3.widthAnchor.constraint(equalTo: footerContainerView.widthAnchor, multiplier: 0.25).isActive = true
+        view3.heightAnchor.constraint(equalTo: footerContainerView.heightAnchor, multiplier: 1).isActive = true
+        //
+        view4.leadingAnchor.constraint(equalTo: view3.trailingAnchor).isActive = true
+        view4.topAnchor.constraint(equalTo: footerContainerView.topAnchor).isActive = true
+        view4.widthAnchor.constraint(equalTo: footerContainerView.widthAnchor, multiplier: 0.25).isActive = true
+        view4.heightAnchor.constraint(equalTo: footerContainerView.heightAnchor, multiplier: 1).isActive = true
+        
         backButton.bottomAnchor.constraint(equalTo: view1.bottomAnchor, constant: -10).isActive = true
         backButton.centerXAnchor.constraint(equalTo: view1.centerXAnchor).isActive = true
-        backButton.heightAnchor.constraint(equalTo: detailImageView.widthAnchor, multiplier: 0.07).isActive = true
-        backButton.widthAnchor.constraint(equalTo: detailImageView.widthAnchor, multiplier: 0.07).isActive = true
+        backButton.heightAnchor.constraint(equalTo: thumbnailImageView.heightAnchor, multiplier: 0.3).isActive = true
+        backButton.widthAnchor.constraint(equalTo: thumbnailImageView.heightAnchor, multiplier: 0.3).isActive = true
         
-        filterButton.bottomAnchor.constraint(equalTo: footerContainerView.bottomAnchor, constant: -10).isActive = true
-        filterButton.leadingAnchor.constraint(equalTo: footerContainerView.leadingAnchor, constant: 10).isActive = true
-        filterButton.widthAnchor.constraint(equalTo: backButton.widthAnchor).isActive = true
-        filterButton.heightAnchor.constraint(equalTo: backButton.heightAnchor).isActive = true
+        filterButton.centerYAnchor.constraint(equalTo: view3.centerYAnchor).isActive = true
+        filterButton.centerXAnchor.constraint(equalTo: view3.centerXAnchor).isActive = true
+        filterButton.heightAnchor.constraint(equalTo: thumbnailImageView.heightAnchor, multiplier: 0.3).isActive = true
+        filterButton.widthAnchor.constraint(equalTo: thumbnailImageView.heightAnchor, multiplier: 0.3).isActive = true
     }
     
 }

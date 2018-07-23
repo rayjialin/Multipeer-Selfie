@@ -120,10 +120,6 @@ class BrowserViewController: UIViewController {
         guard let shutterString = "shutterPressed".data(using: String.Encoding.utf8) else {return}
         prepareSendRequest(data: shutterString)
         
-        // disble shutter button and start animation progress view
-        browserView.takePhotoButton.isEnabled = false
-        browserView.progressBarView.startAnimating()
-        browserView.thumbnailImageView.isHidden = true
     }
     
     func flash(flashState: String){
@@ -133,6 +129,12 @@ class BrowserViewController: UIViewController {
     
     private func prepareSendRequest(data: Data) {
         if cameraService.session.connectedPeers.count > 0 {
+            
+            // disble shutter button and start animation progress view
+            browserView.takePhotoButton.isEnabled = false
+            browserView.progressBarView.startAnimating()
+            browserView.thumbnailImageView.isHidden = true
+            
             do {
                 try cameraService.session.send(data, toPeers: cameraService.session.connectedPeers, with: .reliable)
             } catch let error as NSError {
@@ -165,8 +167,8 @@ class BrowserViewController: UIViewController {
     override func viewWillLayoutSubviews() {
         browserView.takePhotoButton.center = CGPoint(x: view.frame.width / 2, y: view.frame.height / 2)
         browserView.takePhotoButton.layer.cornerRadius = browserView.takePhotoButton.frame.width / 2
-        
-        browserView.progressBarView.center = CGPoint(x: browserView.footerContainerView.frame.width / 2, y: browserView.footerContainerView.frame.height / 2)
+
+        browserView.progressBarView.frame = browserView.thumbnailImageView.frame
     }
     
 }

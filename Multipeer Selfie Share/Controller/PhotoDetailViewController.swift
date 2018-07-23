@@ -14,13 +14,19 @@ class PhotoDetailViewController: UIViewController {
     
     let filterCell = "filterCell"
     let photoDetailView = PhotoDetailView()
-    let filterModel = FilterModel()
     var imageData: Data? {
         didSet {
             guard let imageData = imageData else {return}
             photoDetailView.detailImage = UIImage(data: imageData)
         }
     }
+    
+    let filterOptions = ["Cartoon",
+                         "Grayscale",
+                         "Color Inversion",
+                         "Sharpen",
+                         "Sepia",
+                         "Solarize"]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,6 +43,7 @@ class PhotoDetailViewController: UIViewController {
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleImageTapped))
         tapGesture.numberOfTapsRequired = 1
         let longPressedGesture = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPressed))
+        tapGesture.delegate = self
         longPressedGesture.minimumPressDuration = 1.0
         photoDetailView.detailImageView.addGestureRecognizer(tapGesture)
         photoDetailView.detailImageView.addGestureRecognizer(longPressedGesture)
@@ -47,10 +54,10 @@ class PhotoDetailViewController: UIViewController {
         dismiss(animated: true, completion: nil)
     }
     
-    @objc func handleImageTapped() {
+    @objc func handleImageTapped(sender: UITapGestureRecognizer) {
         
         // remove all views besides the image view
-            if photoDetailView.headerContainerView.isHidden == true && photoDetailView.footerContainerView.isHidden == true {
+        if photoDetailView.headerContainerView.isHidden == true && photoDetailView.footerContainerView.isHidden == true {
             [photoDetailView.headerContainerView, photoDetailView.footerContainerView].forEach { $0.isHidden = false }
         }else {
             [photoDetailView.headerContainerView, photoDetailView.footerContainerView, photoDetailView.footerDetailContainer].forEach { $0.isHidden = true }
@@ -62,10 +69,10 @@ class PhotoDetailViewController: UIViewController {
         //Chaining alerts with messages on button click
         SweetAlert().showAlert("Save Photo", subTitle: "Do you want to save this photo to Photo Album?", style: AlertStyle.success, buttonTitle:"Yes", buttonColor: UIColor.flatGreen(), otherButtonTitle:  "No", otherButtonColor: UIColor.flatGreen()) { (isOtherButton) -> Void in
             if isOtherButton == true {
-
+                
                 guard let image = self.photoDetailView.detailImageView.image else {return}
                 UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil);
-
+                
                 let _ = self.photoDetailView.sweetAlert.showAlert("Saved", subTitle: "Photo has been saved", style: AlertStyle.success)
             }
             else {
@@ -78,16 +85,60 @@ class PhotoDetailViewController: UIViewController {
         print("filter tapped")
         
         // toggle filter selection bar on/off
-        photoDetailView.footerDetailContainer.isHidden = photoDetailView.footerDetailContainer.isHidden == true ? false : true
+        if photoDetailView.footerDetailContainer.isHidden == true{
+            photoDetailView.footerDetailContainer.isHidden = false
+            photoDetailView.filterCollectionView.isHidden = false
+            photoDetailView.filterCollectionView.reloadData()
+        }else {
+            photoDetailView.footerDetailContainer.isHidden = true
+            photoDetailView.filterCollectionView.isHidden = true
+        }
         
-        photoDetailView.filterCollectionView.frame = photoDetailView.footerDetailContainer.frame
-        photoDetailView.footerDetailContainer.subviews.forEach {$0.removeFromSuperview()}
-        photoDetailView.footerContainerView.addSubview(photoDetailView.filterCollectionView)
-        photoDetailView.filterCollectionView.reloadData()
-        
-//        guard let filteringImage = photoDetailView.detailImageView.image else {return}
-//        let toonFilter = SmoothToonFilter()
-//        photoDetailView.detailImage = filteringImage.filterWithOperation(toonFilter)
+        //        guard let filteringImage = photoDetailView.detailImageView.image else {return}
+        //        let toonFilter = SmoothToonFilter()
+        //        photoDetailView.detailImage = filteringImage.filterWithOperation(toonFilter)
     }
-
+    
+    func applyFilter(filter: String) {
+        var filterEffect: BasicOperation!
+        switch filter {
+        case "Cartoon":
+            filterEffect = ToonFilter()
+            break
+        case "Grayscale":
+            filterEffect = Luminance()
+            break
+        case "Color Inversion":
+            filterEffect = ColorInversion()
+            break
+        case "Sharpen":
+            filterEffect = Sharpen()
+            break
+        case "Sepia":
+            filterEffect = SepiaToneFilter()
+            break
+        case "Solarize":
+            filterEffect = Solarize()
+            break
+        default:
+            // do nothing
+            print("Default")
+        }
+        
+        guard let imageData = imageData else {return}
+        guard let filteredImage = UIImage(data: imageData) else {return}
+        let pictureInput = PictureInput(image: filteredImage)
+        let pictureOutput = PictureOutput()
+        pictureOutput.imageAvailableCallback = {image in
+            self.photoDetailView.detailImage = image
+        }
+        pictureInput --> filterEffect --> pictureOutput
+        pictureInput.processImage(synchronously:true)
+    }
+    
+    func removeFilter(){
+        guard let imageData = imageData else {return}
+        self.photoDetailView.detailImage = UIImage(data: imageData)
+    }
+    
 }

@@ -11,24 +11,37 @@ import Chameleon
 
 extension PhotoDetailViewController: UICollectionViewDelegate {
     
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath){
+   
+        // de-highlight all other selected cell
+        guard let indexPaths = collectionView.indexPathsForSelectedItems else {return}
+        for index in indexPaths {
+            let selectedCell = collectionView.cellForItem(at: index) as? FilterCell
+            selectedCell?.bottomBar.isHidden = true
+        }
         
-        let selectedCell = collectionView.cellForItem(at: indexPath)
-        selectedCell?.backgroundColor = UIColor.flatYellow()
+        // highlight the selected cell
+        let selectedCell = collectionView.cellForItem(at: indexPath) as? FilterCell
+        selectedCell?.layer.cornerRadius = 8
+        selectedCell?.bottomBar.isHidden = false
         
-//         apply selected filter to image
-//        switch selectedCell {
-//        case <#pattern#>:
-//            <#code#>
-//        default:
-//            <#code#>
-//        }
+        // apply selected filter to image
+        guard let filterText = selectedCell?.filterLabel.text else {return}
+        applyFilter(filter: filterText)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
+        let selectedCell = collectionView.cellForItem(at: indexPath) as? FilterCell
+        selectedCell?.bottomBar.isHidden = true
+
+        // remove selected filter from image
+        removeFilter()
     }
 }
 
 extension PhotoDetailViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return filterModel.filters.count
+        return filterOptions.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -39,7 +52,7 @@ extension PhotoDetailViewController: UICollectionViewDataSource {
             return cell
         }
         
-        cell.filterLabel.text = filterModel.filters[indexPath.row].stringValue()
+        cell.filterLabel.text = filterOptions[indexPath.row]
         
         return cell
     }
@@ -49,11 +62,22 @@ extension PhotoDetailViewController: UICollectionViewDataSource {
 
 extension PhotoDetailViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        guard let filterString = filterModel.filters[indexPath.row].stringValue() as? NSString else {return CGSize(width: 30, height: 20)}
+//        guard let filterString = filterModel.filters[indexPath.row].stringValue() as? NSString else {return CGSize(width: 30, height: 20)}
+//
+//        let calculatedSize = filterString.size(withAttributes: nil)
+//        let calculatedWidth = calculatedSize.width * 1.2
+//        let calculatedHeight = calculatedSize.height
+//        return CGSize(width: calculatedWidth, height: calculatedHeight)
+        return CGSize(width: photoDetailView.footerDetailContainer.frame.width / 3, height: photoDetailView.footerDetailContainer.frame.height)
+    }
+}
+
+extension PhotoDetailViewController: UIGestureRecognizerDelegate {
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
+        if touch.view == gestureRecognizer.view {
+            return true
+        }
         
-        let calculatedSize = filterString.size(withAttributes: nil)
-        let calculatedWidth = calculatedSize.width * 1.2
-        let calculatedHeight = calculatedSize.height
-        return CGSize(width: calculatedWidth, height: calculatedHeight)
+        return false
     }
 }
