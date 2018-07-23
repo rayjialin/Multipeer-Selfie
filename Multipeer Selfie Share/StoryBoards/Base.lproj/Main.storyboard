@@ -59,8 +59,8 @@
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <connections>
-                        <segue destination="rT4-IO-rVH" kind="show" identifier="segueToBroadcast" id="FR0-CR-3gY"/>
-                        <segue destination="rXc-bJ-sEl" kind="show" identifier="segueToBrowse" id="RiI-2r-OwP"/>
+                        <segue destination="rT4-IO-rVH" kind="presentation" identifier="segueToBroadcast" id="FR0-CR-3gY"/>
+                        <segue destination="rXc-bJ-sEl" kind="presentation" identifier="segueToBrowse" id="RiI-2r-OwP"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -119,26 +119,11 @@
             </objects>
             <point key="canvasLocation" x="1172" y="-367"/>
         </scene>
-        <!--View Controller-->
-        <scene sceneID="JBM-1l-Ckm">
-            <objects>
-                <viewController id="3vz-Bb-NF2" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="6KV-aB-Hs4">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <viewLayoutGuide key="safeArea" id="qVr-re-7NL"/>
-                    </view>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="R0i-q3-Hqv" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="2174" y="-924"/>
-        </scene>
         <!--Sample-->
         <scene sceneID="rEa-2q-KSR">
             <objects>
                 <viewController id="zhg-RQ-aF8" customClass="PhotosViewController" customModule="Multipeer_Selfie_Share" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="w10-Vd-4rl">
+                    <view key="view" contentMode="scaleToFill" id="w10-Vd-4rl" customClass="PhotoView" customModule="Multipeer_Selfie_Share" customModuleProvider="target">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
@@ -179,36 +164,8 @@
                                     <outlet property="delegate" destination="zhg-RQ-aF8" id="EUy-Rt-lgS"/>
                                 </connections>
                             </collectionView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ped-zp-PhI">
-                                <rect key="frame" x="329" y="617" width="30" height="30"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="30" id="HY8-yF-KdB"/>
-                                    <constraint firstAttribute="width" constant="30" id="LA6-OH-WV9"/>
-                                </constraints>
-                                <state key="normal" image="settingIcon"/>
-                                <connections>
-                                    <segue destination="lXM-9s-J7L" kind="presentation" identifier="segueToSetting" id="1FS-cp-0Nz"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0vp-gu-p77">
-                                <rect key="frame" x="16" y="617" width="30" height="30"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="30" id="BkK-w8-5bZ"/>
-                                    <constraint firstAttribute="width" constant="30" id="is6-6k-cUI"/>
-                                </constraints>
-                                <state key="normal" image="backIcon"/>
-                                <connections>
-                                    <action selector="handleBackButtonPressed:" destination="zhg-RQ-aF8" eventType="touchUpInside" id="eXo-bl-ImS"/>
-                                </connections>
-                            </button>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                        <constraints>
-                            <constraint firstItem="97i-fB-d9j" firstAttribute="trailing" secondItem="Ped-zp-PhI" secondAttribute="trailing" constant="16" id="2bB-xq-e6W"/>
-                            <constraint firstItem="0vp-gu-p77" firstAttribute="leading" secondItem="97i-fB-d9j" secondAttribute="leading" constant="16" id="CzG-pA-aq1"/>
-                            <constraint firstItem="97i-fB-d9j" firstAttribute="bottom" secondItem="Ped-zp-PhI" secondAttribute="bottom" constant="20" id="SD5-V1-wzk"/>
-                            <constraint firstItem="97i-fB-d9j" firstAttribute="bottom" secondItem="0vp-gu-p77" secondAttribute="bottom" constant="20" id="jbR-fA-YHl"/>
-                        </constraints>
                         <viewLayoutGuide key="safeArea" id="97i-fB-d9j"/>
                     </view>
                     <navigationItem key="navigationItem" title="Sample" id="V4q-Fn-U42">
@@ -219,12 +176,14 @@
                     <connections>
                         <outlet property="collectionView" destination="a0V-JO-92v" id="nsD-OF-5pE"/>
                         <outlet property="collectionViewLayout" destination="1OZ-wh-p5A" id="u33-qV-W0W"/>
+                        <outlet property="photoView" destination="w10-Vd-4rl" id="0hu-Ee-qLn"/>
                         <segue destination="epJ-DR-3X5" kind="presentation" identifier="segueToDetails" id="TUR-GA-4A7"/>
+                        <segue destination="lXM-9s-J7L" kind="show" identifier="segueToSetting" id="cnD-kb-wYE"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="KtE-Gl-2eN" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2433" y="-66"/>
+            <point key="canvasLocation" x="2519" y="-59"/>
         </scene>
         <!--Settings Controller-->
         <scene sceneID="CXk-Oe-Pg0">
@@ -459,9 +418,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="backIcon" width="256" height="256"/>
         <image name="homeBg" width="1732" height="1155"/>
-        <image name="settingIcon" width="256" height="256"/>
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="EAr-Ov-2eI"/>

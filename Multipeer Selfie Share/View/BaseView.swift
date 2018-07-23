@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import NVActivityIndicatorView
 
 class BaseView: UIView {
     
@@ -15,6 +16,12 @@ class BaseView: UIView {
         label.textColor = UIColor.flatWhite()
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
+    }()
+    
+    // view for progress bar
+    let progressBarView: NVActivityIndicatorView = {
+        let view = NVActivityIndicatorView(frame: CGRect(x: 0, y: 0, width: 50, height: 50), type: .ballGridPulse, color: .white, padding: 0)
+        return view
     }()
     
     // Toggle Flash Button
@@ -110,13 +117,21 @@ class BaseView: UIView {
         [view1, view2, view3, view4, backButton, connectButton, flashButton, timerButton, timerLabel].forEach {
             headerContainerView.addSubview($0)
         }
-        [thumbnailImageView, switchCameraButton].forEach { footerContainerView.addSubview($0)}
+        [thumbnailImageView, switchCameraButton, progressBarView].forEach { footerContainerView.addSubview($0)}
         [headerContainerView, footerContainerView].forEach {self.addSubview($0)}
         setupConstraint()
     }
     
     required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        super.init(coder: aDecoder)
+        
+        [view1, view2, view3, view4, backButton, connectButton, flashButton, timerButton, timerLabel].forEach {
+            headerContainerView.addSubview($0)
+        }
+        [thumbnailImageView, switchCameraButton, progressBarView].forEach { footerContainerView.addSubview($0)}
+        [headerContainerView, footerContainerView].forEach {self.addSubview($0)}
+        setupConstraint()
+        
     }
     
     func setupConstraint(){
@@ -181,7 +196,7 @@ class BaseView: UIView {
         
         timerLabel.trailingAnchor.constraint(equalTo: timerButton.leadingAnchor, constant: -5).isActive = true
         timerLabel.centerYAnchor.constraint(equalTo: timerButton.centerYAnchor).isActive = true
-        timerLabel.widthAnchor.constraint(equalTo: timerButton.widthAnchor).isActive = true
+        timerLabel.widthAnchor.constraint(equalTo: timerButton.widthAnchor, multiplier: 1.5).isActive = true
         timerLabel.heightAnchor.constraint(equalTo: timerButton.heightAnchor).isActive = true
     }
     

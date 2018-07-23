@@ -11,6 +11,7 @@ import UIKit
 import AVFoundation
 import MultipeerConnectivity
 import RealmSwift
+import NVActivityIndicatorView
 
 enum CameraError: Swift.Error {
     case captureSessionAlreadyRunning
@@ -61,6 +62,14 @@ class BroadcastViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+//        // view for progress bar
+        let activityIndicatorView = NVActivityIndicatorView(frame: CGRect(x: 0, y: 0, width: 50, height: 50))
+        view.addSubview(activityIndicatorView)
+//        let progressBarView: NVActivityIndicatorView = {
+//            let view = NVActivityIndicatorView(frame: CGRect(x: 0, y: 0, width: 50, height: 50))
+//            return view
+//        }()
+        
         startHosting()
         
         func configureCamera() {
@@ -76,6 +85,7 @@ class BroadcastViewController: UIViewController {
         cameraService.delegate = self
         broadcasterView.frame = view.frame
         view.addSubview(broadcasterView)
+        
         
         broadcasterView.backButton.addTarget(self, action: #selector(handleBackButtonPressed), for: .touchUpInside)
         let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(imageTapped))
@@ -194,39 +204,38 @@ class BroadcastViewController: UIViewController {
         func configurePhotoOutput() throws {
             guard let captureSession = captureSession else { throw CameraError.captureSessionIsMissing }
             
-                        photoOutput = AVCapturePhotoOutput()
-                        photoOutput?.setPreparedPhotoSettingsArray([AVCapturePhotoSettings(format: [AVVideoCodecKey : AVVideoCodecType.jpeg])], completionHandler: nil)
+            photoOutput = AVCapturePhotoOutput()
+            photoOutput?.setPreparedPhotoSettingsArray([AVCapturePhotoSettings(format: [AVVideoCodecKey : AVVideoCodecType.jpeg])], completionHandler: nil)
             
-                if captureSession.canAddOutput(photoOutput!) {
-                    captureSession.addOutput(photoOutput!)
-                    captureSession.startRunning()
-                }
+            if captureSession.canAddOutput(photoOutput!) { captureSession.addOutput(photoOutput!) }
             
-//            let dataOutput = AVCaptureVideoDataOutput()
-//            dataOutput.videoSettings = [(kCVPixelBufferPixelFormatTypeKey as NSString): NSNumber(value: kCVPixelFormatType_420YpCbCr8PlanarFullRange as UInt32)] as [String : Any]
-//            dataOutput.alwaysDiscardsLateVideoFrames = true
-//            if captureSession.canAddOutput(dataOutput) == true {
-//                captureSession.addOutput(dataOutput)
-//                captureSession.startRunning()
-//            }
+            captureSession.startRunning()
             
             
-            DispatchQueue(label: "prepare").async {
-                do {
-                    createCaptureSession()
-                    try configureCaptureDevices()
-                    try configureDeviceInputs()
-                    try configurePhotoOutput()
-                } catch {
-                    DispatchQueue.main.async {
-                        completionHandler(error)
-                    }
-                    return
-                }
-                
+            //            let dataOutput = AVCaptureVideoDataOutput()
+            //            dataOutput.videoSettings = [(kCVPixelBufferPixelFormatTypeKey as NSString): NSNumber(value: kCVPixelFormatType_420YpCbCr8PlanarFullRange as UInt32)] as [String : Any]
+            //            dataOutput.alwaysDiscardsLateVideoFrames = true
+            //            if captureSession.canAddOutput(dataOutput) == true {
+            //                captureSession.addOutput(dataOutput)
+            //                captureSession.startRunning()
+            //            }
+        }
+        
+        DispatchQueue(label: "prepare").async {
+            do {
+                createCaptureSession()
+                try configureCaptureDevices()
+                try configureDeviceInputs()
+                try configurePhotoOutput()
+            } catch {
                 DispatchQueue.main.async {
-                    completionHandler(nil)
+                    completionHandler(error)
                 }
+                return
+            }
+            
+            DispatchQueue.main.async {
+                completionHandler(nil)
             }
         }
     }

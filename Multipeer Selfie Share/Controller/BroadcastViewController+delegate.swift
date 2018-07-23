@@ -142,16 +142,27 @@ extension BroadcastViewController: CameraServiceManagerDelegate {
 }
 
 extension BroadcastViewController: AVCapturePhotoCaptureDelegate {
-    public func photoOutput(_ captureOutput: AVCapturePhotoOutput, didFinishProcessingPhoto photoSampleBuffer: CMSampleBuffer?, previewPhoto previewPhotoSampleBuffer: CMSampleBuffer?, resolvedSettings: AVCaptureResolvedPhotoSettings, bracketSettings: AVCaptureBracketedStillImageSettings?, error: Swift.Error?) {
-        if let error = error { self.photoCaptureCompletionBlock?(nil, error) }
-            
-        else if let buffer = photoSampleBuffer, let data = AVCapturePhotoOutput.jpegPhotoDataRepresentation(forJPEGSampleBuffer: buffer, previewPhotoSampleBuffer: nil) {
+    // @available(iOS 11.0, *)
+    func photoOutput(_ output: AVCapturePhotoOutput, didFinishProcessingPhoto photo: AVCapturePhoto, error: Error?) {
+        if let data = photo.fileDataRepresentation() {
             self.photoCaptureCompletionBlock?(data, nil)
-        }
-        else {
+        }else {
             self.photoCaptureCompletionBlock?(nil, CameraError.unknown)
         }
+        
     }
+    
+// before iOS 10.0 *
+//    public func photoOutput(_ captureOutput: AVCapturePhotoOutput, didFinishProcessingPhoto photoSampleBuffer: CMSampleBuffer?, previewPhoto previewPhotoSampleBuffer: CMSampleBuffer?, resolvedSettings: AVCaptureResolvedPhotoSettings, bracketSettings: AVCaptureBracketedStillImageSettings?, error: Swift.Error?) {
+//        if let error = error { self.photoCaptureCompletionBlock?(nil, error) }
+//
+//        else if let buffer = photoSampleBuffer, let data = AVCapturePhotoOutput.jpegPhotoDataRepresentation(forJPEGSampleBuffer: buffer, previewPhotoSampleBuffer: nil) {
+//            self.photoCaptureCompletionBlock?(data, nil)
+//        }
+//        else {
+//            self.photoCaptureCompletionBlock?(nil, CameraError.unknown)
+//        }
+//    }
 }
 
 //extension BroadcastViewController: AVCaptureVideoDataOutputSampleBufferDelegate {

@@ -152,9 +152,6 @@ class HomeViewController: UIViewController {
             self.cameraService.broadcaster = self.cameraService.myPeerId
             sender.deselect()
             self.cameraRoleButton.isEnabled = true
-            // delete realm file in case photo model is updated
-            //            deleteRealmFile()
-            
         }
     }
     
@@ -165,16 +162,6 @@ class HomeViewController: UIViewController {
             self.performSegue(withIdentifier: "segueToBrowse", sender: SegueToRole.browser)
             sender.deselect()
             self.browserRoleButton.isEnabled = true
-            // delete realm file in case photo model is updated
-            //            deleteRealmFile()
-        }
-    }
-    
-    private func deleteRealmFile(){
-        do {
-            try FileManager.default.removeItem(at: Realm.Configuration.defaultConfiguration.fileURL!)
-        } catch {
-            print("deorr delete")
         }
     }
 }

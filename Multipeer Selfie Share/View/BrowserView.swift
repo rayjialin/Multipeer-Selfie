@@ -49,18 +49,15 @@ class BrowserView: BaseView {
     @objc dynamic var fileTransferProgress : Progress!
 
     // Take-Photo Button
-    let takePhotoButton: UIButton = {
-        let button = UIButton()
-//        button.frame.size = CGSize(width: 200, height: 200)
-//        button.layer.cornerRadius = 100
-//        button.clipsToBounds = true
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.backgroundColor = UIColor.flatRed()
-        button.showsTouchWhenHighlighted = true
-//        button.colors = .init(button: UIColor.flatRed(), shadow: UIColor.flatRed())
-//        button.disabledColors = .init(button: UIColor.flatGray(), shadow: UIColor.flatGray())
-//        button.depth = 1
-//        button.shadowHeight = 10
+    let takePhotoButton: PressableButton = {
+        let button = PressableButton()
+        button.frame.size = CGSize(width: 200, height: 200)
+        button.clipsToBounds = true
+        button.cornerRadius = 100
+        button.shadowHeight = 5
+        button.depth = 1
+        button.colors = .init(button: UIColor.flatRed(), shadow: UIColor.flatRedColorDark())
+        button.disabledColors = .init(button: UIColor.flatGray(), shadow: UIColor.flatGrayColorDark())
         return button
     }()
     
@@ -99,7 +96,7 @@ class BrowserView: BaseView {
     
     @objc private func handleSetTimer(){
         // display popover menu to set timer
-        let startPoint = CGPoint(x: timerButton.center.x, y: timerButton.frame.size.height * 2)
+        let startPoint = CGPoint(x: timerButton.frame.origin.x + timerButton.frame.width / 2, y: headerContainerView.frame.height)
         let aView = UIView(frame: CGRect(x: 0, y: 0, width: self.frame.width * 0.3, height: self.frame.height / 3))
         
         timePicker.frame = aView.frame
@@ -130,15 +127,15 @@ extension BrowserView: UIPickerViewDelegate, UIPickerViewDataSource {
     }
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return 61
+        return 60
     }
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        second = row
+        second = row + 1
         popover.dismiss()
     }
     
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        return "\(row)"
+        return "\(row + 1)"
     }
 }

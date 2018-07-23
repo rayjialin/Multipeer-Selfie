@@ -10,13 +10,8 @@ import UIKit
 import CollectionViewSlantedLayout
 
 class PhotoView: BaseView {
-
-    let photoCollectionView: UICollectionView = {
-        let layout = CollectionViewSlantedLayout()
-        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        collectionView.translatesAutoresizingMaskIntoConstraints = false
-        return collectionView
-    }()
+    
+    let sweetAlert = SweetAlert()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -25,7 +20,10 @@ class PhotoView: BaseView {
     }
     
     required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        super.init(coder: aDecoder)
+        
+        setupView()
+        
     }
     
     private func setupView() {
@@ -33,15 +31,6 @@ class PhotoView: BaseView {
         connectButton.setImage(#imageLiteral(resourceName: "settingIcon"), for: .normal)
         flashButton.setImage(#imageLiteral(resourceName: "sortIcon"), for: .normal)
         timerButton.setImage(#imageLiteral(resourceName: "deleteIcon"), for: .normal)
-        
-        self.addSubview(photoCollectionView)
-        
-        // setup constraint
-        photoCollectionView.topAnchor.constraint(equalTo: headerContainerView.bottomAnchor).isActive = true
-        photoCollectionView.leadingAnchor.constraint(equalTo: self.leadingAnchor).isActive = true
-        photoCollectionView.trailingAnchor.constraint(equalTo: self.trailingAnchor).isActive = true
-        photoCollectionView.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
-        
     }
     
     

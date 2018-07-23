@@ -78,7 +78,6 @@ class BrowserViewController: UIViewController {
             if isTimerRunning == false{
                 timer = Timer.scheduledTimer(timeInterval: 1, target: self,   selector: #selector(updateTimer), userInfo: nil, repeats: true)
                 isTimerRunning = true
-                browserView.takePhotoButton.isEnabled = false
             }
         }
     }
@@ -120,6 +119,11 @@ class BrowserViewController: UIViewController {
     func shutter() {
         guard let shutterString = "shutterPressed".data(using: String.Encoding.utf8) else {return}
         prepareSendRequest(data: shutterString)
+        
+        // disble shutter button and start animation progress view
+        browserView.takePhotoButton.isEnabled = false
+        browserView.progressBarView.startAnimating()
+        browserView.thumbnailImageView.isHidden = true
     }
     
     func flash(flashState: String){
@@ -146,6 +150,7 @@ class BrowserViewController: UIViewController {
     
     @objc private func updateTimer() {
         if browserView.second > 1{
+            browserView.takePhotoButton.isEnabled = false
             browserView.second -= 1
             browserView.timerLabel.text = "\(browserView.second)"
         } else {
@@ -153,11 +158,15 @@ class BrowserViewController: UIViewController {
             browserView.timerLabel.isHidden = true
             timer.invalidate()
             shutter()
+            browserView.takePhotoButton.isEnabled = true
         }
     }
     
     override func viewWillLayoutSubviews() {
+        browserView.takePhotoButton.center = CGPoint(x: view.frame.width / 2, y: view.frame.height / 2)
         browserView.takePhotoButton.layer.cornerRadius = browserView.takePhotoButton.frame.width / 2
+        
+        browserView.progressBarView.center = CGPoint(x: browserView.footerContainerView.frame.width / 2, y: browserView.footerContainerView.frame.height / 2)
     }
     
 }

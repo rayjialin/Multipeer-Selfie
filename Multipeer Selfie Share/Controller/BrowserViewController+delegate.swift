@@ -47,6 +47,7 @@ extension BrowserViewController: CameraServiceManagerDelegate {
         
         // re-enable shutter button and stop the timer bool
         DispatchQueue.main.async {
+            self.browserView.progressBarView.stopAnimating()
             self.browserView.thumbnailImageView.image = UIImage(data: data)
             self.browserView.thumbnailImageView.isHidden = false
             self.browserView.takePhotoButton.isEnabled = true

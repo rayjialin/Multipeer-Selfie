@@ -26,6 +26,8 @@
 		3810E1B92102249500CE1955 /* FilterModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3810E1B82102249500CE1955 /* FilterModel.swift */; };
 		3810E1BB2103E79300CE1955 /* PhotoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3810E1BA2103E79300CE1955 /* PhotoView.swift */; };
 		3810E1BD2103F18500CE1955 /* PhotosViewController+delegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3810E1BC2103F18500CE1955 /* PhotosViewController+delegate.swift */; };
+		3810E1C021062C2700CE1955 /* NVActivityIndicatorView.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3810E1BF21062C2700CE1955 /* NVActivityIndicatorView.framework */; };
+		3810E1C121062C2700CE1955 /* NVActivityIndicatorView.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 3810E1BF21062C2700CE1955 /* NVActivityIndicatorView.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		387AF6BA20FB87700069B027 /* PhotoDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 387AF6B920FB87700069B027 /* PhotoDetailViewController.swift */; };
 		387AF6BD20FB8CAE0069B027 /* RealmSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 387AF6BB20FB8CAC0069B027 /* RealmSwift.framework */; };
 		387AF6BE20FB8CAE0069B027 /* RealmSwift.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 387AF6BB20FB8CAC0069B027 /* RealmSwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -116,6 +118,7 @@
 			files = (
 				380A62CD20FBC89B004709FA /* CollectionViewSlantedLayout.framework in Embed Frameworks */,
 				387AF6C020FB8CAE0069B027 /* Realm.framework in Embed Frameworks */,
+				3810E1C121062C2700CE1955 /* NVActivityIndicatorView.framework in Embed Frameworks */,
 				387AF6BE20FB8CAE0069B027 /* RealmSwift.framework in Embed Frameworks */,
 				380A630220FD5B31004709FA /* SwiftyButton.framework in Embed Frameworks */,
 				380A62FB20FCB782004709FA /* Chameleon.framework in Embed Frameworks */,
@@ -142,6 +145,7 @@
 		3810E1B82102249500CE1955 /* FilterModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = FilterModel.swift; path = "Multipeer Selfie Share/Controller/FilterModel.swift"; sourceTree = SOURCE_ROOT; };
 		3810E1BA2103E79300CE1955 /* PhotoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoView.swift; sourceTree = "<group>"; };
 		3810E1BC2103F18500CE1955 /* PhotosViewController+delegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PhotosViewController+delegate.swift"; sourceTree = "<group>"; };
+		3810E1BF21062C2700CE1955 /* NVActivityIndicatorView.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NVActivityIndicatorView.framework; path = Carthage/Build/iOS/NVActivityIndicatorView.framework; sourceTree = "<group>"; };
 		387AF6B920FB87700069B027 /* PhotoDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoDetailViewController.swift; sourceTree = "<group>"; };
 		387AF6BB20FB8CAC0069B027 /* RealmSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = RealmSwift.framework; sourceTree = "<group>"; };
 		387AF6BC20FB8CAE0069B027 /* Realm.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Realm.framework; sourceTree = "<group>"; };
@@ -177,6 +181,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3810E1AA2101082400CE1955 /* GPUImage.framework in Frameworks */,
+				3810E1C021062C2700CE1955 /* NVActivityIndicatorView.framework in Frameworks */,
 				380A62CC20FBC89B004709FA /* CollectionViewSlantedLayout.framework in Frameworks */,
 				387AF6BF20FB8CAE0069B027 /* Realm.framework in Frameworks */,
 				387AF6BD20FB8CAE0069B027 /* RealmSwift.framework in Frameworks */,
@@ -218,6 +223,7 @@
 		3885323720EAA9C100ADAD10 = {
 			isa = PBXGroup;
 			children = (
+				3810E1BF21062C2700CE1955 /* NVActivityIndicatorView.framework */,
 				380A636820FFF723004709FA /* GPUImage.xcodeproj */,
 				380A630020FD5B30004709FA /* SwiftyButton.framework */,
 				380A62F920FCB782004709FA /* Chameleon.framework */,
