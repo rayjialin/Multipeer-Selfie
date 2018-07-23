@@ -35,8 +35,8 @@ Feel free to fork this repo, look at the to-do list, implement them under new br
 
 ### To-Dos
 - ~~Allow user to go back to home screen to reset camera role and remote roles~~
-- ~~Currently the photo is saved to remote devices' photo album, and a thumbnail is displayed on remote devices' bottom right screen, user should be able to tap on the thumbnail to bring up the image in full screen mode with editing functionality, and user should be able to manually save the photo there by press and hold on the photo for 2 seconds~~ pending: add editing functionality 
-- Add file transfer progress bar if remote control device is receiving a file
+- ~~Currently the photo is saved to remote devices' photo album, and a thumbnail is displayed on remote devices' bottom right screen, user should be able to tap on the thumbnail to bring up the image in full screen mode with editing functionality, and user should be able to manually save the photo there by press and hold on the photo for 1 second~~ ~~pending: add editing functionality~~ 
+- ~~Add file transfer progress bar if remote control device is receiving a file~~ added loading animation on screen while image is passing from camera device
 - ~~Make a more aesthetically pleasing UI~~
 - Share your newly taken photos on Facebook and Twitter using UIActivityViewController
 - Allow the recording and sharing of video clips
@@ -45,6 +45,6 @@ Feel free to fork this repo, look at the to-do list, implement them under new br
 - Refactor code
 - ~~Come up with a better name than "Selfie-Party"~~ I clearly suck at naming an app
 - Fix issue where user can tap on buttons multiple times before view is segue to next view
-- Add shadow and animation to shutter button to make it "pressable"
-- Add options on photo gallery screen to allow user to sort and delete photos
+- ~~Add shadow and animation to shutter button to make it "pressable"~~
+- ~~Add options on photo gallery screen to allow user to sort and delete photos~~
 - User GPUImage2 to allow filter effect on photo and video live rendering
