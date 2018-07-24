@@ -21,6 +21,14 @@ class PhotoDetailViewController: UIViewController {
         }
     }
     
+    var detailDate: Date? = nil {
+        didSet{
+            guard let detailDate = detailDate else {return}
+            let dateString = Date.convertDateToString(date: detailDate)
+            photoDetailView.detailLabel.text = dateString
+        }
+    }
+    
     let filterOptions = ["Cartoon",
                          "Grayscale",
                          "Color Inversion",
@@ -40,21 +48,31 @@ class PhotoDetailViewController: UIViewController {
         view.addSubview(photoDetailView)
         
         photoDetailView.backButton.addTarget(self, action: #selector(handleBackButtonPressed), for: .touchUpInside)
+        
+        // tap gesture to show image in full screen
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleImageTapped))
         tapGesture.numberOfTapsRequired = 1
-        let longPressedGesture = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPressed))
         tapGesture.delegate = self
-        longPressedGesture.minimumPressDuration = 1.0
         photoDetailView.detailImageView.addGestureRecognizer(tapGesture)
+        
+        // long pressed gesture to save photo to Photo Album
+        let longPressedGesture = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPressed))
+        longPressedGesture.minimumPressDuration = 1.0
         photoDetailView.detailImageView.addGestureRecognizer(longPressedGesture)
+        
+        // show filter options
         photoDetailView.filterButton.addTarget(self, action: #selector(handleFilterPressed), for: .touchUpInside)
+        
+        // change scale of image
+//        let pinchGesture = UIPinchGestureRecognizer(target: self, action: #selector(handlePinchGesture))
+//        photoDetailView.detailImageView.addGestureRecognizer(pinchGesture)
     }
     
-    @objc func handleBackButtonPressed() {
+    @objc private func handleBackButtonPressed() {
         dismiss(animated: true, completion: nil)
     }
     
-    @objc func handleImageTapped(sender: UITapGestureRecognizer) {
+    @objc private func handleImageTapped(sender: UITapGestureRecognizer) {
         
         // remove all views besides the image view
         if photoDetailView.headerContainerView.isHidden == true && photoDetailView.footerContainerView.isHidden == true {
@@ -64,7 +82,7 @@ class PhotoDetailViewController: UIViewController {
         }
     }
     
-    @objc func handleLongPressed(longPressed: UILongPressGestureRecognizer){
+    @objc private func handleLongPressed(longPressed: UILongPressGestureRecognizer){
         guard longPressed.state == UIGestureRecognizerState.began else {return}
         //Chaining alerts with messages on button click
         SweetAlert().showAlert("Save Photo", subTitle: "Do you want to save this photo to Photo Album?", style: AlertStyle.success, buttonTitle:"Yes", buttonColor: UIColor.flatGreen(), otherButtonTitle:  "No", otherButtonColor: UIColor.flatGreen()) { (isOtherButton) -> Void in
@@ -81,22 +99,21 @@ class PhotoDetailViewController: UIViewController {
         }
     }
     
-    @objc func handleFilterPressed(){
+//    @objc private func handlePinchGesture(sender: UIPinchGestureRecognizer) {
+//        photoDetailView.detailImageView.transform = CGAffineTransform(scaleX: sender.scale, y: sender.scale)
+//    }
+    
+    @objc private func handleFilterPressed(){
         print("filter tapped")
         
         // toggle filter selection bar on/off
         if photoDetailView.footerDetailContainer.isHidden == true{
             photoDetailView.footerDetailContainer.isHidden = false
             photoDetailView.filterCollectionView.isHidden = false
-            photoDetailView.filterCollectionView.reloadData()
         }else {
             photoDetailView.footerDetailContainer.isHidden = true
             photoDetailView.filterCollectionView.isHidden = true
         }
-        
-        //        guard let filteringImage = photoDetailView.detailImageView.image else {return}
-        //        let toonFilter = SmoothToonFilter()
-        //        photoDetailView.detailImage = filteringImage.filterWithOperation(toonFilter)
     }
     
     func applyFilter(filter: String) {
@@ -141,4 +158,14 @@ class PhotoDetailViewController: UIViewController {
         self.photoDetailView.detailImage = UIImage(data: imageData)
     }
     
+}
+
+extension Date {
+    static func convertDateToString(date: Date) -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "EEEE\nMMMM dd, yyyy"
+        
+        let currentDateString = dateFormatter.string(from: date)
+        return currentDateString
+    }
 }

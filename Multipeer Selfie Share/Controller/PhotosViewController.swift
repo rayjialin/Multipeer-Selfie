@@ -48,8 +48,9 @@ class PhotosViewController: UIViewController {
             settingsController.collectionViewLayout = layout
         } else if segue.identifier == "segueToDetails" {
             let detailViewController = segue.destination as! PhotoDetailViewController
-            guard let indexPath = sender as? IndexPath, let data = photos[indexPath.row].photoData else {return}
+            guard let indexPath = sender as? IndexPath, let data = photos[indexPath.row].photoData, let date = photos[indexPath.row].timestamp else {return}
             detailViewController.imageData = data
+            detailViewController.detailDate = date
         }
     }
     

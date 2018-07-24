@@ -100,6 +100,7 @@ class BroadcastViewController: UIViewController {
         dismiss(animated: true, completion: nil)
         cameraService.serviceBroadcaster.stopAdvertisingPeer()
         cameraService.session.disconnect()
+        captureSession?.stopRunning()
     }
     
     @objc private func imageTapped(sender: UITapGestureRecognizer) {

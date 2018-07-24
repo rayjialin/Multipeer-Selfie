@@ -9,6 +9,7 @@
 import UIKit
 import Chameleon
 import RealmSwift
+import SwiftyButton
 
 enum SegueToRole {
     case broadcast
@@ -74,29 +75,35 @@ class HomeViewController: UIViewController {
         return view
     }()
     
-    // Take-Photo Button
-    let cameraRoleButton: DOFavoriteButton = {
-        let button = DOFavoriteButton(frame: CGRect(x: 0, y: 0, width: 200, height: 200), image: #imageLiteral(resourceName: "cameraIcon"))
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.imageView?.contentMode = .scaleAspectFit
+    // Camera Button
+    let cameraRoleButton: PressableButton = {
+        let button = PressableButton()
+        button.frame.size = CGSize(width: 150, height: 200)
+        let image = #imageLiteral(resourceName: "cameraIcon").withRenderingMode(.alwaysTemplate)
+        button.setImage(image, for: .normal)
+        button.imageView?.tintColor = UIColor.flatGreen()
+        button.imageEdgeInsets = UIEdgeInsets(top: 20, left: 20, bottom: 20, right: 20)
         button.addTarget(self, action: #selector(registerCameraRole), for: .touchUpInside)
-        button.imageColorOff = UIColor.flatGray()
-        button.imageColorOn = UIColor.flatGreen()
-        button.circleColor = UIColor.flatGreen()
-        button.lineColor = UIColor.flatGreen()
+        button.clipsToBounds = true
+        button.shadowHeight = 5
+        button.depth = 1
+        button.colors = .init(button: .clear, shadow: .clear)
         return button
     }()
     
-    // Take-Photo Button
-    let browserRoleButton: DOFavoriteButton = {
-        let button = DOFavoriteButton(frame: CGRect(x: 0, y: 0, width: 200, height: 200), image: #imageLiteral(resourceName: "remoteIcon"))
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.imageView?.contentMode = .scaleAspectFit
+    // Remote Button
+    let browserRoleButton: PressableButton = {
+        let button = PressableButton()
+        button.frame.size = CGSize(width: 150, height: 200)
+        let image = #imageLiteral(resourceName: "remoteIcon").withRenderingMode(.alwaysTemplate)
+        button.setImage(image, for: .normal)
+        button.imageView?.tintColor = UIColor.flatGreen()
+        button.imageEdgeInsets = UIEdgeInsets(top: 20, left: 20, bottom: 20, right: 20)
         button.addTarget(self, action: #selector(registerRemoteRole), for: .touchUpInside)
-        button.imageColorOff = UIColor.flatGray()
-        button.imageColorOn = UIColor.flatGreen()
-        button.circleColor = UIColor.flatGreen()
-        button.lineColor = UIColor.flatGreen()
+        button.clipsToBounds = true
+        button.shadowHeight = 5
+        button.depth = 1
+        button.colors = .init(button: .clear, shadow: .clear)
         return button
     }()
     
@@ -106,7 +113,7 @@ class HomeViewController: UIViewController {
         stackView.axis = .horizontal
         stackView.distribution = .fillEqually
         stackView.alignment = .fill
-        stackView.spacing = 5
+        stackView.spacing = 10
         return stackView
     }()
     
@@ -139,30 +146,19 @@ class HomeViewController: UIViewController {
         divider.heightAnchor.constraint(equalToConstant: 1).isActive = true
         divider.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         
-        buttonStackView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 1).isActive = true
+        buttonStackView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.8).isActive = true
         buttonStackView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.2).isActive = true
         buttonStackView.topAnchor.constraint(equalTo: divider.bottomAnchor, constant: 10).isActive = true
+        buttonStackView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
     }
     
-    @objc private func registerCameraRole(sender: DOFavoriteButton){
-        cameraRoleButton.isEnabled = false
-        sender.select()
-        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.3) {
+    @objc private func registerCameraRole(sender: PressableButton){
             self.performSegue(withIdentifier: "segueToBroadcast", sender: SegueToRole.broadcast)
             self.cameraService.broadcaster = self.cameraService.myPeerId
-            sender.deselect()
-            self.cameraRoleButton.isEnabled = true
-        }
     }
     
-    @objc private func registerRemoteRole(sender: DOFavoriteButton){
-        browserRoleButton.isEnabled = false
-        sender.select()
-        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.3) {
+    @objc private func registerRemoteRole(sender: PressableButton){
             self.performSegue(withIdentifier: "segueToBrowse", sender: SegueToRole.browser)
-            sender.deselect()
-            self.browserRoleButton.isEnabled = true
-        }
     }
 }
 

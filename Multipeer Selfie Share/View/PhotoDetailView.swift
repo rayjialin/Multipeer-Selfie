@@ -82,6 +82,7 @@ class PhotoDetailView: UIView {
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.alwaysBounceHorizontal = true
         collectionView.isHidden = true
+//        collectionView.allowsMultipleSelection = true
         collectionView.backgroundColor = .clear
         return collectionView
     }()
@@ -118,6 +119,16 @@ class PhotoDetailView: UIView {
         return imageView
     }()
     
+    let detailLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = UIColor.flatWhite()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.numberOfLines = 2
+        label.textAlignment = .center
+        label.font = UIFont(name: "GillSans", size: 14)
+        return label
+    }()
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
 
@@ -132,7 +143,7 @@ class PhotoDetailView: UIView {
     private func setupView(){
         
         // adding ui elements to header container
-        [view1, view2, backButton].forEach {
+        [view1, view2, backButton, detailLabel].forEach {
             headerContainerView.addSubview($0)
         }
         
@@ -209,6 +220,10 @@ class PhotoDetailView: UIView {
         filterButton.centerXAnchor.constraint(equalTo: view3.centerXAnchor).isActive = true
         filterButton.heightAnchor.constraint(equalTo: thumbnailImageView.heightAnchor, multiplier: 0.3).isActive = true
         filterButton.widthAnchor.constraint(equalTo: thumbnailImageView.heightAnchor, multiplier: 0.3).isActive = true
+        
+        detailLabel.bottomAnchor.constraint(equalTo: view2.bottomAnchor).isActive = true
+        detailLabel.centerXAnchor.constraint(equalTo: view2.centerXAnchor).isActive = true
+        detailLabel.heightAnchor.constraint(equalTo: view2.heightAnchor, multiplier: 1).isActive = true
+        detailLabel.widthAnchor.constraint(equalTo: view2.widthAnchor, multiplier: 1).isActive = true
     }
-    
 }

@@ -67,12 +67,9 @@ class BrowserView: BaseView {
         super.init(frame: frame)
         
         setupView()
-        
         timePicker.delegate = self
         timePicker.dataSource = self
-        
         timerButton.addTarget(self, action: #selector(handleSetTimer), for: .touchUpInside)
-
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -88,10 +85,6 @@ class BrowserView: BaseView {
         takePhotoButton.heightAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.8).isActive = true
         takePhotoButton.centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true
         takePhotoButton.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
-        
-        //        let progress = displayFileProgress()
-        //        self.addSubview(progress)
-        //        progress.animate(toAngle: 360, duration: 5, completion: nil)
     }
     
     @objc private func handleSetTimer(){
@@ -103,22 +96,6 @@ class BrowserView: BaseView {
         aView.addSubview(timePicker)
         popover.show(aView, point: startPoint)
     }
-    
-//    private func displayFileProgress()  -> KDCircularProgress{
-//        let progress = KDCircularProgress(frame: CGRect(x: 0, y: 0, width: self.frame.size.width * 0.9, height: self.frame.size.width * 0.9))
-//        progress.startAngle = 0
-//        progress.progressThickness = 0.2
-//        progress.trackThickness = 0.6
-//        progress.clockwise = true
-//        progress.gradientRotateSpeed = 2
-//        progress.roundedCorners = false
-//        progress.glowMode = .forward
-//        progress.glowAmount = 0.9
-//        progress.set(colors: UIColor.cyan ,UIColor.white, UIColor.magenta, UIColor.white, UIColor.orange)
-//        progress.center = CGPoint(x: self.center.x, y: self.center.y)
-//        return progress
-//    }
-    
 }
 
 extension BrowserView: UIPickerViewDelegate, UIPickerViewDataSource {
