@@ -73,8 +73,8 @@ extension CameraServiceManager: MCSessionDelegate {
                 delegate?.toggleFlash(manager: self, flashState: "flashAuto")
             case "shutterPressed":
                 delegate?.shutterButtonTapped(manager: self, data: nil)
-            case "photoCaptured":
-                delegate?.shutterButtonTapped(manager: self, data: nil)
+//            case "photoCaptured":
+//                delegate?.shutterButtonTapped(manager: self, data: nil)
             case "switchCameraPressed":
                 delegate?.switchCameraButtonTapped(manager: self, switchCameraRequest: "switchCameraPressed")
             default:

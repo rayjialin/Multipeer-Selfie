@@ -21,13 +21,13 @@
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSAppleMusicUsageDescription</key>
-	<string>Multipeer Selfie Share attemps to access your media library</string>
+	<string>Multipeer Selfie attempts to access your media library</string>
 	<key>NSCameraUsageDescription</key>
-	<string>Multipeer Selfie Share attemps to access your camear</string>
+	<string>Multipeer Selfie attempts to access your camear</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
-	<string>Multipeer Selfie Share attemps to access your photo library</string>
+	<string>Multipeer Selfie attempts to access your photo library</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Multipeer Selfie Share attemps to access your photo library</string>
+	<string>Multipeer Selfie attempts to access your photo library</string>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>
@@ -47,5 +47,7 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>MultiPeer Selfie attempts to access your microphone</string>
 </dict>
 </plist>

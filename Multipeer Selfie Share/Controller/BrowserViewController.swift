@@ -69,9 +69,7 @@ class BrowserViewController: UIViewController {
         joinSession()
     }
     
-    @objc private func handleTakePhoto(){
-        print("pressed")
-        
+    @objc private func handleTakePhoto(){        
         if browserView.second < 1 {
             shutter()
         }else {
@@ -131,9 +129,11 @@ class BrowserViewController: UIViewController {
         if cameraService.session.connectedPeers.count > 0 {
             
             // disble shutter button and start animation progress view
+            if data == "shutterPressed".data(using: String.Encoding.utf8) {
             browserView.takePhotoButton.isEnabled = false
             browserView.progressBarView.startAnimating()
             browserView.thumbnailImageView.isHidden = true
+            }
             
             do {
                 try cameraService.session.send(data, toPeers: cameraService.session.connectedPeers, with: .reliable)

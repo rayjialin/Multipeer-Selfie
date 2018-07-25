@@ -16,5 +16,4 @@ enum flashState: String {
     func strValue() -> String {
         return self.rawValue
     }
-    
 }

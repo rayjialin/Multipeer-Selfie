@@ -165,8 +165,24 @@ extension BroadcastViewController: AVCapturePhotoCaptureDelegate {
 //    }
 }
 
-//extension BroadcastViewController: AVCaptureVideoDataOutputSampleBufferDelegate {
-//    func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
+extension BroadcastViewController: AVCaptureVideoDataOutputSampleBufferDelegate {
+    func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
+        
+        guard let imageBuffer = CMSampleBufferGetImageBuffer(sampleBuffer), let assetWriterInput = assetWriterInput, let pixelBufferAdaptor = pixelBufferAdaptor else {return}
+        if assetWriterInput.isReadyForMoreMediaData {
+            pixelBufferAdaptor.append(imageBuffer, withPresentationTime: CMTime(value: frameNumber, timescale: 25))
+        }
+        
+        frameNumber += 1
+    }
+}
+
+//extension BroadcastViewController: AVCaptureFileOutputRecordingDelegate {
+//    func fileOutput(_ output: AVCaptureFileOutput, didFinishRecordingTo outputFileURL: URL, from connections: [AVCaptureConnection], error: Error?) {
+//        if error != nil {
+//            print("Error recording movie: \(error!.localizedDescription)")
+//        }else {
 //
+//        }
 //    }
 //}

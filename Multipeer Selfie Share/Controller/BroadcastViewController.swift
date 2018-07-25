@@ -12,6 +12,7 @@ import AVFoundation
 import MultipeerConnectivity
 import RealmSwift
 import NVActivityIndicatorView
+import AVKit
 
 enum CameraError: Swift.Error {
     case captureSessionAlreadyRunning
@@ -37,17 +38,28 @@ class BroadcastViewController: UIViewController {
     var frontCameraInput: AVCaptureDeviceInput?
     var rearCameraInput: AVCaptureDeviceInput?
     var photoOutput: AVCapturePhotoOutput?
+    var dataOutput: AVCaptureVideoDataOutput?
+    var audioOutput: AVCaptureAudioDataOutput?
+    var movieOutput: AVCaptureMovieFileOutput?
+    var assetWriter: AVAssetWriter?
+    var assetWriterInput: AVAssetWriterInput?
+    var pixelBufferAdaptor: AVAssetWriterInputPixelBufferAdaptor?
     var previewLayer: AVCaptureVideoPreviewLayer?
     var mcAdvertiserAssistant: MCAdvertiserAssistant!
     var photoCaptureCompletionBlock: ((Data?, Error?) -> Void)?
     let broadcasterView = BroadcasterView()
+    
+    var frameNumber: Int64 = 0 {
+        didSet{
+            broadcasterView.videoLengthLabel.text = String(frameNumber)
+        }
+    }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
         captureSession?.startRunning()
         
-        //        if broadcasterView.lastCapturedPhoto?.images != nil{
         do {
             let realm = try Realm()
             let photos = realm.objects(Photo.self).sorted(byKeyPath: "timestamp", ascending: false)
@@ -56,7 +68,6 @@ class BroadcastViewController: UIViewController {
         } catch {
             print("failed to create realm object")
         }
-        //        }
     }
     
     override func viewDidLoad() {
@@ -65,10 +76,6 @@ class BroadcastViewController: UIViewController {
 //        // view for progress bar
         let activityIndicatorView = NVActivityIndicatorView(frame: CGRect(x: 0, y: 0, width: 50, height: 50))
         view.addSubview(activityIndicatorView)
-//        let progressBarView: NVActivityIndicatorView = {
-//            let view = NVActivityIndicatorView(frame: CGRect(x: 0, y: 0, width: 50, height: 50))
-//            return view
-//        }()
         
         startHosting()
         
@@ -90,6 +97,9 @@ class BroadcastViewController: UIViewController {
         broadcasterView.backButton.addTarget(self, action: #selector(handleBackButtonPressed), for: .touchUpInside)
         let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(imageTapped))
         broadcasterView.thumbnailImageView.addGestureRecognizer(tapGestureRecognizer)
+        
+//        broadcasterView.recordingStartButton.addTarget(self, action: #selector(handleStartRecording), for: .touchUpInside)
+//        broadcasterView.recordingEndButton.addTarget(self, action: #selector(handleEndRecording), for: .touchUpInside)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -116,28 +126,29 @@ class BroadcastViewController: UIViewController {
     func toggleTorch(flashState: String) {
         guard let device = AVCaptureDevice.default(for: AVMediaType.video)
             else {return}
+        let deviceSettings = AVCapturePhotoSettings()
         
         if device.hasTorch {
             do {
                 try device.lockForConfiguration()
                 
                 if flashState == "flashOff" {
-                    device.torchMode = .off
+                    deviceSettings.flashMode = .off
                     DispatchQueue.main.async {
                         self.broadcasterView.flashButton.setImage(#imageLiteral(resourceName: "flashOffIcon"), for: .normal)
                     }
                 } else if flashState == "flashOn" {
-                    device.torchMode = .on
+                    deviceSettings.flashMode = .on
                     DispatchQueue.main.async {
                         self.broadcasterView.flashButton.setImage(#imageLiteral(resourceName: "flashOnIcon"), for: .normal)
                     }
                 } else if flashState == "flashAuto" {
-                    device.torchMode = .auto
+                    deviceSettings.flashMode = .auto
                     DispatchQueue.main.async {
                         self.broadcasterView.flashButton.setImage(#imageLiteral(resourceName: "flashAutoIcon"), for: .normal)
                     }
                 } else {
-                    device.torchMode = .off
+                    deviceSettings.flashMode = .off
                     DispatchQueue.main.async {
                         self.broadcasterView.flashButton.setImage(#imageLiteral(resourceName: "flashOffIcon"), for: .normal)
                     }
@@ -206,20 +217,56 @@ class BroadcastViewController: UIViewController {
             guard let captureSession = captureSession else { throw CameraError.captureSessionIsMissing }
             
             photoOutput = AVCapturePhotoOutput()
-            photoOutput?.setPreparedPhotoSettingsArray([AVCapturePhotoSettings(format: [AVVideoCodecKey : AVVideoCodecType.jpeg])], completionHandler: nil)
+            dataOutput = AVCaptureVideoDataOutput()
+            audioOutput = AVCaptureAudioDataOutput()
+            movieOutput = AVCaptureMovieFileOutput()
             
-            if captureSession.canAddOutput(photoOutput!) { captureSession.addOutput(photoOutput!) }
+            guard let photoOutput = photoOutput else {return}
+//            guard let dataOutput = dataOutput else {return}
+//            guard let audioOutput = audioOutput else {return}
+//            guard let movieOutput = movieOutput else {return}
             
+//            dataOutput.setSampleBufferDelegate(self, queue: DispatchQueue.global())
+//            dataOutput.recommendedVideoSettings(forVideoCodecType: .h264, assetWriterOutputFileType: .mp4)
+////            dataOutput.videoSettings = [(kCVPixelBufferPixelFormatTypeKey as NSString): NSNumber(value: kCVPixelFormatType_420YpCbCr8PlanarFullRange as UInt32)] as [String : Any]
+//            assetWriterInput = AVAssetWriterInput(mediaType: AVMediaType.video, outputSettings: [AVVideoWidthKey: 640, AVVideoHeightKey: 480, AVVideoCodecKey: AVVideoCodecType.h264])
+//            guard let assetWriterInput = assetWriterInput else {return}
+//            pixelBufferAdaptor = AVAssetWriterInputPixelBufferAdaptor(assetWriterInput: assetWriterInput, sourcePixelBufferAttributes: [kCVPixelBufferPixelFormatTypeKey as String : Int(kCVPixelFormatType_32BGRA)])
+//
+//            do {
+//                guard let url = applicationDocumentsDirectory()?.appendingPathComponent("video").appendingPathExtension("mp4") else {return}
+//                assetWriter = try AVAssetWriter(url: url, fileType: .mp4)
+//                guard let assetWriter = assetWriter else {return}
+//                guard assetWriter.canAdd(assetWriterInput) else {return}
+//                assetWriter.add(assetWriterInput)
+//                assetWriterInput.expectsMediaDataInRealTime = true
+//
+//            }catch {
+//                print("failed to create asset writer")
+//            }
+//
+//            dataOutput.alwaysDiscardsLateVideoFrames = true
+            
+//            audioOutput.recommendedAudioSettingsForAssetWriter(writingTo: .aiff)
+            photoOutput.setPreparedPhotoSettingsArray([AVCapturePhotoSettings(format: [AVVideoCodecKey : AVVideoCodecType.jpeg])], completionHandler: nil)
+            
+//            movieOutput.setOutputSettings(<#T##outputSettings: [String : Any]?##[String : Any]?#>, for: <#T##AVCaptureConnection#>)
+            
+            if captureSession.canAddOutput(photoOutput) {
+                captureSession.addOutput(photoOutput)
+            }
+            
+//            if captureSession.canAddOutput(movieOutput) {
+//                captureSession.addOutput(movieOutput)
+//            }
+//            if captureSession.canAddOutput(dataOutput) {
+//                captureSession.addOutput(dataOutput)
+//            }
+//
+//            if captureSession.canAddOutput(audioOutput) {
+//                captureSession.addOutput(audioOutput)
+//            }
             captureSession.startRunning()
-            
-            
-            //            let dataOutput = AVCaptureVideoDataOutput()
-            //            dataOutput.videoSettings = [(kCVPixelBufferPixelFormatTypeKey as NSString): NSNumber(value: kCVPixelFormatType_420YpCbCr8PlanarFullRange as UInt32)] as [String : Any]
-            //            dataOutput.alwaysDiscardsLateVideoFrames = true
-            //            if captureSession.canAddOutput(dataOutput) == true {
-            //                captureSession.addOutput(dataOutput)
-            //                captureSession.startRunning()
-            //            }
         }
         
         DispatchQueue(label: "prepare").async {
@@ -260,4 +307,38 @@ class BroadcastViewController: UIViewController {
         self.photoCaptureCompletionBlock = completion
     }
     
+//    @objc private func handleStartRecording() {
+//        guard let assetWriter = assetWriter else {return}
+//        assetWriter.startSession(atSourceTime: CMTime(value: frameNumber, timescale: 25))
+//        assetWriter.startWriting()
+//        assetWriter.startSession(atSourceTime: kCMTimeZero)
+//        
+//        guard let captureSession = captureSession else {return}
+////        if !captureSession.isRunning {
+//            captureSession.startRunning()
+////        }
+//    }
+    
+//    @objc private func handleEndRecording() {
+//        guard let assetWriter = assetWriter else {return}
+//        assetWriter.endSession(atSourceTime: CMTime(value: frameNumber, timescale: 25))
+//        assetWriter.finishWriting {
+//            if assetWriter.status == AVAssetWriterStatus.failed {
+//                print(assetWriter.error)
+//            }else {
+//                print(assetWriter.outputURL)
+//                print(assetWriter.outputFileType)
+//            }
+//        }
+//    }
+    
+    private func applicationDocumentsDirectory() -> URL? {
+//        return FileManager.default.urls(for: FileManager.SearchPathDirectory.documentDirectory, in: FileManager.SearchPathDomainMask.userDomainMask).last
+        let directory = NSTemporaryDirectory() as NSString
+        if directory != "" {
+            let path = directory.appendingPathComponent(NSUUID().uuidString + "mp4")
+            return URL(fileURLWithPath: path)
+        }
+        return nil
+    }
 }

@@ -12,6 +12,10 @@ import AVKit
 
 class BroadcasterView: BaseView {
     
+    var recordingStartButton: UIButton!
+    var recordingEndButton: UIButton!
+    var videoLengthLabel: UILabel!
+    
     var lastCapturedPhoto: UIImage? {
         didSet{
             thumbnailImageView.image = lastCapturedPhoto
@@ -22,6 +26,18 @@ class BroadcasterView: BaseView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
+//        recordingStartButton = UIButton(frame: CGRect(x: 50, y: 50, width: 100, height: 100))
+//        recordingStartButton.backgroundColor = UIColor.flatBlue()
+//
+//        recordingEndButton = UIButton(frame: CGRect(x: 150, y: 50, width: 100, height: 100))
+//        recordingEndButton.backgroundColor = UIColor.flatPink()
+//
+//        videoLengthLabel?.text = "0"
+//        videoLengthLabel = UILabel(frame: CGRect(x: 50, y: 150, width: 100, height: 50))
+//
+//        self.addSubview(recordingStartButton)
+//        self.addSubview(recordingEndButton)
+//        self.addSubview(videoLengthLabel)
     }
     
     required init?(coder aDecoder: NSCoder) {
