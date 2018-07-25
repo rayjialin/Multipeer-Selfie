@@ -27,11 +27,11 @@
 		3810E1BD2103F18500CE1955 /* PhotosViewController+delegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3810E1BC2103F18500CE1955 /* PhotosViewController+delegate.swift */; };
 		3810E1C021062C2700CE1955 /* NVActivityIndicatorView.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3810E1BF21062C2700CE1955 /* NVActivityIndicatorView.framework */; };
 		3810E1C121062C2700CE1955 /* NVActivityIndicatorView.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 3810E1BF21062C2700CE1955 /* NVActivityIndicatorView.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		3810E1C621082FBB00CE1955 /* Realm.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3810E1C421082FBB00CE1955 /* Realm.framework */; };
+		3810E1C721082FBB00CE1955 /* Realm.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 3810E1C421082FBB00CE1955 /* Realm.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		3810E1C821082FBB00CE1955 /* RealmSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3810E1C521082FBB00CE1955 /* RealmSwift.framework */; };
+		3810E1C921082FBB00CE1955 /* RealmSwift.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 3810E1C521082FBB00CE1955 /* RealmSwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		387AF6BA20FB87700069B027 /* PhotoDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 387AF6B920FB87700069B027 /* PhotoDetailViewController.swift */; };
-		387AF6BD20FB8CAE0069B027 /* RealmSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 387AF6BB20FB8CAC0069B027 /* RealmSwift.framework */; };
-		387AF6BE20FB8CAE0069B027 /* RealmSwift.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 387AF6BB20FB8CAC0069B027 /* RealmSwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		387AF6BF20FB8CAE0069B027 /* Realm.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 387AF6BC20FB8CAE0069B027 /* Realm.framework */; };
-		387AF6C020FB8CAE0069B027 /* Realm.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 387AF6BC20FB8CAE0069B027 /* Realm.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		387AF6C320FB8D310069B027 /* Photo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 387AF6C220FB8D310069B027 /* Photo.swift */; };
 		3882B87020FB967E00C0C907 /* BaseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3882B86F20FB967E00C0C907 /* BaseView.swift */; };
 		3885324420EAA9C100ADAD10 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3885324320EAA9C100ADAD10 /* AppDelegate.swift */; };
@@ -115,11 +115,11 @@
 			dstSubfolderSpec = 10;
 			files = (
 				380A62CD20FBC89B004709FA /* CollectionViewSlantedLayout.framework in Embed Frameworks */,
-				387AF6C020FB8CAE0069B027 /* Realm.framework in Embed Frameworks */,
 				3810E1C121062C2700CE1955 /* NVActivityIndicatorView.framework in Embed Frameworks */,
-				387AF6BE20FB8CAE0069B027 /* RealmSwift.framework in Embed Frameworks */,
+				3810E1C921082FBB00CE1955 /* RealmSwift.framework in Embed Frameworks */,
 				380A630220FD5B31004709FA /* SwiftyButton.framework in Embed Frameworks */,
 				380A62FB20FCB782004709FA /* Chameleon.framework in Embed Frameworks */,
+				3810E1C721082FBB00CE1955 /* Realm.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -143,9 +143,9 @@
 		3810E1BA2103E79300CE1955 /* PhotoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoView.swift; sourceTree = "<group>"; };
 		3810E1BC2103F18500CE1955 /* PhotosViewController+delegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PhotosViewController+delegate.swift"; sourceTree = "<group>"; };
 		3810E1BF21062C2700CE1955 /* NVActivityIndicatorView.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NVActivityIndicatorView.framework; path = Carthage/Build/iOS/NVActivityIndicatorView.framework; sourceTree = "<group>"; };
+		3810E1C421082FBB00CE1955 /* Realm.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Realm.framework; path = Carthage/Build/iOS/Realm.framework; sourceTree = "<group>"; };
+		3810E1C521082FBB00CE1955 /* RealmSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RealmSwift.framework; path = Carthage/Build/iOS/RealmSwift.framework; sourceTree = "<group>"; };
 		387AF6B920FB87700069B027 /* PhotoDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoDetailViewController.swift; sourceTree = "<group>"; };
-		387AF6BB20FB8CAC0069B027 /* RealmSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = RealmSwift.framework; sourceTree = "<group>"; };
-		387AF6BC20FB8CAE0069B027 /* Realm.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Realm.framework; sourceTree = "<group>"; };
 		387AF6C220FB8D310069B027 /* Photo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Photo.swift; path = "Multipeer Selfie Share/Controller/Photo.swift"; sourceTree = SOURCE_ROOT; };
 		3882B86F20FB967E00C0C907 /* BaseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseView.swift; sourceTree = "<group>"; };
 		3882B87220FBB17500C0C907 /* CollectionViewSlantedLayout.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CollectionViewSlantedLayout.framework; path = Carthage/Build/iOS/CollectionViewSlantedLayout.framework; sourceTree = "<group>"; };
@@ -176,11 +176,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3810E1C621082FBB00CE1955 /* Realm.framework in Frameworks */,
 				3810E1AA2101082400CE1955 /* GPUImage.framework in Frameworks */,
+				3810E1C821082FBB00CE1955 /* RealmSwift.framework in Frameworks */,
 				3810E1C021062C2700CE1955 /* NVActivityIndicatorView.framework in Frameworks */,
 				380A62CC20FBC89B004709FA /* CollectionViewSlantedLayout.framework in Frameworks */,
-				387AF6BF20FB8CAE0069B027 /* Realm.framework in Frameworks */,
-				387AF6BD20FB8CAE0069B027 /* RealmSwift.framework in Frameworks */,
 				380A630120FD5B30004709FA /* SwiftyButton.framework in Frameworks */,
 				380A62FA20FCB782004709FA /* Chameleon.framework in Frameworks */,
 			);
@@ -219,13 +219,13 @@
 		3885323720EAA9C100ADAD10 = {
 			isa = PBXGroup;
 			children = (
+				3810E1C421082FBB00CE1955 /* Realm.framework */,
+				3810E1C521082FBB00CE1955 /* RealmSwift.framework */,
 				380A636820FFF723004709FA /* GPUImage.xcodeproj */,
 				3810E1BF21062C2700CE1955 /* NVActivityIndicatorView.framework */,
 				380A630020FD5B30004709FA /* SwiftyButton.framework */,
 				380A62F920FCB782004709FA /* Chameleon.framework */,
 				380A62CB20FBC89B004709FA /* CollectionViewSlantedLayout.framework */,
-				387AF6BC20FB8CAE0069B027 /* Realm.framework */,
-				387AF6BB20FB8CAC0069B027 /* RealmSwift.framework */,
 				3885324220EAA9C100ADAD10 /* Multipeer Selfie Share */,
 				3885325720EAA9C300ADAD10 /* Multipeer Selfie ShareTests */,
 				3885324120EAA9C100ADAD10 /* Products */,
@@ -340,6 +340,7 @@
 				387AF6C120FB8CAE0069B027 /* Embed Frameworks */,
 				380A630520FE8FD8004709FA /* ShellScript */,
 				3810E1AC2101085C00CE1955 /* CopyFiles */,
+				3810E1CC210830FF00CE1955 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -469,7 +470,7 @@
 /* Begin PBXShellScriptBuildPhase section */
 		380A630520FE8FD8004709FA /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
+			buildActionMask = 12;
 			files = (
 			);
 			inputPaths = (
@@ -479,6 +480,20 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "APP_PATH=\"${TARGET_BUILD_DIR}/${WRAPPER_NAME}\"\n\n# This script loops through the frameworks embedded in the application and\n# removes unused architectures.\nfind \"$APP_PATH\" -name '*.framework' -type d | while read -r FRAMEWORK\ndo\nFRAMEWORK_EXECUTABLE_NAME=$(defaults read \"$FRAMEWORK/Info.plist\" CFBundleExecutable)\nFRAMEWORK_EXECUTABLE_PATH=\"$FRAMEWORK/$FRAMEWORK_EXECUTABLE_NAME\"\necho \"Executable is $FRAMEWORK_EXECUTABLE_PATH\"\n\nEXTRACTED_ARCHS=()\n\nfor ARCH in $ARCHS\ndo\necho \"Extracting $ARCH from $FRAMEWORK_EXECUTABLE_NAME\"\nlipo -extract \"$ARCH\" \"$FRAMEWORK_EXECUTABLE_PATH\" -o \"$FRAMEWORK_EXECUTABLE_PATH-$ARCH\"\nEXTRACTED_ARCHS+=(\"$FRAMEWORK_EXECUTABLE_PATH-$ARCH\")\ndone\n\necho \"Merging extracted architectures: ${ARCHS}\"\nlipo -o \"$FRAMEWORK_EXECUTABLE_PATH-merged\" -create \"${EXTRACTED_ARCHS[@]}\"\nrm \"${EXTRACTED_ARCHS[@]}\"\n\necho \"Replacing original executable with thinned version\"\nrm \"$FRAMEWORK_EXECUTABLE_PATH\"\nmv \"$FRAMEWORK_EXECUTABLE_PATH-merged\" \"$FRAMEWORK_EXECUTABLE_PATH\"\n\ndone";
+		};
+		3810E1CC210830FF00CE1955 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 8;
+			files = (
+			);
+			inputPaths = (
+				"$(SRCROOT)/Carthage/Build/iOS/Realm.framework$(SRCROOT)/Carthage/Build/iOS/RealmSwift.framework",
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+			shellPath = /bin/sh;
+			shellScript = "/usr/local/bin/carthage copy-frameworks";
 		};
 /* End PBXShellScriptBuildPhase section */
 

@@ -28,7 +28,7 @@ class CameraServiceManager: NSObject {
     var serviceBroadcaster: MCNearbyServiceAdvertiser
     var serviceBrowser: MCNearbyServiceBrowser
     let serviceType = "selfie-party"
-    var delegate: CameraServiceManagerDelegate?    
+    var delegate: CameraServiceManagerDelegate?
     var broadcaster: MCPeerID?
     lazy var session: MCSession = {
         let session = MCSession(peer: myPeerId, securityIdentity: nil, encryptionPreference: MCEncryptionPreference.optional)

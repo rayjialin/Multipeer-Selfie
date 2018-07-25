@@ -1,4 +1,5 @@
 github "TakeScoop/SwiftyButton" "0.8.2"
 github "ViccAlexander/Chameleon" "2.2.0"
 github "ninjaprox/NVActivityIndicatorView" "4.3.0"
+github "realm/realm-cocoa" "v3.7.5"
 github "yacir/CollectionViewSlantedLayout" "3.0.1"
