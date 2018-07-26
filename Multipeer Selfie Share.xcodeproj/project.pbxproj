@@ -32,7 +32,7 @@
 		3810E1C821082FBB00CE1955 /* RealmSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3810E1C521082FBB00CE1955 /* RealmSwift.framework */; };
 		3810E1C921082FBB00CE1955 /* RealmSwift.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 3810E1C521082FBB00CE1955 /* RealmSwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		387AF6BA20FB87700069B027 /* PhotoDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 387AF6B920FB87700069B027 /* PhotoDetailViewController.swift */; };
-		387AF6C320FB8D310069B027 /* Photo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 387AF6C220FB8D310069B027 /* Photo.swift */; };
+		387AF6C320FB8D310069B027 /* MediaData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 387AF6C220FB8D310069B027 /* MediaData.swift */; };
 		3882B87020FB967E00C0C907 /* BaseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3882B86F20FB967E00C0C907 /* BaseView.swift */; };
 		3885324420EAA9C100ADAD10 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3885324320EAA9C100ADAD10 /* AppDelegate.swift */; };
 		3885324620EAA9C100ADAD10 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3885324520EAA9C100ADAD10 /* HomeViewController.swift */; };
@@ -146,7 +146,7 @@
 		3810E1C421082FBB00CE1955 /* Realm.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Realm.framework; path = Carthage/Build/iOS/Realm.framework; sourceTree = "<group>"; };
 		3810E1C521082FBB00CE1955 /* RealmSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RealmSwift.framework; path = Carthage/Build/iOS/RealmSwift.framework; sourceTree = "<group>"; };
 		387AF6B920FB87700069B027 /* PhotoDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoDetailViewController.swift; sourceTree = "<group>"; };
-		387AF6C220FB8D310069B027 /* Photo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Photo.swift; path = "Multipeer Selfie Share/Controller/Photo.swift"; sourceTree = SOURCE_ROOT; };
+		387AF6C220FB8D310069B027 /* MediaData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MediaData.swift; path = "Multipeer Selfie Share/Controller/MediaData.swift"; sourceTree = SOURCE_ROOT; };
 		3882B86F20FB967E00C0C907 /* BaseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseView.swift; sourceTree = "<group>"; };
 		3882B87220FBB17500C0C907 /* CollectionViewSlantedLayout.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CollectionViewSlantedLayout.framework; path = Carthage/Build/iOS/CollectionViewSlantedLayout.framework; sourceTree = "<group>"; };
 		3885324020EAA9C100ADAD10 /* Multipeer Selfie Share.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Multipeer Selfie Share.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -300,7 +300,7 @@
 		3885326720EAA9F500ADAD10 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				387AF6C220FB8D310069B027 /* Photo.swift */,
+				387AF6C220FB8D310069B027 /* MediaData.swift */,
 				3810E1B82102249500CE1955 /* FilterModel.swift */,
 			);
 			path = Model;
@@ -479,7 +479,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "APP_PATH=\"${TARGET_BUILD_DIR}/${WRAPPER_NAME}\"\n\n# This script loops through the frameworks embedded in the application and\n# removes unused architectures.\nfind \"$APP_PATH\" -name '*.framework' -type d | while read -r FRAMEWORK\ndo\nFRAMEWORK_EXECUTABLE_NAME=$(defaults read \"$FRAMEWORK/Info.plist\" CFBundleExecutable)\nFRAMEWORK_EXECUTABLE_PATH=\"$FRAMEWORK/$FRAMEWORK_EXECUTABLE_NAME\"\necho \"Executable is $FRAMEWORK_EXECUTABLE_PATH\"\n\nEXTRACTED_ARCHS=()\n\nfor ARCH in $ARCHS\ndo\necho \"Extracting $ARCH from $FRAMEWORK_EXECUTABLE_NAME\"\nlipo -extract \"$ARCH\" \"$FRAMEWORK_EXECUTABLE_PATH\" -o \"$FRAMEWORK_EXECUTABLE_PATH-$ARCH\"\nEXTRACTED_ARCHS+=(\"$FRAMEWORK_EXECUTABLE_PATH-$ARCH\")\ndone\n\necho \"Merging extracted architectures: ${ARCHS}\"\nlipo -o \"$FRAMEWORK_EXECUTABLE_PATH-merged\" -create \"${EXTRACTED_ARCHS[@]}\"\nrm \"${EXTRACTED_ARCHS[@]}\"\n\necho \"Replacing original executable with thinned version\"\nrm \"$FRAMEWORK_EXECUTABLE_PATH\"\nmv \"$FRAMEWORK_EXECUTABLE_PATH-merged\" \"$FRAMEWORK_EXECUTABLE_PATH\"\n\ndone";
+			shellScript = "APP_PATH=\"${TARGET_BUILD_DIR}/${WRAPPER_NAME}\"\n\n# This script loops through the frameworks embedded in the application and\n# removes unused architectures.\nfind \"$APP_PATH\" -name '*.framework' -type d | while read -r FRAMEWORK\ndo\nFRAMEWORK_EXECUTABLE_NAME=$(defaults read \"$FRAMEWORK/Info.plist\" CFBundleExecutable)\nFRAMEWORK_EXECUTABLE_PATH=\"$FRAMEWORK/$FRAMEWORK_EXECUTABLE_NAME\"\necho \"Executable is $FRAMEWORK_EXECUTABLE_PATH\"\n\nEXTRACTED_ARCHS=()\n\nfor ARCH in $ARCHS\ndo\necho \"Extracting $ARCH from $FRAMEWORK_EXECUTABLE_NAME\"\nlipo -extract \"$ARCH\" \"$FRAMEWORK_EXECUTABLE_PATH\" -o \"$FRAMEWORK_EXECUTABLE_PATH-$ARCH\"\nEXTRACTED_ARCHS+=(\"$FRAMEWORK_EXECUTABLE_PATH-$ARCH\")\ndone\n\necho \"Merging extracted architectures: ${ARCHS}\"\nlipo -o \"$FRAMEWORK_EXECUTABLE_PATH-merged\" -create \"${EXTRACTED_ARCHS[@]}\"\nrm \"${EXTRACTED_ARCHS[@]}\"\n\necho \"Replacing original executable with thinned version\"\nrm \"$FRAMEWORK_EXECUTABLE_PATH\"\nmv \"$FRAMEWORK_EXECUTABLE_PATH-merged\" \"$FRAMEWORK_EXECUTABLE_PATH\"\n\ndone\n";
 		};
 		3810E1CC210830FF00CE1955 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -493,7 +493,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 1;
 			shellPath = /bin/sh;
-			shellScript = "/usr/local/bin/carthage copy-frameworks";
+			shellScript = "/usr/local/bin/carthage copy-frameworks\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -511,7 +511,7 @@
 				380A62D520FBD294004709FA /* SettingViewController.swift in Sources */,
 				3885327420EBB63A00ADAD10 /* BrowserView.swift in Sources */,
 				3810E1B02102125600CE1955 /* PhotoDetailView.swift in Sources */,
-				387AF6C320FB8D310069B027 /* Photo.swift in Sources */,
+				387AF6C320FB8D310069B027 /* MediaData.swift in Sources */,
 				380A62D120FBCEC0004709FA /* PhotosViewController.swift in Sources */,
 				3810E1BD2103F18500CE1955 /* PhotosViewController+delegate.swift in Sources */,
 				3885324420EAA9C100ADAD10 /* AppDelegate.swift in Sources */,

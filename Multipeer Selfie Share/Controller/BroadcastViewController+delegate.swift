@@ -89,19 +89,19 @@ extension BroadcastViewController: CameraServiceManagerDelegate {
                     print(error)
                 }
                 
-                guard let photoData = data else {return}
+                guard let data = data else {return}
                 
                 do {
-                    try self.cameraService.session.send(photoData, toPeers: self.cameraService.session.connectedPeers, with: .reliable)
-                    let photo = Photo()
-                    photo.photoData = data
-                    photo.timestamp = Date()
+                    try self.cameraService.session.send(data, toPeers: self.cameraService.session.connectedPeers, with: .reliable)
+                    let mediaData = MediaData()
+                    mediaData.mediaData = data
+                    mediaData.timestamp = Date()
                     // instantiate realm object and write image data to realm object
                     do {
                         let realm = try Realm()
                         do {
                             try realm.write {
-                                realm.add(photo)
+                                realm.add(mediaData)
                             }
                         } catch {
                             print("Failed to write to Realm")
@@ -111,7 +111,7 @@ extension BroadcastViewController: CameraServiceManagerDelegate {
                     }
                     
                     DispatchQueue.main.async {
-                        self.broadcasterView.thumbnailImageView.image = UIImage(data: photoData)
+                        self.broadcasterView.thumbnailImageView.image = UIImage(data: data)
                         self.broadcasterView.thumbnailImageView.isHidden = false
                     }
                 } catch let error as NSError {
@@ -165,24 +165,71 @@ extension BroadcastViewController: AVCapturePhotoCaptureDelegate {
 //    }
 }
 
-extension BroadcastViewController: AVCaptureVideoDataOutputSampleBufferDelegate {
-    func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
-        
-        guard let imageBuffer = CMSampleBufferGetImageBuffer(sampleBuffer), let assetWriterInput = assetWriterInput, let pixelBufferAdaptor = pixelBufferAdaptor else {return}
-        if assetWriterInput.isReadyForMoreMediaData {
-            pixelBufferAdaptor.append(imageBuffer, withPresentationTime: CMTime(value: frameNumber, timescale: 25))
-        }
-        
-        frameNumber += 1
-    }
-}
-
-//extension BroadcastViewController: AVCaptureFileOutputRecordingDelegate {
-//    func fileOutput(_ output: AVCaptureFileOutput, didFinishRecordingTo outputFileURL: URL, from connections: [AVCaptureConnection], error: Error?) {
-//        if error != nil {
-//            print("Error recording movie: \(error!.localizedDescription)")
-//        }else {
+//extension BroadcastViewController: AVCaptureVideoDataOutputSampleBufferDelegate {
+//    func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
 //
+//        guard let imageBuffer = CMSampleBufferGetImageBuffer(sampleBuffer), let assetWriterInput = assetWriterInput, let pixelBufferAdaptor = pixelBufferAdaptor else {return}
+//        if assetWriterInput.isReadyForMoreMediaData {
+//            pixelBufferAdaptor.append(imageBuffer, withPresentationTime: CMTime(value: frameNumber, timescale: 25))
 //        }
+//
+//        frameNumber += 1
 //    }
 //}
+
+extension BroadcastViewController: AVCaptureFileOutputRecordingDelegate {
+    func fileOutput(_ output: AVCaptureFileOutput, didFinishRecordingTo outputFileURL: URL, from connections: [AVCaptureConnection], error: Error?) {
+        
+        let compressedURL = NSURL.fileURL(withPath: NSTemporaryDirectory() + NSUUID().uuidString + ".m4v")
+        compressVideo(inputURL: outputFileURL as URL, outputURL: compressedURL) { (exportSession) in
+            guard let session = exportSession else {
+                return
+            }
+            
+            switch session.status {
+            case .unknown:
+                break
+            case .waiting:
+                break
+            case .exporting:
+                break
+            case .completed:
+                
+                let media = MediaData()
+                
+                do {
+                    let compressedData = try Data(contentsOf: compressedURL)
+                    print("File size after compression: \(Double(compressedData.count / 1048576)) mb")
+                    media.mediaData = compressedData
+                    media.timestamp = Date()
+                } catch {
+                    print("Failed to get data from compressed URL")
+                }
+
+                // remove original file
+                FileManager.default.clearTmpDirectory()
+                
+                // instantiate realm object and write image data to realm object
+                do {
+                    let realm = try Realm()
+                    do {
+                        // write video data file to Realm
+                        try realm.write {
+                            realm.add(media)
+                        }
+                    } catch {
+                        print("Failed to write to Realm")
+                    }
+                } catch {
+                    print("Failed to get default Realm")
+                }
+                
+            case .failed:
+                break
+            case .cancelled:
+                break
+            }
+        }
+        
+    }
+}

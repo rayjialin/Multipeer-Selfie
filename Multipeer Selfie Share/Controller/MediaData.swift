@@ -1,5 +1,5 @@
 //
-//  PhotoModel.swift
+//  MediaDataModel.swift
 //  Multipeer Selfie Share
 //
 //  Created by ruijia lin on 7/15/18.
@@ -9,7 +9,7 @@
 import Foundation
 import RealmSwift
 
-class Photo: Object {
+class MediaData: Object {
     @objc dynamic var timestamp: Date? = nil
-    @objc dynamic var photoData: Data? = nil
+    @objc dynamic var mediaData: Data? = nil
 }

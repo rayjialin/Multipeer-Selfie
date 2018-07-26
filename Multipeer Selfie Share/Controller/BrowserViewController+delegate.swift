@@ -25,16 +25,16 @@ extension BrowserViewController: CameraServiceManagerDelegate {
     
     func shutterButtonTapped(manager: CameraServiceManager, data: Data?) {
         guard let data = data else {return}
-        let photo = Photo()
-        photo.photoData = data
-        photo.timestamp = Date()
+        let media = MediaData()
+        media.mediaData = data
+        media.timestamp = Date()
         
         // instantiate realm object and write image data to realm object
         do {
             let realm = try Realm()
             do {
                 try realm.write {
-                    realm.add(photo)
+                    realm.add(media)
                 }
             } catch {
                 print("Failed to write to Realm")

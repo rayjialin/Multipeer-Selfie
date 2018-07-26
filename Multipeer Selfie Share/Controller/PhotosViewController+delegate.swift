@@ -12,7 +12,7 @@ import CollectionViewSlantedLayout
 extension PhotosViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return photos.count
+        return medias.count
     }
     
     func collectionView(_ collectionView: UICollectionView,
@@ -20,7 +20,7 @@ extension PhotosViewController: UICollectionViewDataSource {
         
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! CustomCollectionCell
         
-        if let photoData = photos[indexPath.row].photoData, let image = UIImage(data: photoData) {
+        if let mediaData = medias[indexPath.row].mediaData, let image = UIImage(data: mediaData) {
             cell.image = image
         }
         

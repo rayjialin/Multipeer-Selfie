@@ -62,9 +62,9 @@ class BroadcastViewController: UIViewController {
         
         do {
             let realm = try Realm()
-            let photos = realm.objects(Photo.self).sorted(byKeyPath: "timestamp", ascending: false)
-            guard let photo = photos.first?.photoData else {return}
-            broadcasterView.lastCapturedPhoto = UIImage(data: photo)
+            let medias = realm.objects(MediaData.self).sorted(byKeyPath: "timestamp", ascending: false)
+            guard let mediaData = medias.first?.mediaData else {return}
+            broadcasterView.lastCapturedPhoto = UIImage(data: mediaData)
         } catch {
             print("failed to create realm object")
         }
@@ -98,8 +98,8 @@ class BroadcastViewController: UIViewController {
         let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(imageTapped))
         broadcasterView.thumbnailImageView.addGestureRecognizer(tapGestureRecognizer)
         
-//        broadcasterView.recordingStartButton.addTarget(self, action: #selector(handleStartRecording), for: .touchUpInside)
-//        broadcasterView.recordingEndButton.addTarget(self, action: #selector(handleEndRecording), for: .touchUpInside)
+        broadcasterView.recordingStartButton.addTarget(self, action: #selector(handleStartRecording), for: .touchUpInside)
+        broadcasterView.recordingEndButton.addTarget(self, action: #selector(handleEndRecording), for: .touchUpInside)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -224,7 +224,7 @@ class BroadcastViewController: UIViewController {
             guard let photoOutput = photoOutput else {return}
 //            guard let dataOutput = dataOutput else {return}
 //            guard let audioOutput = audioOutput else {return}
-//            guard let movieOutput = movieOutput else {return}
+            guard let movieOutput = movieOutput else {return}
             
 //            dataOutput.setSampleBufferDelegate(self, queue: DispatchQueue.global())
 //            dataOutput.recommendedVideoSettings(forVideoCodecType: .h264, assetWriterOutputFileType: .mp4)
@@ -250,15 +250,13 @@ class BroadcastViewController: UIViewController {
 //            audioOutput.recommendedAudioSettingsForAssetWriter(writingTo: .aiff)
             photoOutput.setPreparedPhotoSettingsArray([AVCapturePhotoSettings(format: [AVVideoCodecKey : AVVideoCodecType.jpeg])], completionHandler: nil)
             
-//            movieOutput.setOutputSettings(<#T##outputSettings: [String : Any]?##[String : Any]?#>, for: <#T##AVCaptureConnection#>)
-            
             if captureSession.canAddOutput(photoOutput) {
                 captureSession.addOutput(photoOutput)
             }
             
-//            if captureSession.canAddOutput(movieOutput) {
-//                captureSession.addOutput(movieOutput)
-//            }
+            if captureSession.canAddOutput(movieOutput) {
+                captureSession.addOutput(movieOutput)
+            }
 //            if captureSession.canAddOutput(dataOutput) {
 //                captureSession.addOutput(dataOutput)
 //            }
@@ -307,7 +305,7 @@ class BroadcastViewController: UIViewController {
         self.photoCaptureCompletionBlock = completion
     }
     
-//    @objc private func handleStartRecording() {
+    @objc private func handleStartRecording() {
 //        guard let assetWriter = assetWriter else {return}
 //        assetWriter.startSession(atSourceTime: CMTime(value: frameNumber, timescale: 25))
 //        assetWriter.startWriting()
@@ -317,9 +315,15 @@ class BroadcastViewController: UIViewController {
 ////        if !captureSession.isRunning {
 //            captureSession.startRunning()
 ////        }
-//    }
+        
+        print("recording started")
+        guard let movieOutput = movieOutput, let url = applicationDocumentsDirectory() else {return}
+        if !movieOutput.isRecording {
+            movieOutput.startRecording(to: url, recordingDelegate: self)
+        }
+    }
     
-//    @objc private func handleEndRecording() {
+    @objc private func handleEndRecording() {
 //        guard let assetWriter = assetWriter else {return}
 //        assetWriter.endSession(atSourceTime: CMTime(value: frameNumber, timescale: 25))
 //        assetWriter.finishWriting {
@@ -330,15 +334,50 @@ class BroadcastViewController: UIViewController {
 //                print(assetWriter.outputFileType)
 //            }
 //        }
-//    }
+        print("recording ended")
+        guard let movieOutput = movieOutput else {return}
+        if movieOutput.isRecording {
+            movieOutput.stopRecording()
+        }
+        
+    }
     
     private func applicationDocumentsDirectory() -> URL? {
 //        return FileManager.default.urls(for: FileManager.SearchPathDirectory.documentDirectory, in: FileManager.SearchPathDomainMask.userDomainMask).last
         let directory = NSTemporaryDirectory() as NSString
         if directory != "" {
-            let path = directory.appendingPathComponent(NSUUID().uuidString + "mp4")
+            let path = directory.appendingPathComponent(NSUUID().uuidString + ".m4v")
             return URL(fileURLWithPath: path)
         }
         return nil
+    }
+    
+    func compressVideo(inputURL: URL, outputURL: URL, handler:@escaping (_ exportSession: AVAssetExportSession?)-> Void) {
+        let urlAsset = AVURLAsset(url: inputURL, options: nil)
+        guard let exportSession = AVAssetExportSession(asset: urlAsset, presetName: AVAssetExportPreset640x480) else {
+            handler(nil)
+            return
+        }
+        exportSession.outputURL = outputURL
+        exportSession.outputFileType = AVFileType.m4v
+        exportSession.shouldOptimizeForNetworkUse = true
+        exportSession.exportAsynchronously { () -> Void in
+            handler(exportSession)
+        }
+    }
+}
+
+extension FileManager {
+    func clearTmpDirectory() {
+        do {
+            let tmpDirURL = FileManager.default.temporaryDirectory
+            let tmpDirectory = try contentsOfDirectory(atPath: tmpDirURL.path)
+            try tmpDirectory.forEach { file in
+                let fileUrl = tmpDirURL.appendingPathComponent(file)
+                try removeItem(atPath: fileUrl.path)
+            }
+        } catch {
+            print("Failed to delete data in tmp directory")
+        }
     }
 }

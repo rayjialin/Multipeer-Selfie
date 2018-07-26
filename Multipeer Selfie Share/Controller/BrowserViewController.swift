@@ -27,9 +27,9 @@ class BrowserViewController: UIViewController {
         
         do {
             let realm = try Realm()
-            let photos = realm.objects(Photo.self).sorted(byKeyPath: "timestamp", ascending: false)
-            guard let photo = photos.first?.photoData else {return}
-            browserView.lastCapturedPhoto = UIImage(data: photo)
+            let medias = realm.objects(MediaData.self).sorted(byKeyPath: "timestamp", ascending: false)
+            guard let media = medias.first?.mediaData else {return}
+            browserView.lastCapturedPhoto = UIImage(data: media)
         } catch {
             print("failed to create realm object")
         }
@@ -50,6 +50,7 @@ class BrowserViewController: UIViewController {
         
         let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(imageTapped))
         browserView.thumbnailImageView.addGestureRecognizer(tapGestureRecognizer)
+        browserView.captureModeSegmentedControl.addTarget(self, action: #selector(handleSegmentedControlChanged), for: .valueChanged)
     }
     
     @objc private func handleBackButtonPressed(){
@@ -69,15 +70,26 @@ class BrowserViewController: UIViewController {
         joinSession()
     }
     
-    @objc private func handleTakePhoto(){        
-        if browserView.second < 1 {
-            shutter()
-        }else {
-            if isTimerRunning == false{
-                timer = Timer.scheduledTimer(timeInterval: 1, target: self,   selector: #selector(updateTimer), userInfo: nil, repeats: true)
-                isTimerRunning = true
+    @objc private func handleTakePhoto(){
+        
+        switch browserView.captureModeSegmentedControl.selectedSegmentIndex {
+        case 0: // photo mode
+            if browserView.second < 1 {
+                shutter()
+            }else {
+                if isTimerRunning == false{
+                    timer = Timer.scheduledTimer(timeInterval: 1, target: self,   selector: #selector(updateTimer), userInfo: nil, repeats: true)
+                    isTimerRunning = true
+                }
             }
+        
+        case 1: // video mode
+            
+            break
+        default:
+            print("pressed button and do nothing")
         }
+ 
     }
     
     @objc private func handleFlashToggle(sender: Any){
@@ -114,6 +126,37 @@ class BrowserViewController: UIViewController {
         prepareSendRequest(data: switchCameraString)
     }
     
+    @objc private func handleSegmentedControlChanged(sender: UISegmentedControl) {
+        UIView.animate(withDuration: 0.3) {
+            let captureModeSegmentedControl = self.browserView.captureModeSegmentedControl
+            self.browserView.ScButtomBar.frame.origin.x = captureModeSegmentedControl.frame.width / CGFloat(
+                captureModeSegmentedControl.numberOfSegments) * CGFloat(captureModeSegmentedControl.selectedSegmentIndex)
+        }
+        
+        switch sender.selectedSegmentIndex {
+        case 0: // photo mode
+            handlePhotoMode()
+        case 1: // video mode
+            handleVideoMode()
+        default:
+            print("default mode, doing nothing")
+        }
+    }
+    
+    private func handlePhotoMode() {
+        UIView.animate(withDuration: 0.5) {
+            self.browserView.takePhotoButton.depth = 1
+            self.browserView.takePhotoButton.shadowHeight = 5
+        }
+    }
+    
+    private func handleVideoMode() {
+        UIView.animate(withDuration: 0.5) {
+            self.browserView.takePhotoButton.depth = 0
+            self.browserView.takePhotoButton.shadowHeight = 0
+        }
+    }
+    
     func shutter() {
         guard let shutterString = "shutterPressed".data(using: String.Encoding.utf8) else {return}
         prepareSendRequest(data: shutterString)
@@ -144,11 +187,6 @@ class BrowserViewController: UIViewController {
             }
         }
     }
-    
-//    @objc private func viewCapturedPhoto(){
-//        guard let photosURL = URL(string:"photos-redirect://") else {return}
-//        UIApplication.shared.open(photosURL, options: [:], completionHandler: nil)
-//    }
     
     @objc private func updateTimer() {
         if browserView.second > 1{
