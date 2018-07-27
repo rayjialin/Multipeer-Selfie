@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import Chameleon
 import RealmSwift
 import SwiftyButton
 
@@ -23,11 +22,11 @@ class HomeViewController: UIViewController {
     let titleTextField: UITextField = {
         let textField = UITextField()
         textField.translatesAutoresizingMaskIntoConstraints = false
-        let text = "MultiPeer Selfie"
+        let text = appName
         let mutatedText = NSMutableAttributedString(string: text)
-        mutatedText.setColorForText(textForAttribute: "Multi", withColor: UIColor.flatWhiteColorDark())
-        mutatedText.setColorForText(textForAttribute: "Peer", withColor: UIColor.flatWhiteColorDark())
-        mutatedText.setColorForText(textForAttribute: "Selfie", withColor: UIColor.flatGreenColorDark())
+        mutatedText.setColorForText(textForAttribute: "Multi", withColor: flatWhiteDark)
+        mutatedText.setColorForText(textForAttribute: "Peer", withColor: flatWhiteDark)
+        mutatedText.setColorForText(textForAttribute: "Selfie", withColor: flatGreenDark)
         // Create a shadow
         let shadow = NSShadow()
         shadow.shadowBlurRadius = 3
@@ -39,7 +38,7 @@ class HomeViewController: UIViewController {
         let textRange = NSMakeRange(0, text.count)
         mutatedText.addAttribute(NSAttributedStringKey.shadow, value: shadow, range: textRange)
         textField.attributedText = mutatedText
-        textField.font = UIFont(name: "GillSans", size: 36)
+        textField.font = UIFont(name: gillSansFont, size: 36)
         textField.adjustsFontSizeToFitWidth = true
         textField.font = UIFont.boldSystemFont(ofSize: 36)
         textField.textAlignment = .center
@@ -49,11 +48,10 @@ class HomeViewController: UIViewController {
     let instructionTextView: UITextView = {
         let textView = UITextView()
         textView.translatesAutoresizingMaskIntoConstraints = false
-        let string = "All of the devices should be on the same WIFI or have bluetooth enabled to be able to detect each other"
-        textView.text = string
+        textView.text = appDescription
         textView.textAlignment = .center
-        textView.font = UIFont(name: "GillSans", size: 18)
-        textView.textColor = UIColor.flatWhiteColorDark()
+        textView.font = UIFont(name: gillSansFont, size: 18)
+        textView.textColor = flatWhiteDark
         textView.backgroundColor = .clear
         return textView
     }()
@@ -61,9 +59,9 @@ class HomeViewController: UIViewController {
     let chooseRoleTextField: UITextField = {
         let textField = UITextField()
         textField.translatesAutoresizingMaskIntoConstraints = false
-        textField.font = UIFont(name: "GillSans", size: 24)
-        textField.textColor = UIColor.flatWhiteColorDark()
-        textField.text = "Select Your Role"
+        textField.font = UIFont(name: gillSansFont, size: 24)
+        textField.textColor = flatWhiteDark
+        textField.text = selectRoleText
         textField.textAlignment = .center
         return textField
     }()
@@ -71,17 +69,18 @@ class HomeViewController: UIViewController {
     let divider: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.backgroundColor = UIColor.flatWhiteColorDark()
+        view.backgroundColor = flatWhiteDark
         return view
     }()
     
     // Camera Button
     let cameraRoleButton: PressableButton = {
         let button = PressableButton()
-        button.frame.size = CGSize(width: 150, height: 200)
+        button.frame.size = CGSize(width: 150, height: 150)
         let image = #imageLiteral(resourceName: "cameraIcon").withRenderingMode(.alwaysTemplate)
         button.setImage(image, for: .normal)
-        button.imageView?.tintColor = UIColor.flatGreen()
+        button.imageView?.tintColor = flatGreen
+        button.imageView?.contentMode = .scaleAspectFit
         button.imageEdgeInsets = UIEdgeInsets(top: 20, left: 20, bottom: 20, right: 20)
         button.addTarget(self, action: #selector(registerCameraRole), for: .touchUpInside)
         button.clipsToBounds = true
@@ -94,10 +93,11 @@ class HomeViewController: UIViewController {
     // Remote Button
     let browserRoleButton: PressableButton = {
         let button = PressableButton()
-        button.frame.size = CGSize(width: 150, height: 200)
-        let image = #imageLiteral(resourceName: "remoteIcon").withRenderingMode(.alwaysTemplate)
+        button.frame.size = CGSize(width: 150, height: 150)
+        let image = remoteRoleIcon.withRenderingMode(.alwaysTemplate)
         button.setImage(image, for: .normal)
-        button.imageView?.tintColor = UIColor.flatGreen()
+        button.imageView?.contentMode = .scaleAspectFit
+        button.imageView?.tintColor = flatGreen
         button.imageEdgeInsets = UIEdgeInsets(top: 20, left: 20, bottom: 20, right: 20)
         button.addTarget(self, action: #selector(registerRemoteRole), for: .touchUpInside)
         button.clipsToBounds = true
@@ -153,23 +153,12 @@ class HomeViewController: UIViewController {
     }
     
     @objc private func registerCameraRole(sender: PressableButton){
-            self.performSegue(withIdentifier: "segueToBroadcast", sender: SegueToRole.broadcast)
+            self.performSegue(withIdentifier: segueToBroadcast, sender: SegueToRole.broadcast)
             self.cameraService.broadcaster = self.cameraService.myPeerId
     }
     
     @objc private func registerRemoteRole(sender: PressableButton){
-            self.performSegue(withIdentifier: "segueToBrowse", sender: SegueToRole.browser)
+            self.performSegue(withIdentifier: segueToBrowse, sender: SegueToRole.browser)
     }
-}
-
-extension NSMutableAttributedString {
-    
-    func setColorForText(textForAttribute: String, withColor color: UIColor) {
-        let range: NSRange = self.mutableString.range(of: textForAttribute, options: .caseInsensitive)
-        
-        // Swift 4.1 and below
-        self.addAttribute(NSAttributedStringKey.foregroundColor, value: color, range: range)
-    }
-    
 }
 

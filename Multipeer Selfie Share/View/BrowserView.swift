@@ -8,7 +8,6 @@
 
 import UIKit
 import AVFoundation
-import Chameleon
 import SwiftyButton
 
 class BrowserView: BaseView {
@@ -20,13 +19,13 @@ class BrowserView: BaseView {
         didSet{
             switch torchMode {
             case .auto:
-                flashButton.imageView?.image = #imageLiteral(resourceName: "flashAutoIcon")
+                flashButton.imageView?.image = flashAutoIcon
                 break
             case .off:
-                flashButton.imageView?.image = #imageLiteral(resourceName: "flashOffIcon")
+                flashButton.imageView?.image = flashOffIcon
                 break
             case .on:
-                flashButton.imageView?.image = #imageLiteral(resourceName: "flashOnIcon")
+                flashButton.imageView?.image = flashOnIcon
                 break
             }
         }
@@ -34,17 +33,17 @@ class BrowserView: BaseView {
     
     let captureModeSegmentedControl: UISegmentedControl = {
         let segmentedControl = UISegmentedControl()
-        segmentedControl.insertSegment(withTitle: "PHOTO", at: 0, animated: true)
-        segmentedControl.insertSegment(withTitle: "VIDEO", at: 1, animated: true)
+        segmentedControl.insertSegment(withTitle: segmentedControlPhoto, at: 0, animated: true)
+        segmentedControl.insertSegment(withTitle: segmentedControlVideo, at: 1, animated: true)
         segmentedControl.selectedSegmentIndex = 0
         segmentedControl.translatesAutoresizingMaskIntoConstraints = false
         segmentedControl.backgroundColor = .clear
         segmentedControl.tintColor = .clear
-        segmentedControl.setTitleTextAttributes([NSAttributedStringKey.font : UIFont(name: "DINCondensed-Bold", size: 18) ?? UIFont.boldSystemFont(ofSize: 18),
-            NSAttributedStringKey.foregroundColor: UIColor.lightGray
+        segmentedControl.setTitleTextAttributes([NSAttributedStringKey.font : UIFont(name: dinCondensedBold, size: 18) ?? UIFont.boldSystemFont(ofSize: 18),
+            NSAttributedStringKey.foregroundColor: lightGray
             ], for: .normal)
-        segmentedControl.setTitleTextAttributes([NSAttributedStringKey.font : UIFont(name: "DINCondensed-Bold", size: 18) ?? UIFont.boldSystemFont(ofSize: 18),
-            NSAttributedStringKey.foregroundColor: UIColor.flatGreen()
+        segmentedControl.setTitleTextAttributes([NSAttributedStringKey.font : UIFont(name: dinCondensedBold, size: 18) ?? UIFont.boldSystemFont(ofSize: 18),
+            NSAttributedStringKey.foregroundColor: flatGreen
             ], for: .selected)
         return segmentedControl
     }()
@@ -52,7 +51,7 @@ class BrowserView: BaseView {
     let ScButtomBar: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.backgroundColor = UIColor.flatGreen()
+        view.backgroundColor = flatGreen
         return view
     }()
 
@@ -80,8 +79,8 @@ class BrowserView: BaseView {
         button.cornerRadius = 100
         button.shadowHeight = 5
         button.depth = 1
-        button.colors = .init(button: UIColor.flatRed(), shadow: UIColor.flatRedColorDark())
-        button.disabledColors = .init(button: UIColor.flatGray(), shadow: UIColor.flatGrayColorDark())
+        button.colors = .init(button: flatGreen, shadow: flatGreenDark)
+        button.disabledColors = .init(button: flatGray, shadow: flatGrayDark)
         return button
     }()
     
@@ -102,7 +101,7 @@ class BrowserView: BaseView {
     
     func setupView() {
         
-        backgroundColor = UIColor.init(complementaryFlatColorOf: UIColor.flatBlack(), withAlpha: 0.9)
+        backgroundColor = UIColor.init(complementaryFlatColorOf: flatBlack, withAlpha: 0.9)
         
         [takePhotoButton, captureModeSegmentedControl, ScButtomBar].forEach {self.addSubview($0)}
         takePhotoButton.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.8).isActive = true

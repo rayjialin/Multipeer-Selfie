@@ -9,32 +9,31 @@
 import UIKit
 import Chameleon
 import GPUImage
+import AVKit
 
 class PhotoDetailViewController: UIViewController {
     
-    let filterCell = "filterCell"
     let photoDetailView = PhotoDetailView()
-    var imageData: Data? {
+    var mediaData: Data?
+    
+    var isVideo: Bool? {
         didSet {
-            guard let imageData = imageData else {return}
-            photoDetailView.detailImage = UIImage(data: imageData)
+            guard let mediaData = mediaData, let isVideo = isVideo else {return}
+            if isVideo {
+                // convert data to URL and add it to AVPlayer
+            }else {
+                photoDetailView.detailImage = UIImage(data: mediaData)
+            }
         }
     }
     
     var detailDate: Date? = nil {
         didSet{
             guard let detailDate = detailDate else {return}
-            let dateString = Date.convertDateToString(date: detailDate)
+            let dateString = Date.convertDateToStringLong(date: detailDate)
             photoDetailView.detailLabel.text = dateString
         }
     }
-    
-    let filterOptions = ["Cartoon",
-                         "Grayscale",
-                         "Color Inversion",
-                         "Sharpen",
-                         "Sepia",
-                         "Solarize"]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -42,7 +41,7 @@ class PhotoDetailViewController: UIViewController {
         photoDetailView.filterCollectionView.dataSource = self
         photoDetailView.filterCollectionView.delegate = self
         
-        photoDetailView.filterCollectionView.register(FilterCell.self, forCellWithReuseIdentifier: "filterCell")
+        photoDetailView.filterCollectionView.register(FilterCell.self, forCellWithReuseIdentifier: filterCell)
         
         photoDetailView.frame = view.frame
         view.addSubview(photoDetailView)
@@ -85,7 +84,7 @@ class PhotoDetailViewController: UIViewController {
     @objc private func handleLongPressed(longPressed: UILongPressGestureRecognizer){
         guard longPressed.state == UIGestureRecognizerState.began else {return}
         //Chaining alerts with messages on button click
-        SweetAlert().showAlert("Save Photo", subTitle: "Do you want to save this photo to Photo Album?", style: AlertStyle.success, buttonTitle:"Yes", buttonColor: UIColor.flatGreen(), otherButtonTitle:  "No", otherButtonColor: UIColor.flatGreen()) { (isOtherButton) -> Void in
+        SweetAlert().showAlert("Save Photo", subTitle: "Do you want to save this photo to Photo Album?", style: AlertStyle.success, buttonTitle:"Yes", buttonColor: flatGreen, otherButtonTitle:  "No", otherButtonColor: flatGreen) { (isOtherButton) -> Void in
             if isOtherButton == true {
                 
                 guard let image = self.photoDetailView.detailImageView.image else {return}
@@ -127,22 +126,19 @@ class PhotoDetailViewController: UIViewController {
             break
         case "Color Inversion":
             filterEffect = ColorInversion()
-            break
         case "Sharpen":
             filterEffect = Sharpen()
-            break
         case "Sepia":
             filterEffect = SepiaToneFilter()
-            break
         case "Solarize":
             filterEffect = Solarize()
-            break
         default:
             // do nothing
             print("Default")
         }
         
-        guard let imageData = imageData else {return}
+        // handle image filter
+        guard let imageData = mediaData else {return}
         guard let filteredImage = UIImage(data: imageData) else {return}
         let pictureInput = PictureInput(image: filteredImage)
         let pictureOutput = PictureOutput()
@@ -154,18 +150,7 @@ class PhotoDetailViewController: UIViewController {
     }
     
     func removeFilter(){
-        guard let imageData = imageData else {return}
+        guard let imageData = mediaData else {return}
         self.photoDetailView.detailImage = UIImage(data: imageData)
-    }
-    
-}
-
-extension Date {
-    static func convertDateToString(date: Date) -> String {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "EEEE\nMMMM dd, yyyy"
-        
-        let currentDateString = dateFormatter.string(from: date)
-        return currentDateString
     }
 }

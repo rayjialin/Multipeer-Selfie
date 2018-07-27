@@ -10,15 +10,16 @@ import Foundation
 import MultipeerConnectivity
 
 // TO DO: MAKE THIS AN @objc PROTOCOL AND MAKE SOME OF THESE FUNCTIONS OPTIONAL
-protocol CameraServiceManagerDelegate {
+protocol CameraServiceManagerDelegate: class {
     func connectedDevicesChanged(manager: CameraServiceManager, state: MCSessionState, connectedDevices: [String])
-    func shutterButtonTapped(manager: CameraServiceManager, data: Data?)
+    func transmitData(mediaData: MediaData?)
     func toggleFlash(manager: CameraServiceManager, flashState: String)
     func acceptInvitation(manager: CameraServiceManager)
     func didStartReceivingData(manager: CameraServiceManager, withName resourceName: String, withProgress progress: Progress)
     func didFinishReceivingData(manager: CameraServiceManager, url: NSURL)
     func switchCameraButtonTapped(manager: CameraServiceManager, switchCameraRequest: String?)
     func updateTimerLabel(timerValue: String?)
+    func toggleRecording(manager: CameraServiceManager, toggleRecordingRequest: String?)
 }
 
 class CameraServiceManager: NSObject {
@@ -27,8 +28,7 @@ class CameraServiceManager: NSObject {
     let myPeerId =  MCPeerID(displayName: UIDevice.current.name)
     var serviceBroadcaster: MCNearbyServiceAdvertiser
     var serviceBrowser: MCNearbyServiceBrowser
-    let serviceType = "selfie-party"
-    var delegate: CameraServiceManagerDelegate?
+    weak var delegate: CameraServiceManagerDelegate?
     var broadcaster: MCPeerID?
     lazy var session: MCSession = {
         let session = MCSession(peer: myPeerId, securityIdentity: nil, encryptionPreference: MCEncryptionPreference.optional)
@@ -58,8 +58,15 @@ extension CameraServiceManager: MCSessionDelegate {
     func session(_ session: MCSession, didReceive data: Data, fromPeer peerID: MCPeerID) {
         print("DidReceiveData: \(data)")
         
-        if let _ = UIImage(data: data) {
-            delegate?.shutterButtonTapped(manager: self, data: data)
+        if let unarchivedData = NSKeyedUnarchiver.unarchiveObject(with: data) as? [String: Any] {
+            let mediaData = MediaData()
+            mediaData.timestamp = unarchivedData["timestamp"] as? Date
+            mediaData.isVideo = unarchivedData["isVideo"] as! Bool
+            mediaData.mediaData = unarchivedData["mediaData"] as? Data
+            mediaData.thumbnail = unarchivedData["thumbnail"] as? Data
+            
+            delegate?.transmitData(mediaData: mediaData)
+            
         }else{
             let dataString = NSString(data: data, encoding: String.Encoding.utf8.rawValue)
             
@@ -72,11 +79,15 @@ extension CameraServiceManager: MCSessionDelegate {
             case "flashAuto":
                 delegate?.toggleFlash(manager: self, flashState: "flashAuto")
             case "shutterPressed":
-                delegate?.shutterButtonTapped(manager: self, data: nil)
-//            case "photoCaptured":
-//                delegate?.shutterButtonTapped(manager: self, data: nil)
+                delegate?.transmitData(mediaData: nil)
+                //            case "photoCaptured":
+            //                delegate?.shutterButtonTapped(manager: self, data: nil)
             case "switchCameraPressed":
                 delegate?.switchCameraButtonTapped(manager: self, switchCameraRequest: "switchCameraPressed")
+            case "startRecordingPressed":
+                delegate?.toggleRecording(manager: self, toggleRecordingRequest: "startRecordingPressed")
+            case "stopRecordingPressed":
+                delegate?.toggleRecording(manager: self, toggleRecordingRequest: "stopRecordingPressed")
             default:
                 print("receiving error")
             }
@@ -87,7 +98,7 @@ extension CameraServiceManager: MCSessionDelegate {
     }
     
     func session(_ session: MCSession, didStartReceivingResourceWithName resourceName: String, fromPeer peerID: MCPeerID, with progress: Progress) {
-
+        
     }
     
     func session(_ session: MCSession, didFinishReceivingResourceWithName resourceName: String, fromPeer peerID: MCPeerID, at localURL: URL?, withError error: Error?) {

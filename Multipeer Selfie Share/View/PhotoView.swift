@@ -28,9 +28,9 @@ class PhotoView: BaseView {
     
     private func setupView() {
         footerContainerView.isHidden = true
-        connectButton.setImage(#imageLiteral(resourceName: "settingIcon"), for: .normal)
-        flashButton.setImage(#imageLiteral(resourceName: "sortIcon"), for: .normal)
-        timerButton.setImage(#imageLiteral(resourceName: "deleteIcon"), for: .normal)
+        connectButton.setImage(settingIcon, for: .normal)
+        flashButton.setImage(sortIcon, for: .normal)
+        timerButton.setImage(deleteIcon, for: .normal)
     }
     
     

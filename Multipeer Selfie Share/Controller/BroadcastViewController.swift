@@ -62,7 +62,7 @@ class BroadcastViewController: UIViewController {
         
         do {
             let realm = try Realm()
-            let medias = realm.objects(MediaData.self).sorted(byKeyPath: "timestamp", ascending: false)
+            let medias = realm.objects(MediaData.self).sorted(byKeyPath: realmTimestampKeyPath, ascending: false)
             guard let mediaData = medias.first?.mediaData else {return}
             broadcasterView.lastCapturedPhoto = UIImage(data: mediaData)
         } catch {
@@ -115,11 +115,11 @@ class BroadcastViewController: UIViewController {
     
     @objc private func imageTapped(sender: UITapGestureRecognizer) {
         guard let _ = sender.view as? UIImageView else {return}
-        performSegue(withIdentifier: "segueToPhotoFromCamera", sender: self)
+        performSegue(withIdentifier: segueToPhotoFromCamera, sender: self)
     }
     
     func startHosting() {
-        mcAdvertiserAssistant = MCAdvertiserAssistant(serviceType: "selfie-party", discoveryInfo: nil, session: cameraService.session)
+        mcAdvertiserAssistant = MCAdvertiserAssistant(serviceType: serviceType, discoveryInfo: nil, session: cameraService.session)
         mcAdvertiserAssistant.start()
     }
     
@@ -135,22 +135,22 @@ class BroadcastViewController: UIViewController {
                 if flashState == "flashOff" {
                     deviceSettings.flashMode = .off
                     DispatchQueue.main.async {
-                        self.broadcasterView.flashButton.setImage(#imageLiteral(resourceName: "flashOffIcon"), for: .normal)
+                        self.broadcasterView.flashButton.setImage(flashOffIcon, for: .normal)
                     }
                 } else if flashState == "flashOn" {
                     deviceSettings.flashMode = .on
                     DispatchQueue.main.async {
-                        self.broadcasterView.flashButton.setImage(#imageLiteral(resourceName: "flashOnIcon"), for: .normal)
+                        self.broadcasterView.flashButton.setImage(flashOnIcon, for: .normal)
                     }
                 } else if flashState == "flashAuto" {
                     deviceSettings.flashMode = .auto
                     DispatchQueue.main.async {
-                        self.broadcasterView.flashButton.setImage(#imageLiteral(resourceName: "flashAutoIcon"), for: .normal)
+                        self.broadcasterView.flashButton.setImage(flashAutoIcon, for: .normal)
                     }
                 } else {
                     deviceSettings.flashMode = .off
                     DispatchQueue.main.async {
-                        self.broadcasterView.flashButton.setImage(#imageLiteral(resourceName: "flashOffIcon"), for: .normal)
+                        self.broadcasterView.flashButton.setImage(flashOffIcon, for: .normal)
                     }
                 }
                 device.unlockForConfiguration()
@@ -305,7 +305,7 @@ class BroadcastViewController: UIViewController {
         self.photoCaptureCompletionBlock = completion
     }
     
-    @objc private func handleStartRecording() {
+    @objc func handleStartRecording() {
 //        guard let assetWriter = assetWriter else {return}
 //        assetWriter.startSession(atSourceTime: CMTime(value: frameNumber, timescale: 25))
 //        assetWriter.startWriting()
@@ -317,13 +317,13 @@ class BroadcastViewController: UIViewController {
 ////        }
         
         print("recording started")
-        guard let movieOutput = movieOutput, let url = applicationDocumentsDirectory() else {return}
+        guard let movieOutput = movieOutput else {return}
         if !movieOutput.isRecording {
-            movieOutput.startRecording(to: url, recordingDelegate: self)
+            movieOutput.startRecording(to: tmpPathUrl, recordingDelegate: self)
         }
     }
     
-    @objc private func handleEndRecording() {
+    @objc func handleEndRecording() {
 //        guard let assetWriter = assetWriter else {return}
 //        assetWriter.endSession(atSourceTime: CMTime(value: frameNumber, timescale: 25))
 //        assetWriter.finishWriting {
@@ -342,16 +342,6 @@ class BroadcastViewController: UIViewController {
         
     }
     
-    private func applicationDocumentsDirectory() -> URL? {
-//        return FileManager.default.urls(for: FileManager.SearchPathDirectory.documentDirectory, in: FileManager.SearchPathDomainMask.userDomainMask).last
-        let directory = NSTemporaryDirectory() as NSString
-        if directory != "" {
-            let path = directory.appendingPathComponent(NSUUID().uuidString + ".m4v")
-            return URL(fileURLWithPath: path)
-        }
-        return nil
-    }
-    
     func compressVideo(inputURL: URL, outputURL: URL, handler:@escaping (_ exportSession: AVAssetExportSession?)-> Void) {
         let urlAsset = AVURLAsset(url: inputURL, options: nil)
         guard let exportSession = AVAssetExportSession(asset: urlAsset, presetName: AVAssetExportPreset640x480) else {
@@ -365,19 +355,49 @@ class BroadcastViewController: UIViewController {
             handler(exportSession)
         }
     }
-}
-
-extension FileManager {
-    func clearTmpDirectory() {
+    
+    // get applicaiton direcotry to store temporary file
+    func applicationDocumentsDirectory() -> URL? {
+        //        return FileManager.default.urls(for: FileManager.SearchPathDirectory.documentDirectory, in: FileManager.SearchPathDomainMask.userDomainMask).last
+        let directory = NSTemporaryDirectory() as NSString
+        if directory != "" {
+            let path = directory.appendingPathComponent(NSUUID().uuidString + m4vFileExtension)
+            return URL(fileURLWithPath: path)
+        }
+        return nil
+    }
+    
+    func getThumbnailFrom(path: URL) -> Data? {
+        
         do {
-            let tmpDirURL = FileManager.default.temporaryDirectory
-            let tmpDirectory = try contentsOfDirectory(atPath: tmpDirURL.path)
-            try tmpDirectory.forEach { file in
-                let fileUrl = tmpDirURL.appendingPathComponent(file)
-                try removeItem(atPath: fileUrl.path)
-            }
-        } catch {
-            print("Failed to delete data in tmp directory")
+            
+            let asset = AVURLAsset(url: path , options: nil)
+            let imgGenerator = AVAssetImageGenerator(asset: asset)
+            imgGenerator.appliesPreferredTrackTransform = true
+            let cgImage = try imgGenerator.copyCGImage(at: CMTimeMake(0, 1), actualTime: nil)
+            let image = UIImage(cgImage: cgImage)
+            let thumbnailData = UIImageJPEGRepresentation(image, 1)
+            
+            return thumbnailData
+            
+        } catch let error {
+            
+            print("*** Error generating thumbnail: \(error.localizedDescription)")
+            return nil
+            
         }
     }
+    
+    func convertToData(timestamp: Date, mediaData: Data, thumbnail: Data, isVideo: Bool) -> Data? {
+        //        guard let timestamp = timestamp, let mediaData = mediaData, let thumbnail = thumbnail else {return nil}
+        
+        let dict = ["mediaData": mediaData,
+                    "thumbnail": thumbnail,
+                    "timestamp": timestamp,
+                    "isVideo": isVideo] as [String : Any]
+        
+        let data = NSKeyedArchiver.archivedData(withRootObject: dict)
+        return data
+    }
+    
 }

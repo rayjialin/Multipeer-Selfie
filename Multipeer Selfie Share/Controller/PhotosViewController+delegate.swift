@@ -18,9 +18,9 @@ extension PhotosViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView,
                         cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! CustomCollectionCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: mediaId, for: indexPath) as! CustomCollectionCell
         
-        if let mediaData = medias[indexPath.row].mediaData, let image = UIImage(data: mediaData) {
+        if let mediaData = medias[indexPath.row].thumbnail, let image = UIImage(data: mediaData) {
             cell.image = image
         }
         

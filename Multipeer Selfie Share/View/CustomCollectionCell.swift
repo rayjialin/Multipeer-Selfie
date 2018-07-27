@@ -9,9 +9,6 @@
 import UIKit
 import CollectionViewSlantedLayout
 
-let yOffsetSpeed: CGFloat = 150.0
-let xOffsetSpeed: CGFloat = 100.0
-
 class CustomCollectionCell: CollectionViewSlantedCell {
     
     @IBOutlet weak var imageView: UIImageView!

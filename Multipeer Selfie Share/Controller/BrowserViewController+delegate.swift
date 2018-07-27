@@ -11,6 +11,10 @@ import MultipeerConnectivity
 import RealmSwift
 
 extension BrowserViewController: CameraServiceManagerDelegate {
+    func toggleRecording(manager: CameraServiceManager, toggleRecordingRequest: String?) {
+        
+    }
+    
     func updateTimerLabel(timerValue: String?) {
         
     }
@@ -23,18 +27,20 @@ extension BrowserViewController: CameraServiceManagerDelegate {
         
     }
     
-    func shutterButtonTapped(manager: CameraServiceManager, data: Data?) {
-        guard let data = data else {return}
-        let media = MediaData()
-        media.mediaData = data
-        media.timestamp = Date()
+    func transmitData(mediaData: MediaData?) {
+        guard let data = mediaData else {return}
+        let mediaData = MediaData()
+        mediaData.mediaData = data.mediaData
+        mediaData.timestamp = data.timestamp
+        mediaData.isVideo = data.isVideo
+        mediaData.thumbnail = data.thumbnail
         
         // instantiate realm object and write image data to realm object
         do {
             let realm = try Realm()
             do {
                 try realm.write {
-                    realm.add(media)
+                    realm.add(mediaData)
                 }
             } catch {
                 print("Failed to write to Realm")
@@ -48,7 +54,8 @@ extension BrowserViewController: CameraServiceManagerDelegate {
         // re-enable shutter button and stop the timer bool
         DispatchQueue.main.async {
             self.browserView.progressBarView.stopAnimating()
-            self.browserView.thumbnailImageView.image = UIImage(data: data)
+            guard let thumbnailData = mediaData.thumbnail else {return}
+            self.browserView.thumbnailImageView.image = UIImage(data: thumbnailData)
             self.browserView.thumbnailImageView.isHidden = false
             self.browserView.takePhotoButton.isEnabled = true
             self.isTimerRunning = false

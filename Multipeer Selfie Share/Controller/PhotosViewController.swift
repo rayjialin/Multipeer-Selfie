@@ -17,7 +17,6 @@ class PhotosViewController: UIViewController {
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var collectionViewLayout: CollectionViewSlantedLayout!
     var medias: Results<MediaData>!
-    let reuseIdentifier = "mediaId"
     var ascending = true
     
     override func viewDidLoad() {
@@ -37,7 +36,7 @@ class PhotosViewController: UIViewController {
         
         do {
             let realm = try Realm()
-                medias = realm.objects(MediaData.self).sorted(byKeyPath: "timestamp", ascending: false)
+                medias = realm.objects(MediaData.self).sorted(byKeyPath: realmTimestampKeyPath, ascending: false)
                 ascending = false
             self.collectionView.reloadData()
             self.collectionView.collectionViewLayout.invalidateLayout()
@@ -50,15 +49,16 @@ class PhotosViewController: UIViewController {
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "segueToSetting" {
+        if segue.identifier == segueToSetting {
             let settingsController = segue.destination as! SettingsController
             let layout = collectionView.collectionViewLayout as! CollectionViewSlantedLayout
             settingsController.collectionViewLayout = layout
-        } else if segue.identifier == "segueToDetails" {
+        } else if segue.identifier == segueToDetails {
             let detailViewController = segue.destination as! PhotoDetailViewController
             guard let indexPath = sender as? IndexPath, let data = medias[indexPath.row].mediaData, let date = medias[indexPath.row].timestamp else {return}
-            detailViewController.imageData = data
+            detailViewController.mediaData = data
             detailViewController.detailDate = date
+            detailViewController.isVideo = medias[indexPath.row].isVideo
         }
     }
     
@@ -67,7 +67,7 @@ class PhotosViewController: UIViewController {
     }
     
     @objc private func handleSettingButtonPressed() {
-        performSegue(withIdentifier: "segueToSetting", sender: self)
+        performSegue(withIdentifier: segueToSetting, sender: self)
     }
     
     @objc private func handleSortButtonPressed() {
@@ -110,10 +110,10 @@ class PhotosViewController: UIViewController {
         do {
             let realm = try Realm()
             if ascending == true {
-                medias = realm.objects(MediaData.self).sorted(byKeyPath: "timestamp", ascending: false)
+                medias = realm.objects(MediaData.self).sorted(byKeyPath: realmTimestampKeyPath, ascending: false)
             ascending = false
             }else {
-                medias = realm.objects(MediaData.self).sorted(byKeyPath: "timestamp", ascending: true)
+                medias = realm.objects(MediaData.self).sorted(byKeyPath: realmTimestampKeyPath, ascending: true)
                 ascending = true
             }
             self.collectionView.reloadData()

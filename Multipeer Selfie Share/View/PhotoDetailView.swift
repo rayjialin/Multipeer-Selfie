@@ -13,7 +13,7 @@ class PhotoDetailView: UIView {
     var detailImage: UIImage? = nil {
         didSet{
             guard let detailCGImage = detailImage?.cgImage else {return}
-            detailImageView.image = UIImage(cgImage: detailCGImage, scale: 1, orientation: UIImageOrientation.right)
+            detailImageView.image = UIImage(cgImage: detailCGImage, scale: 1, orientation: .right)
         }
     }
     
@@ -29,7 +29,7 @@ class PhotoDetailView: UIView {
     let headerContainerView: UIView = {
         let containerView = UIView()
         containerView.translatesAutoresizingMaskIntoConstraints = false
-        containerView.backgroundColor = UIColor.flatBlack()
+        containerView.backgroundColor = flatBlack
         return containerView
     }()
     
@@ -60,7 +60,7 @@ class PhotoDetailView: UIView {
     let backButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.setImage(#imageLiteral(resourceName: "backIcon"), for: .normal)
+        button.setImage(backButtonIcon, for: .normal)
         return button
     }()
     
@@ -82,7 +82,6 @@ class PhotoDetailView: UIView {
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.alwaysBounceHorizontal = true
         collectionView.isHidden = true
-//        collectionView.allowsMultipleSelection = true
         collectionView.backgroundColor = .clear
         return collectionView
     }()
@@ -98,7 +97,7 @@ class PhotoDetailView: UIView {
     let filterButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.setImage(#imageLiteral(resourceName: "filterIcon"), for: .normal)
+        button.setImage(filterIcon, for: .normal)
         return button
     }()
     
@@ -107,7 +106,7 @@ class PhotoDetailView: UIView {
     let footerContainerView: UIView = {
         let containerView = UIView()
         containerView.translatesAutoresizingMaskIntoConstraints = false
-        containerView.backgroundColor = UIColor.flatBlack()
+        containerView.backgroundColor = flatBlack
         return containerView
     }()
     
@@ -121,11 +120,11 @@ class PhotoDetailView: UIView {
     
     let detailLabel: UILabel = {
         let label = UILabel()
-        label.textColor = UIColor.flatWhite()
+        label.textColor = flatWhite
         label.translatesAutoresizingMaskIntoConstraints = false
         label.numberOfLines = 2
         label.textAlignment = .center
-        label.font = UIFont(name: "GillSans", size: 14)
+        label.font = UIFont(name: gillSansFont, size: 14)
         return label
     }()
     

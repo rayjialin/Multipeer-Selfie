@@ -11,6 +11,14 @@ import MultipeerConnectivity
 import RealmSwift
 
 extension BroadcastViewController: CameraServiceManagerDelegate {
+    func toggleRecording(manager: CameraServiceManager, toggleRecordingRequest: String?) {
+        if toggleRecordingRequest == "startRecordingPressed" {
+            handleStartRecording()
+        }else if toggleRecordingRequest == "stopRecordingPressed" {
+            handleEndRecording()
+        }
+    }
+    
     func updateTimerLabel(timerValue: String?) {
         DispatchQueue.main.async {
             self.broadcasterView.timerLabel.isHidden = false
@@ -82,20 +90,26 @@ extension BroadcastViewController: CameraServiceManagerDelegate {
         }
     }
 
-    func shutterButtonTapped(manager: CameraServiceManager, data: Data?) {
+    func transmitData(mediaData: MediaData?) {
         if cameraService.session.connectedPeers.count > 0 {
             captureImage { (data, error) in
                 if let error = error {
                     print(error)
                 }
                 
-                guard let data = data else {return}
+                guard let photoData = data else {return}
+                let mediaData = MediaData()
+                mediaData.timestamp = Date()
+                mediaData.isVideo = false
+                mediaData.mediaData = photoData
+                mediaData.thumbnail = photoData
+                
+                guard let savedData = self.convertToData(timestamp: Date(), mediaData: photoData, thumbnail: photoData, isVideo: false) else {return}
+                
                 
                 do {
-                    try self.cameraService.session.send(data, toPeers: self.cameraService.session.connectedPeers, with: .reliable)
-                    let mediaData = MediaData()
-                    mediaData.mediaData = data
-                    mediaData.timestamp = Date()
+                    try self.cameraService.session.send(savedData, toPeers: self.cameraService.session.connectedPeers, with: .reliable)
+                    
                     // instantiate realm object and write image data to realm object
                     do {
                         let realm = try Realm()
@@ -111,7 +125,7 @@ extension BroadcastViewController: CameraServiceManagerDelegate {
                     }
                     
                     DispatchQueue.main.async {
-                        self.broadcasterView.thumbnailImageView.image = UIImage(data: data)
+                        self.broadcasterView.thumbnailImageView.image = UIImage(data: photoData)
                         self.broadcasterView.thumbnailImageView.isHidden = false
                     }
                 } catch let error as NSError {
@@ -180,8 +194,7 @@ extension BroadcastViewController: AVCapturePhotoCaptureDelegate {
 extension BroadcastViewController: AVCaptureFileOutputRecordingDelegate {
     func fileOutput(_ output: AVCaptureFileOutput, didFinishRecordingTo outputFileURL: URL, from connections: [AVCaptureConnection], error: Error?) {
         
-        let compressedURL = NSURL.fileURL(withPath: NSTemporaryDirectory() + NSUUID().uuidString + ".m4v")
-        compressVideo(inputURL: outputFileURL as URL, outputURL: compressedURL) { (exportSession) in
+        compressVideo(inputURL: outputFileURL as URL, outputURL: tmpPathUrlCompressed) { (exportSession) in
             guard let session = exportSession else {
                 return
             }
@@ -198,10 +211,12 @@ extension BroadcastViewController: AVCaptureFileOutputRecordingDelegate {
                 let media = MediaData()
                 
                 do {
-                    let compressedData = try Data(contentsOf: compressedURL)
+                    let compressedData = try Data(contentsOf: tmpPathUrlCompressed)
                     print("File size after compression: \(Double(compressedData.count / 1048576)) mb")
                     media.mediaData = compressedData
                     media.timestamp = Date()
+                    media.thumbnail = self.getThumbnailFrom(path: tmpPathUrlCompressed)
+                    media.isVideo = true
                 } catch {
                     print("Failed to get data from compressed URL")
                 }
@@ -217,6 +232,9 @@ extension BroadcastViewController: AVCaptureFileOutputRecordingDelegate {
                         try realm.write {
                             realm.add(media)
                         }
+                        
+                        self.cameraService.delegate?.transmitData(mediaData: media)
+                        
                     } catch {
                         print("Failed to write to Realm")
                     }

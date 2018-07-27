@@ -21,13 +21,14 @@ class BrowserViewController: UIViewController {
     var capturedImageFrame = CGRect()
     var timer = Timer()
     var isTimerRunning = false
+    var isRecording = false
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
         do {
             let realm = try Realm()
-            let medias = realm.objects(MediaData.self).sorted(byKeyPath: "timestamp", ascending: false)
+            let medias = realm.objects(MediaData.self).sorted(byKeyPath: realmTimestampKeyPath, ascending: false)
             guard let media = medias.first?.mediaData else {return}
             browserView.lastCapturedPhoto = UIImage(data: media)
         } catch {
@@ -61,7 +62,7 @@ class BrowserViewController: UIViewController {
     
     
     func joinSession() {
-        let mcBrowser = MCBrowserViewController(serviceType: "selfie-party", session: cameraService.session)
+        let mcBrowser = MCBrowserViewController(serviceType: serviceType, session: cameraService.session)
         mcBrowser.delegate = self
         present(mcBrowser, animated: true)
     }
@@ -84,7 +85,7 @@ class BrowserViewController: UIViewController {
             }
         
         case 1: // video mode
-            
+            toggleRecordingStatus()
             break
         default:
             print("pressed button and do nothing")
@@ -96,20 +97,18 @@ class BrowserViewController: UIViewController {
         guard let flashButton = sender as? UIButton else {return}
         
         switch flashButton.currentImage {
-        case #imageLiteral(resourceName: "flashAutoIcon"):
-            flashButton.setImage(#imageLiteral(resourceName: "flashOnIcon"), for: .normal)
+        case flashAutoIcon:
+            flashButton.setImage(flashOnIcon, for: .normal)
             cameraService.flashState = flashState.flashOn.strValue()
-            break
-        case #imageLiteral(resourceName: "flashOnIcon"):
-            flashButton.setImage(#imageLiteral(resourceName: "flashOffIcon"), for: .normal)
+        case flashOnIcon:
+            flashButton.setImage(flashOffIcon, for: .normal)
             cameraService.flashState = flashState.flashOff.strValue()
-            break
-        case #imageLiteral(resourceName: "flashOffIcon"):
-            flashButton.setImage(#imageLiteral(resourceName: "flashAutoIcon"), for: .normal)
+        case flashOffIcon:
+            flashButton.setImage(flashAutoIcon, for: .normal)
             cameraService.flashState = flashState.flashAuto.strValue()
             break
         default:
-            flashButton.setImage(#imageLiteral(resourceName: "flashAutoIcon"), for: .normal)
+            flashButton.setImage(flashAutoIcon, for: .normal)
             cameraService.flashState = flashState.flashAuto.strValue()
         }
         
@@ -118,7 +117,7 @@ class BrowserViewController: UIViewController {
     
     @objc private func imageTapped(sender: UITapGestureRecognizer) {
         guard let _ = sender.view as? UIImageView else {return}
-        performSegue(withIdentifier: "segueToPhotosFromRemote", sender: self)
+        performSegue(withIdentifier: segueToPhotosFromRemote, sender: self)
     }
     
     @objc private func handleCameraSwitch(){
@@ -144,23 +143,34 @@ class BrowserViewController: UIViewController {
     }
     
     private func handlePhotoMode() {
-        UIView.animate(withDuration: 0.5) {
-            self.browserView.takePhotoButton.depth = 1
-            self.browserView.takePhotoButton.shadowHeight = 5
-        }
+//        UIView.animate(withDuration: 0.5) {
+//            self.browserView.takePhotoButton.depth = 1
+//            self.browserView.takePhotoButton.shadowHeight = 5
+//            self.browserView.recordingTimer.isHidden = true
+//        }
     }
     
     private func handleVideoMode() {
-        UIView.animate(withDuration: 0.5) {
-            self.browserView.takePhotoButton.depth = 0
-            self.browserView.takePhotoButton.shadowHeight = 0
-        }
+//        UIView.animate(withDuration: 0.5) {
+//            self.browserView.takePhotoButton.depth = 0
+//            self.browserView.takePhotoButton.shadowHeight = 0
+//            self.browserView.recordingTimer.isHidden = false
+//        }
     }
     
     func shutter() {
         guard let shutterString = "shutterPressed".data(using: String.Encoding.utf8) else {return}
         prepareSendRequest(data: shutterString)
-        
+    }
+    
+    func toggleRecordingStatus() {
+        if isRecording {
+            guard let recordingString = "startRecordingPressed".data(using: String.Encoding.utf8) else {return}
+            prepareSendRequest(data: recordingString)
+        }else {
+            guard let recordingString = "stopRecordingPressed".data(using: String.Encoding.utf8) else {return}
+            prepareSendRequest(data: recordingString)
+        }
     }
     
     func flash(flashState: String){
