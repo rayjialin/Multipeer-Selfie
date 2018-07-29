@@ -7,9 +7,6 @@
 //
 
 import Foundation
-
-import UIKit
-
 import CollectionViewSlantedLayout
 
 class SettingsController: UITableViewController {

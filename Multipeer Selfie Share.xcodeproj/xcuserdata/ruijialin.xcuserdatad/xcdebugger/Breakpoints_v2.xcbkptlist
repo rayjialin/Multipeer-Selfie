@@ -9,13 +9,29 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Multipeer Selfie Share/Controller/BroadcastViewController+delegate.swift"
-            timestampString = "554355326.648824"
+            filePath = "Multipeer Selfie Share/Controller/BrowserViewController+delegate.swift"
+            timestampString = "554576404.668005"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "100"
-            endingLineNumber = "100"
-            landmarkName = "transmitData(mediaData:)"
+            startingLineNumber = "30"
+            endingLineNumber = "30"
+            landmarkName = "transmitVideoData(mediaData:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Multipeer Selfie Share/Utilities/CameraServiceManager.swift"
+            timestampString = "554576404.6681221"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "75"
+            endingLineNumber = "75"
+            landmarkName = "session(_:didReceive:fromPeer:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -26,12 +42,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Multipeer Selfie Share/Controller/BrowserViewController+delegate.swift"
-            timestampString = "554355326.6491539"
+            timestampString = "554576404.6681989"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "31"
-            endingLineNumber = "31"
-            landmarkName = "transmitData(mediaData:)"
+            startingLineNumber = "41"
+            endingLineNumber = "41"
+            landmarkName = "transmitVideoData(mediaData:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

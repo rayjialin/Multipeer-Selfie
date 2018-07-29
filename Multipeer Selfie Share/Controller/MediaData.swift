@@ -11,7 +11,7 @@ import RealmSwift
 
 class MediaData: Object {
     
-    @objc dynamic var timestamp: Date? = nil
+    @objc dynamic var timestamp: Date = Date()
     @objc dynamic var mediaData: Data? = nil
     @objc dynamic var thumbnail: Data? = nil
     @objc dynamic var isVideo: Bool = false

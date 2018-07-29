@@ -12,22 +12,29 @@ import CollectionViewSlantedLayout
 extension PhotosViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        guard let medias = medias else {return 0}
         return medias.count
     }
     
     func collectionView(_ collectionView: UICollectionView,
                         cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        
+
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: mediaId, for: indexPath) as! CustomCollectionCell
         
-        if let mediaData = medias[indexPath.row].thumbnail, let image = UIImage(data: mediaData) {
-            cell.image = image
+        guard let medias = medias,
+              let mediaData = medias[indexPath.row].thumbnail,
+            let image = UIImage(data: mediaData) else {
+                
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: mediaId, for: indexPath)
+                
+            return cell
         }
+        
+        cell.image = image
         
         if let layout = collectionView.collectionViewLayout as? CollectionViewSlantedLayout {
             cell.contentView.transform = CGAffineTransform(rotationAngle: layout.slantingAngle)
         }
-        
         return cell
     }
 }
@@ -37,7 +44,13 @@ extension PhotosViewController: CollectionViewDelegateSlantedLayout {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         NSLog("Did select item at indexPath: [\(indexPath.section)][\(indexPath.row)]")
         
-        performSegue(withIdentifier: "segueToDetails", sender: indexPath)
+        guard let medias = medias else {return}
+        let isVideo = medias[indexPath.row].isVideo
+        if isVideo {
+            performSegue(withIdentifier: segueToVideoPlayer, sender: indexPath)
+        } else {
+            performSegue(withIdentifier: segueToDetails, sender: indexPath)
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView,

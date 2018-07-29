@@ -24,7 +24,7 @@ let realmThumbnailKeyPath = "thumbnail"
 let realmMediaDataKeyPath = "mediaData"
 let realmIsVideoKeyPath = "isVideo"
 let serviceType = "multiPeerSelfie"
-let m4vFileExtension = "m4v"
+let m4vFileExtension = ".m4v"
 let tmpPath = NSTemporaryDirectory()
 let uuid = NSUUID().uuidString
 let tmpPathUrl = URL(fileURLWithPath: tmpPath + uuid + m4vFileExtension)
@@ -70,9 +70,10 @@ let homeBackgoundImage = #imageLiteral(resourceName: "homeBg")
 // Segue Identifiers
 let segueToBroadcast = "segueToBroadcast"
 let segueToBrowse = "segueToBrowse"
-let segueToPhotoFromCamera = "segueToPhotoFromCamera"
+let segueToPhotosFromCamera = "segueToPhotosFromCamera"
 let segueToSetting = "segueToSetting"
 let segueToDetails = "segueToDetails"
 let segueToPhotosFromRemote = "segueToPhotosFromRemote"
+let segueToVideoPlayer = "segueToVideoPlayer"
 
 

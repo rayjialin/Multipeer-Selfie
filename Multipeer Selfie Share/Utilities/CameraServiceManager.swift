@@ -12,7 +12,8 @@ import MultipeerConnectivity
 // TO DO: MAKE THIS AN @objc PROTOCOL AND MAKE SOME OF THESE FUNCTIONS OPTIONAL
 protocol CameraServiceManagerDelegate: class {
     func connectedDevicesChanged(manager: CameraServiceManager, state: MCSessionState, connectedDevices: [String])
-    func transmitData(mediaData: MediaData?)
+    func transmitPhotoData(mediaData: MediaData?)
+    func transmitVideoData(mediaData: MediaData?)
     func toggleFlash(manager: CameraServiceManager, flashState: String)
     func acceptInvitation(manager: CameraServiceManager)
     func didStartReceivingData(manager: CameraServiceManager, withName resourceName: String, withProgress progress: Progress)
@@ -60,12 +61,19 @@ extension CameraServiceManager: MCSessionDelegate {
         
         if let unarchivedData = NSKeyedUnarchiver.unarchiveObject(with: data) as? [String: Any] {
             let mediaData = MediaData()
-            mediaData.timestamp = unarchivedData["timestamp"] as? Date
+            mediaData.timestamp = unarchivedData["timestamp"] as! Date
             mediaData.isVideo = unarchivedData["isVideo"] as! Bool
             mediaData.mediaData = unarchivedData["mediaData"] as? Data
             mediaData.thumbnail = unarchivedData["thumbnail"] as? Data
             
-            delegate?.transmitData(mediaData: mediaData)
+            if mediaData.isVideo == false {
+                // go into browser delegate method
+                delegate?.transmitPhotoData(mediaData: mediaData)
+            } else {
+                
+                // go into browser delegate method
+                delegate?.transmitVideoData(mediaData: mediaData)
+            }
             
         }else{
             let dataString = NSString(data: data, encoding: String.Encoding.utf8.rawValue)
@@ -79,9 +87,7 @@ extension CameraServiceManager: MCSessionDelegate {
             case "flashAuto":
                 delegate?.toggleFlash(manager: self, flashState: "flashAuto")
             case "shutterPressed":
-                delegate?.transmitData(mediaData: nil)
-                //            case "photoCaptured":
-            //                delegate?.shutterButtonTapped(manager: self, data: nil)
+                delegate?.transmitPhotoData(mediaData: nil)
             case "switchCameraPressed":
                 delegate?.switchCameraButtonTapped(manager: self, switchCameraRequest: "switchCameraPressed")
             case "startRecordingPressed":

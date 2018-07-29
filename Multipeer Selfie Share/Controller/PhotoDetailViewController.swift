@@ -7,9 +7,7 @@
 //
 
 import UIKit
-import Chameleon
 import GPUImage
-import AVKit
 
 class PhotoDetailViewController: UIViewController {
     
@@ -21,6 +19,7 @@ class PhotoDetailViewController: UIViewController {
             guard let mediaData = mediaData, let isVideo = isVideo else {return}
             if isVideo {
                 // convert data to URL and add it to AVPlayer
+                
             }else {
                 photoDetailView.detailImage = UIImage(data: mediaData)
             }

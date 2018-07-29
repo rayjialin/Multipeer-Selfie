@@ -16,8 +16,8 @@ class PhotosViewController: UIViewController {
     @IBOutlet var photoView: PhotoView!
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var collectionViewLayout: CollectionViewSlantedLayout!
-    var medias: Results<MediaData>!
-    var ascending = true
+    var medias: Results<MediaData>?
+    var isAscending = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,16 +34,7 @@ class PhotosViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        do {
-            let realm = try Realm()
-                medias = realm.objects(MediaData.self).sorted(byKeyPath: realmTimestampKeyPath, ascending: false)
-                ascending = false
-            self.collectionView.reloadData()
-            self.collectionView.collectionViewLayout.invalidateLayout()
-        } catch {
-            print("failed to create realm object")
-        }
-        
+        medias = RealmManager.shareInstance.readFromRealmWith(keyPath: realmTimestampKeyPath, isAscending: isAscending)
         self.collectionView.reloadData()
         self.collectionView.collectionViewLayout.invalidateLayout()
     }
@@ -55,10 +46,19 @@ class PhotosViewController: UIViewController {
             settingsController.collectionViewLayout = layout
         } else if segue.identifier == segueToDetails {
             let detailViewController = segue.destination as! PhotoDetailViewController
-            guard let indexPath = sender as? IndexPath, let data = medias[indexPath.row].mediaData, let date = medias[indexPath.row].timestamp else {return}
+            guard let indexPath = sender as? IndexPath,
+                  let medias = medias,
+                  let data = medias[indexPath.row].mediaData else {return}
             detailViewController.mediaData = data
-            detailViewController.detailDate = date
+            detailViewController.detailDate = medias[indexPath.row].timestamp
             detailViewController.isVideo = medias[indexPath.row].isVideo
+        } else if segue.identifier == segueToVideoPlayer {
+            let videoPlayerViewController = segue.destination as! VideoPlayerViewController
+            guard let indexPath = sender as? IndexPath,
+                let medias = medias,
+                let data = medias[indexPath.row].mediaData else {return}
+            videoPlayerViewController.mediaData = data
+            videoPlayerViewController.date = medias[indexPath.row].timestamp
         }
     }
     
@@ -80,15 +80,10 @@ class PhotosViewController: UIViewController {
             if isOtherButton == true {
                 
                 // CAUTION: this action deletes all photos stored in Realm
-                self.deleteRealmFile()
-                do {
-                    let realm = try Realm()
-                    self.medias = realm.objects(MediaData.self)
+                RealmManager.shareInstance.deleteAllFromRealm()
+                
                     self.collectionView.reloadData()
                     self.collectionView.collectionViewLayout.invalidateLayout()
-                } catch {
-                    print("failed to create realm object")
-                }
                 
                 let _ = self.photoView.sweetAlert.showAlert("Deleted", subTitle: "File have been deleted", style: AlertStyle.success)
             }
@@ -98,28 +93,13 @@ class PhotosViewController: UIViewController {
         }
     }
     
-    private func deleteRealmFile(){
-        do {
-            try FileManager.default.removeItem(at: Realm.Configuration.defaultConfiguration.fileURL!)
-        } catch {
-            print("deorr delete")
-        }
-    }
-    
     func toggleSort() {
-        do {
-            let realm = try Realm()
-            if ascending == true {
-                medias = realm.objects(MediaData.self).sorted(byKeyPath: realmTimestampKeyPath, ascending: false)
-            ascending = false
-            }else {
-                medias = realm.objects(MediaData.self).sorted(byKeyPath: realmTimestampKeyPath, ascending: true)
-                ascending = true
-            }
-            self.collectionView.reloadData()
-            self.collectionView.collectionViewLayout.invalidateLayout()
-        } catch {
-            print("failed to create realm object")
-        }
+        guard let mediaSorting = medias else {return}
+        
+        isAscending = isAscending == true ? false : true
+        medias = mediaSorting.sorted(byKeyPath: realmTimestampKeyPath, ascending: isAscending)
+
+        self.collectionView.reloadData()
+        self.collectionView.collectionViewLayout.invalidateLayout()
     }
 }

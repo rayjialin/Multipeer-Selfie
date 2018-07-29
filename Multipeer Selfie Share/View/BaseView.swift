@@ -11,14 +11,14 @@ import NVActivityIndicatorView
 
 class BaseView: UIView {
     
-//    let recordingTimer: UILabel = {
-//        let label = UILabel()
-//        label.translatesAutoresizingMaskIntoConstraints = false
-//        label.text = "00:00:00"
-//        label.textColor = flatWhite
-//        label.isHidden = true
-//        return label
-//    }()
+    let recordingTimer: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.text = "00:00:00"
+        label.textColor = flatWhite
+        label.isHidden = true
+        return label
+    }()
     
     let timerLabel: UILabel = {
         let label = UILabel()
@@ -126,7 +126,7 @@ class BaseView: UIView {
         [view1, view2, view3, view4, backButton, connectButton, flashButton, timerButton, timerLabel].forEach {
             headerContainerView.addSubview($0)
         }
-        [thumbnailImageView, switchCameraButton, progressBarView].forEach { footerContainerView.addSubview($0)}
+        [thumbnailImageView, switchCameraButton, progressBarView, recordingTimer].forEach { footerContainerView.addSubview($0)}
         [headerContainerView, footerContainerView].forEach {self.addSubview($0)}
         setupConstraint()
     }
@@ -137,7 +137,7 @@ class BaseView: UIView {
         [view1, view2, view3, view4, backButton, connectButton, flashButton, timerButton, timerLabel].forEach {
             headerContainerView.addSubview($0)
         }
-        [thumbnailImageView, switchCameraButton, progressBarView].forEach { footerContainerView.addSubview($0)}
+        [thumbnailImageView, switchCameraButton, progressBarView, recordingTimer].forEach { footerContainerView.addSubview($0)}
         [headerContainerView, footerContainerView].forEach {self.addSubview($0)}
         setupConstraint()
         
@@ -208,8 +208,8 @@ class BaseView: UIView {
         timerLabel.widthAnchor.constraint(equalTo: timerButton.widthAnchor, multiplier: 1.5).isActive = true
         timerLabel.heightAnchor.constraint(equalTo: timerButton.heightAnchor).isActive = true
         
-//        recordingTimer.centerXAnchor.constraint(equalTo: footerContainerView.centerXAnchor).isActive = true
-//        recordingTimer.centerYAnchor.constraint(equalTo: footerContainerView.centerYAnchor).isActive = true
+        recordingTimer.centerXAnchor.constraint(equalTo: footerContainerView.centerXAnchor).isActive = true
+        recordingTimer.centerYAnchor.constraint(equalTo: footerContainerView.centerYAnchor).isActive = true
     }
     
 }

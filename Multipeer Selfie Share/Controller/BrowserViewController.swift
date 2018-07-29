@@ -9,7 +9,6 @@
 
 import UIKit
 import MultipeerConnectivity
-import RealmSwift
 
 class BrowserViewController: UIViewController {
     
@@ -26,14 +25,9 @@ class BrowserViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        do {
-            let realm = try Realm()
-            let medias = realm.objects(MediaData.self).sorted(byKeyPath: realmTimestampKeyPath, ascending: false)
-            guard let media = medias.first?.mediaData else {return}
-            browserView.lastCapturedPhoto = UIImage(data: media)
-        } catch {
-            print("failed to create realm object")
-        }
+        let medias = RealmManager.shareInstance.readFromRealmWith(keyPath: realmTimestampKeyPath, isAscending: false)
+        guard let media = medias.first?.mediaData else {return}
+        browserView.lastCapturedPhoto = UIImage(data: media)
     }
     
     override func viewDidLoad() {
@@ -83,14 +77,14 @@ class BrowserViewController: UIViewController {
                     isTimerRunning = true
                 }
             }
-        
+            
         case 1: // video mode
             toggleRecordingStatus()
             break
         default:
             print("pressed button and do nothing")
         }
- 
+        
     }
     
     @objc private func handleFlashToggle(sender: Any){
@@ -143,19 +137,19 @@ class BrowserViewController: UIViewController {
     }
     
     private func handlePhotoMode() {
-//        UIView.animate(withDuration: 0.5) {
-//            self.browserView.takePhotoButton.depth = 1
-//            self.browserView.takePhotoButton.shadowHeight = 5
-//            self.browserView.recordingTimer.isHidden = true
-//        }
+                UIView.animate(withDuration: 0.5) {
+                    self.browserView.takePhotoButton.depth = 1
+                    self.browserView.takePhotoButton.shadowHeight = 5
+                    self.browserView.recordingTimer.isHidden = true
+                }
     }
     
     private func handleVideoMode() {
-//        UIView.animate(withDuration: 0.5) {
-//            self.browserView.takePhotoButton.depth = 0
-//            self.browserView.takePhotoButton.shadowHeight = 0
-//            self.browserView.recordingTimer.isHidden = false
-//        }
+                UIView.animate(withDuration: 0.5) {
+                    self.browserView.takePhotoButton.depth = 0
+                    self.browserView.takePhotoButton.shadowHeight = 0
+                    self.browserView.recordingTimer.isHidden = false
+                }
     }
     
     func shutter() {
@@ -165,11 +159,13 @@ class BrowserViewController: UIViewController {
     
     func toggleRecordingStatus() {
         if isRecording {
-            guard let recordingString = "startRecordingPressed".data(using: String.Encoding.utf8) else {return}
-            prepareSendRequest(data: recordingString)
-        }else {
             guard let recordingString = "stopRecordingPressed".data(using: String.Encoding.utf8) else {return}
             prepareSendRequest(data: recordingString)
+            isRecording = false
+        }else {
+            guard let recordingString = "startRecordingPressed".data(using: String.Encoding.utf8) else {return}
+            prepareSendRequest(data: recordingString)
+            isRecording = true
         }
     }
     
@@ -182,10 +178,13 @@ class BrowserViewController: UIViewController {
         if cameraService.session.connectedPeers.count > 0 {
             
             // disble shutter button and start animation progress view
-            if data == "shutterPressed".data(using: String.Encoding.utf8) {
-            browserView.takePhotoButton.isEnabled = false
-            browserView.progressBarView.startAnimating()
-            browserView.thumbnailImageView.isHidden = true
+            if data == "shutterPressed".data(using: String.Encoding.utf8) ||
+               data == "stopRecordingPressed".data(using: String.Encoding.utf8) {
+                browserView.takePhotoButton.isEnabled = false
+                browserView.progressBarView.startAnimating()
+                browserView.thumbnailImageView.isHidden = true
+            } else if data == "startRecordingPressed".data(using: String.Encoding.utf8) {
+                print("recording started")
             }
             
             do {
@@ -215,7 +214,6 @@ class BrowserViewController: UIViewController {
     override func viewWillLayoutSubviews() {
         browserView.takePhotoButton.center = CGPoint(x: view.frame.width / 2, y: view.frame.height / 2)
         browserView.takePhotoButton.layer.cornerRadius = browserView.takePhotoButton.frame.width / 2
-
         browserView.progressBarView.frame = browserView.thumbnailImageView.frame
     }
     
