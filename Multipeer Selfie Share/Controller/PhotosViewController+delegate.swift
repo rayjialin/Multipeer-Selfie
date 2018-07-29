@@ -42,15 +42,7 @@ extension PhotosViewController: UICollectionViewDataSource {
 extension PhotosViewController: CollectionViewDelegateSlantedLayout {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        NSLog("Did select item at indexPath: [\(indexPath.section)][\(indexPath.row)]")
-        
-        guard let medias = medias else {return}
-        let isVideo = medias[indexPath.row].isVideo
-        if isVideo {
-            performSegue(withIdentifier: segueToVideoPlayer, sender: indexPath)
-        } else {
-            performSegue(withIdentifier: segueToDetails, sender: indexPath)
-        }
+        performSegue(withIdentifier: segueToDetails, sender: indexPath)
     }
     
     func collectionView(_ collectionView: UICollectionView,

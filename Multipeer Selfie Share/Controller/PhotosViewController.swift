@@ -51,14 +51,6 @@ class PhotosViewController: UIViewController {
                   let data = medias[indexPath.row].mediaData else {return}
             detailViewController.mediaData = data
             detailViewController.detailDate = medias[indexPath.row].timestamp
-            detailViewController.isVideo = medias[indexPath.row].isVideo
-        } else if segue.identifier == segueToVideoPlayer {
-            let videoPlayerViewController = segue.destination as! VideoPlayerViewController
-            guard let indexPath = sender as? IndexPath,
-                let medias = medias,
-                let data = medias[indexPath.row].mediaData else {return}
-            videoPlayerViewController.mediaData = data
-            videoPlayerViewController.date = medias[indexPath.row].timestamp
         }
     }
     

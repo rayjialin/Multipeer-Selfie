@@ -45,7 +45,6 @@ class BrowserViewController: UIViewController {
         
         let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(imageTapped))
         browserView.thumbnailImageView.addGestureRecognizer(tapGestureRecognizer)
-        browserView.captureModeSegmentedControl.addTarget(self, action: #selector(handleSegmentedControlChanged), for: .valueChanged)
     }
     
     @objc private func handleBackButtonPressed(){
@@ -67,24 +66,14 @@ class BrowserViewController: UIViewController {
     
     @objc private func handleTakePhoto(){
         
-        switch browserView.captureModeSegmentedControl.selectedSegmentIndex {
-        case 0: // photo mode
-            if browserView.second < 1 {
-                shutter()
-            }else {
-                if isTimerRunning == false{
-                    timer = Timer.scheduledTimer(timeInterval: 1, target: self,   selector: #selector(updateTimer), userInfo: nil, repeats: true)
-                    isTimerRunning = true
-                }
+        if browserView.second < 1 {
+            shutter()
+        }else {
+            if isTimerRunning == false{
+                timer = Timer.scheduledTimer(timeInterval: 1, target: self,   selector: #selector(updateTimer), userInfo: nil, repeats: true)
+                isTimerRunning = true
             }
-            
-        case 1: // video mode
-            toggleRecordingStatus()
-            break
-        default:
-            print("pressed button and do nothing")
         }
-        
     }
     
     @objc private func handleFlashToggle(sender: Any){
@@ -119,54 +108,9 @@ class BrowserViewController: UIViewController {
         prepareSendRequest(data: switchCameraString)
     }
     
-    @objc private func handleSegmentedControlChanged(sender: UISegmentedControl) {
-        UIView.animate(withDuration: 0.3) {
-            let captureModeSegmentedControl = self.browserView.captureModeSegmentedControl
-            self.browserView.ScButtomBar.frame.origin.x = captureModeSegmentedControl.frame.width / CGFloat(
-                captureModeSegmentedControl.numberOfSegments) * CGFloat(captureModeSegmentedControl.selectedSegmentIndex)
-        }
-        
-        switch sender.selectedSegmentIndex {
-        case 0: // photo mode
-            handlePhotoMode()
-        case 1: // video mode
-            handleVideoMode()
-        default:
-            print("default mode, doing nothing")
-        }
-    }
-    
-    private func handlePhotoMode() {
-                UIView.animate(withDuration: 0.5) {
-                    self.browserView.takePhotoButton.depth = 1
-                    self.browserView.takePhotoButton.shadowHeight = 5
-                    self.browserView.recordingTimer.isHidden = true
-                }
-    }
-    
-    private func handleVideoMode() {
-                UIView.animate(withDuration: 0.5) {
-                    self.browserView.takePhotoButton.depth = 0
-                    self.browserView.takePhotoButton.shadowHeight = 0
-                    self.browserView.recordingTimer.isHidden = false
-                }
-    }
-    
     func shutter() {
         guard let shutterString = "shutterPressed".data(using: String.Encoding.utf8) else {return}
         prepareSendRequest(data: shutterString)
-    }
-    
-    func toggleRecordingStatus() {
-        if isRecording {
-            guard let recordingString = "stopRecordingPressed".data(using: String.Encoding.utf8) else {return}
-            prepareSendRequest(data: recordingString)
-            isRecording = false
-        }else {
-            guard let recordingString = "startRecordingPressed".data(using: String.Encoding.utf8) else {return}
-            prepareSendRequest(data: recordingString)
-            isRecording = true
-        }
     }
     
     func flash(flashState: String){
@@ -178,13 +122,10 @@ class BrowserViewController: UIViewController {
         if cameraService.session.connectedPeers.count > 0 {
             
             // disble shutter button and start animation progress view
-            if data == "shutterPressed".data(using: String.Encoding.utf8) ||
-               data == "stopRecordingPressed".data(using: String.Encoding.utf8) {
+            if data == "shutterPressed".data(using: String.Encoding.utf8) {
                 browserView.takePhotoButton.isEnabled = false
                 browserView.progressBarView.startAnimating()
                 browserView.thumbnailImageView.isHidden = true
-            } else if data == "startRecordingPressed".data(using: String.Encoding.utf8) {
-                print("recording started")
             }
             
             do {

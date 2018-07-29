@@ -36,22 +36,11 @@ class BroadcastViewController: UIViewController {
     var frontCameraInput: AVCaptureDeviceInput?
     var rearCameraInput: AVCaptureDeviceInput?
     var photoOutput: AVCapturePhotoOutput?
-    var dataOutput: AVCaptureVideoDataOutput?
-    var audioOutput: AVCaptureAudioDataOutput?
-    var movieOutput: AVCaptureMovieFileOutput?
-    var assetWriter: AVAssetWriter?
-    var assetWriterInput: AVAssetWriterInput?
-    var pixelBufferAdaptor: AVAssetWriterInputPixelBufferAdaptor?
     var previewLayer: AVCaptureVideoPreviewLayer?
     var mcAdvertiserAssistant: MCAdvertiserAssistant!
     var photoCaptureCompletionBlock: ((Data?, Error?) -> Void)?
     let broadcasterView = BroadcasterView()
     
-//    var frameNumber: Int64 = 0 {
-//        didSet{
-//            broadcasterView.videoLengthLabel.text = String(frameNumber)
-//        }
-//    }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -207,53 +196,15 @@ class BroadcastViewController: UIViewController {
             guard let captureSession = captureSession else { throw CameraError.captureSessionIsMissing }
             
             photoOutput = AVCapturePhotoOutput()
-            dataOutput = AVCaptureVideoDataOutput()
-            audioOutput = AVCaptureAudioDataOutput()
-            movieOutput = AVCaptureMovieFileOutput()
             
             guard let photoOutput = photoOutput else {return}
-            //            guard let dataOutput = dataOutput else {return}
-            //            guard let audioOutput = audioOutput else {return}
-            guard let movieOutput = movieOutput else {return}
             
-            //            dataOutput.setSampleBufferDelegate(self, queue: DispatchQueue.global())
-            //            dataOutput.recommendedVideoSettings(forVideoCodecType: .h264, assetWriterOutputFileType: .mp4)
-            ////            dataOutput.videoSettings = [(kCVPixelBufferPixelFormatTypeKey as NSString): NSNumber(value: kCVPixelFormatType_420YpCbCr8PlanarFullRange as UInt32)] as [String : Any]
-            //            assetWriterInput = AVAssetWriterInput(mediaType: AVMediaType.video, outputSettings: [AVVideoWidthKey: 640, AVVideoHeightKey: 480, AVVideoCodecKey: AVVideoCodecType.h264])
-            //            guard let assetWriterInput = assetWriterInput else {return}
-            //            pixelBufferAdaptor = AVAssetWriterInputPixelBufferAdaptor(assetWriterInput: assetWriterInput, sourcePixelBufferAttributes: [kCVPixelBufferPixelFormatTypeKey as String : Int(kCVPixelFormatType_32BGRA)])
-            //
-            //            do {
-            //                guard let url = applicationDocumentsDirectory()?.appendingPathComponent("video").appendingPathExtension("mp4") else {return}
-            //                assetWriter = try AVAssetWriter(url: url, fileType: .mp4)
-            //                guard let assetWriter = assetWriter else {return}
-            //                guard assetWriter.canAdd(assetWriterInput) else {return}
-            //                assetWriter.add(assetWriterInput)
-            //                assetWriterInput.expectsMediaDataInRealTime = true
-            //
-            //            }catch {
-            //                print("failed to create asset writer")
-            //            }
-            //
-            //            dataOutput.alwaysDiscardsLateVideoFrames = true
-            
-            //            audioOutput.recommendedAudioSettingsForAssetWriter(writingTo: .aiff)
             photoOutput.setPreparedPhotoSettingsArray([AVCapturePhotoSettings(format: [AVVideoCodecKey : AVVideoCodecType.jpeg])], completionHandler: nil)
             
             if captureSession.canAddOutput(photoOutput) {
                 captureSession.addOutput(photoOutput)
             }
             
-            if captureSession.canAddOutput(movieOutput) {
-                captureSession.addOutput(movieOutput)
-            }
-            //            if captureSession.canAddOutput(dataOutput) {
-            //                captureSession.addOutput(dataOutput)
-            //            }
-            //
-            //            if captureSession.canAddOutput(audioOutput) {
-            //                captureSession.addOutput(audioOutput)
-            //            }
             captureSession.startRunning()
         }
         
@@ -294,58 +245,7 @@ class BroadcastViewController: UIViewController {
         self.photoOutput?.capturePhoto(with: settings, delegate: self)
         self.photoCaptureCompletionBlock = completion
     }
-    
-    func handleStartRecording() {
-        //        guard let assetWriter = assetWriter else {return}
-        //        assetWriter.startSession(atSourceTime: CMTime(value: frameNumber, timescale: 25))
-        //        assetWriter.startWriting()
-        //        assetWriter.startSession(atSourceTime: kCMTimeZero)
-        //
-        //        guard let captureSession = captureSession else {return}
-        ////        if !captureSession.isRunning {
-        //            captureSession.startRunning()
-        ////        }
-        
-        print("recording started")
-        guard let movieOutput = movieOutput else {return}
-        if !movieOutput.isRecording {
-            movieOutput.startRecording(to: tmpPathUrl, recordingDelegate: self)
-        }
-    }
-    
-    func handleEndRecording() {
-        //        guard let assetWriter = assetWriter else {return}
-        //        assetWriter.endSession(atSourceTime: CMTime(value: frameNumber, timescale: 25))
-        //        assetWriter.finishWriting {
-        //            if assetWriter.status == AVAssetWriterStatus.failed {
-        //                print(assetWriter.error)
-        //            }else {
-        //                print(assetWriter.outputURL)
-        //                print(assetWriter.outputFileType)
-        //            }
-        //        }
-        print("recording ended")
-        guard let movieOutput = movieOutput else {return}
-        if movieOutput.isRecording {
-            movieOutput.stopRecording()
-        }
-        
-    }
-    
-    func compressVideo(inputURL: URL, outputURL: URL, handler:@escaping (_ exportSession: AVAssetExportSession?)-> Void) {
-        let urlAsset = AVURLAsset(url: inputURL, options: nil)
-        guard let exportSession = AVAssetExportSession(asset: urlAsset, presetName: AVAssetExportPreset640x480) else {
-            handler(nil)
-            return
-        }
-        exportSession.outputURL = outputURL
-        exportSession.outputFileType = AVFileType.m4v
-        exportSession.shouldOptimizeForNetworkUse = true
-        exportSession.exportAsynchronously { () -> Void in
-            handler(exportSession)
-        }
-    }
-    
+
     // get applicaiton direcotry to store temporary file
     func applicationDocumentsDirectory() -> URL? {
         //        return FileManager.default.urls(for: FileManager.SearchPathDirectory.documentDirectory, in: FileManager.SearchPathDomainMask.userDomainMask).last
@@ -360,7 +260,6 @@ class BroadcastViewController: UIViewController {
     func getThumbnailFrom(path: URL) -> Data? {
         
         do {
-            
             let asset = AVURLAsset(url: path , options: nil)
             let imgGenerator = AVAssetImageGenerator(asset: asset)
             imgGenerator.appliesPreferredTrackTransform = true

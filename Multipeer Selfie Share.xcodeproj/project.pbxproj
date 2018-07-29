@@ -34,8 +34,6 @@
 		386EBBE2210A1BA0000F7A20 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 386EBBE1210A1BA0000F7A20 /* Constants.swift */; };
 		386EBBE4210A271B000F7A20 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 386EBBE3210A271B000F7A20 /* Extensions.swift */; };
 		386EBBEA210CA691000F7A20 /* RealmManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 386EBBE9210CA691000F7A20 /* RealmManager.swift */; };
-		386EBBF0210E230D000F7A20 /* VideoPlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 386EBBEF210E230D000F7A20 /* VideoPlayerView.swift */; };
-		386EBBF5210E2496000F7A20 /* VideoPlayerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 386EBBF4210E2496000F7A20 /* VideoPlayerViewController.swift */; };
 		387AF6BA20FB87700069B027 /* PhotoDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 387AF6B920FB87700069B027 /* PhotoDetailViewController.swift */; };
 		387AF6C320FB8D310069B027 /* MediaData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 387AF6C220FB8D310069B027 /* MediaData.swift */; };
 		3882B87020FB967E00C0C907 /* BaseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3882B86F20FB967E00C0C907 /* BaseView.swift */; };
@@ -153,8 +151,6 @@
 		386EBBE1210A1BA0000F7A20 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		386EBBE3210A271B000F7A20 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		386EBBE9210CA691000F7A20 /* RealmManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmManager.swift; sourceTree = "<group>"; };
-		386EBBEF210E230D000F7A20 /* VideoPlayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoPlayerView.swift; sourceTree = "<group>"; };
-		386EBBF4210E2496000F7A20 /* VideoPlayerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoPlayerViewController.swift; sourceTree = "<group>"; };
 		387AF6B920FB87700069B027 /* PhotoDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoDetailViewController.swift; sourceTree = "<group>"; };
 		387AF6C220FB8D310069B027 /* MediaData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MediaData.swift; path = "Multipeer Selfie Share/Controller/MediaData.swift"; sourceTree = SOURCE_ROOT; };
 		3882B86F20FB967E00C0C907 /* BaseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseView.swift; sourceTree = "<group>"; };
@@ -288,7 +284,6 @@
 				3810E1BC2103F18500CE1955 /* PhotosViewController+delegate.swift */,
 				387AF6B920FB87700069B027 /* PhotoDetailViewController.swift */,
 				3810E1B621021F4F00CE1955 /* PhotoDetailViewController+delegate.swift */,
-				386EBBF4210E2496000F7A20 /* VideoPlayerViewController.swift */,
 				380A62D420FBD294004709FA /* SettingViewController.swift */,
 			);
 			path = Controller;
@@ -304,7 +299,6 @@
 				3810E1BA2103E79300CE1955 /* PhotoView.swift */,
 				3810E1B421021C7A00CE1955 /* FilterCell.swift */,
 				3810E1AF2102125600CE1955 /* PhotoDetailView.swift */,
-				386EBBEF210E230D000F7A20 /* VideoPlayerView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -485,20 +479,20 @@
 /* Begin PBXShellScriptBuildPhase section */
 		380A630520FE8FD8004709FA /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 12;
+			buildActionMask = 8;
 			files = (
 			);
 			inputPaths = (
 			);
 			outputPaths = (
 			);
-			runOnlyForDeploymentPostprocessing = 0;
+			runOnlyForDeploymentPostprocessing = 1;
 			shellPath = /bin/sh;
 			shellScript = "APP_PATH=\"${TARGET_BUILD_DIR}/${WRAPPER_NAME}\"\n\n# This script loops through the frameworks embedded in the application and\n# removes unused architectures.\nfind \"$APP_PATH\" -name '*.framework' -type d | while read -r FRAMEWORK\ndo\nFRAMEWORK_EXECUTABLE_NAME=$(defaults read \"$FRAMEWORK/Info.plist\" CFBundleExecutable)\nFRAMEWORK_EXECUTABLE_PATH=\"$FRAMEWORK/$FRAMEWORK_EXECUTABLE_NAME\"\necho \"Executable is $FRAMEWORK_EXECUTABLE_PATH\"\n\nEXTRACTED_ARCHS=()\n\nfor ARCH in $ARCHS\ndo\necho \"Extracting $ARCH from $FRAMEWORK_EXECUTABLE_NAME\"\nlipo -extract \"$ARCH\" \"$FRAMEWORK_EXECUTABLE_PATH\" -o \"$FRAMEWORK_EXECUTABLE_PATH-$ARCH\"\nEXTRACTED_ARCHS+=(\"$FRAMEWORK_EXECUTABLE_PATH-$ARCH\")\ndone\n\necho \"Merging extracted architectures: ${ARCHS}\"\nlipo -o \"$FRAMEWORK_EXECUTABLE_PATH-merged\" -create \"${EXTRACTED_ARCHS[@]}\"\nrm \"${EXTRACTED_ARCHS[@]}\"\n\necho \"Replacing original executable with thinned version\"\nrm \"$FRAMEWORK_EXECUTABLE_PATH\"\nmv \"$FRAMEWORK_EXECUTABLE_PATH-merged\" \"$FRAMEWORK_EXECUTABLE_PATH\"\n\ndone\n";
 		};
 		3810E1CC210830FF00CE1955 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 8;
+			buildActionMask = 12;
 			files = (
 			);
 			inputPaths = (
@@ -506,7 +500,7 @@
 			);
 			outputPaths = (
 			);
-			runOnlyForDeploymentPostprocessing = 1;
+			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "/usr/local/bin/carthage copy-frameworks\n";
 		};
@@ -540,11 +534,9 @@
 				3885326420EAA9E300ADAD10 /* CameraServiceManager.swift in Sources */,
 				38BA8E6F20ECF8AD0046035B /* BroadcastViewController+delegate.swift in Sources */,
 				3882B87020FB967E00C0C907 /* BaseView.swift in Sources */,
-				386EBBF0210E230D000F7A20 /* VideoPlayerView.swift in Sources */,
 				3810E1B92102249500CE1955 /* FilterModel.swift in Sources */,
 				380A62CF20FBCE96004709FA /* CustomCollectionCell.swift in Sources */,
 				3810E1B721021F4F00CE1955 /* PhotoDetailViewController+delegate.swift in Sources */,
-				386EBBF5210E2496000F7A20 /* VideoPlayerViewController.swift in Sources */,
 				3885326E20EAAC2B00ADAD10 /* BrowserViewController.swift in Sources */,
 				3885327A20EBF04F00ADAD10 /* BroadcasterView.swift in Sources */,
 			);

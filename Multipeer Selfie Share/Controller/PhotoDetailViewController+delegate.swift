@@ -11,21 +11,9 @@ import UIKit
 extension PhotoDetailViewController: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath){
-   
-        // de-highlight all other selected cell
-//        guard let indexPaths = collectionView.indexPathsForSelectedItems else {return}
-//        for index in indexPaths {
-//            let selectedCell = collectionView.cellForItem(at: index) as? FilterCell
-//            selectedCell?.bottomBar.isHidden = true
-//        }
-        
+
         // highlight the selected cell
         let selectedCell = collectionView.cellForItem(at: indexPath) as? FilterCell
-        
-        // apply selected filter to image
-//        selectedCell?.bottomBar.isHidden = false
-//        guard let filterText = selectedCell?.filterLabel.text else {return}
-//        applyFilter(filter: filterText)
         
         if selectedCell?.bottomBar.isHidden == true {
             selectedCell?.bottomBar.isHidden = false

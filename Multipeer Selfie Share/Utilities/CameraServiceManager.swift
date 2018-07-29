@@ -13,14 +13,12 @@ import MultipeerConnectivity
 protocol CameraServiceManagerDelegate: class {
     func connectedDevicesChanged(manager: CameraServiceManager, state: MCSessionState, connectedDevices: [String])
     func transmitPhotoData(mediaData: MediaData?)
-    func transmitVideoData(mediaData: MediaData?)
     func toggleFlash(manager: CameraServiceManager, flashState: String)
     func acceptInvitation(manager: CameraServiceManager)
     func didStartReceivingData(manager: CameraServiceManager, withName resourceName: String, withProgress progress: Progress)
     func didFinishReceivingData(manager: CameraServiceManager, url: NSURL)
     func switchCameraButtonTapped(manager: CameraServiceManager, switchCameraRequest: String?)
     func updateTimerLabel(timerValue: String?)
-    func toggleRecording(manager: CameraServiceManager, toggleRecordingRequest: String?)
 }
 
 class CameraServiceManager: NSObject {
@@ -66,14 +64,8 @@ extension CameraServiceManager: MCSessionDelegate {
             mediaData.mediaData = unarchivedData["mediaData"] as? Data
             mediaData.thumbnail = unarchivedData["thumbnail"] as? Data
             
-            if mediaData.isVideo == false {
                 // go into browser delegate method
                 delegate?.transmitPhotoData(mediaData: mediaData)
-            } else {
-                
-                // go into browser delegate method
-                delegate?.transmitVideoData(mediaData: mediaData)
-            }
             
         }else{
             let dataString = NSString(data: data, encoding: String.Encoding.utf8.rawValue)
@@ -90,10 +82,6 @@ extension CameraServiceManager: MCSessionDelegate {
                 delegate?.transmitPhotoData(mediaData: nil)
             case "switchCameraPressed":
                 delegate?.switchCameraButtonTapped(manager: self, switchCameraRequest: "switchCameraPressed")
-            case "startRecordingPressed":
-                delegate?.toggleRecording(manager: self, toggleRecordingRequest: "startRecordingPressed")
-            case "stopRecordingPressed":
-                delegate?.toggleRecording(manager: self, toggleRecordingRequest: "stopRecordingPressed")
             default:
                 print("receiving error")
             }

@@ -14,24 +14,20 @@ class PhotoDetailViewController: UIViewController {
     let photoDetailView = PhotoDetailView()
     var mediaData: Data?
     
-    var isVideo: Bool? {
-        didSet {
-            guard let mediaData = mediaData, let isVideo = isVideo else {return}
-            if isVideo {
-                // convert data to URL and add it to AVPlayer
-                
-            }else {
-                photoDetailView.detailImage = UIImage(data: mediaData)
-            }
-        }
-    }
-    
     var detailDate: Date? = nil {
         didSet{
             guard let detailDate = detailDate else {return}
             let dateString = Date.convertDateToStringLong(date: detailDate)
             photoDetailView.detailLabel.text = dateString
         }
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        guard let data = mediaData else {return}
+        photoDetailView.detailImageView.frame = view.frame
+        photoDetailView.detailImageView.image = UIImage(data: data)
     }
     
     override func viewDidLoad() {
@@ -49,7 +45,7 @@ class PhotoDetailViewController: UIViewController {
         
         // tap gesture to show image in full screen
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleImageTapped))
-        tapGesture.numberOfTapsRequired = 1
+//        tapGesture.numberOfTapsRequired = 1
         tapGesture.delegate = self
         photoDetailView.detailImageView.addGestureRecognizer(tapGesture)
         
@@ -60,10 +56,6 @@ class PhotoDetailViewController: UIViewController {
         
         // show filter options
         photoDetailView.filterButton.addTarget(self, action: #selector(handleFilterPressed), for: .touchUpInside)
-        
-        // change scale of image
-//        let pinchGesture = UIPinchGestureRecognizer(target: self, action: #selector(handlePinchGesture))
-//        photoDetailView.detailImageView.addGestureRecognizer(pinchGesture)
     }
     
     @objc private func handleBackButtonPressed() {
@@ -96,10 +88,6 @@ class PhotoDetailViewController: UIViewController {
             }
         }
     }
-    
-//    @objc private func handlePinchGesture(sender: UIPinchGestureRecognizer) {
-//        photoDetailView.detailImageView.transform = CGAffineTransform(scaleX: sender.scale, y: sender.scale)
-//    }
     
     @objc private func handleFilterPressed(){
         print("filter tapped")

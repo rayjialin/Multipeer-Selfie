@@ -30,30 +30,6 @@ class BrowserView: BaseView {
             }
         }
     }
-    
-    let captureModeSegmentedControl: UISegmentedControl = {
-        let segmentedControl = UISegmentedControl()
-        segmentedControl.insertSegment(withTitle: segmentedControlPhoto, at: 0, animated: true)
-        segmentedControl.insertSegment(withTitle: segmentedControlVideo, at: 1, animated: true)
-        segmentedControl.selectedSegmentIndex = 0
-        segmentedControl.translatesAutoresizingMaskIntoConstraints = false
-        segmentedControl.backgroundColor = .clear
-        segmentedControl.tintColor = .clear
-        segmentedControl.setTitleTextAttributes([NSAttributedStringKey.font : UIFont(name: dinCondensedBold, size: 18) ?? UIFont.boldSystemFont(ofSize: 18),
-            NSAttributedStringKey.foregroundColor: lightGray
-            ], for: .normal)
-        segmentedControl.setTitleTextAttributes([NSAttributedStringKey.font : UIFont(name: dinCondensedBold, size: 18) ?? UIFont.boldSystemFont(ofSize: 18),
-            NSAttributedStringKey.foregroundColor: flatGreen
-            ], for: .selected)
-        return segmentedControl
-    }()
-    
-    let ScButtomBar: UIView = {
-        let view = UIView()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        view.backgroundColor = flatGreen
-        return view
-    }()
 
     var second: Int {
         didSet{
@@ -69,8 +45,6 @@ class BrowserView: BaseView {
         }
     }
     
-    @objc dynamic var fileTransferProgress : Progress!
-
     // Take-Photo Button
     let takePhotoButton: PressableButton = {
         let button = PressableButton()
@@ -103,21 +77,11 @@ class BrowserView: BaseView {
         
         backgroundColor = UIColor.init(complementaryFlatColorOf: flatBlack, withAlpha: 0.9)
         
-        [takePhotoButton, captureModeSegmentedControl, ScButtomBar].forEach {self.addSubview($0)}
+        [takePhotoButton].forEach {self.addSubview($0)}
         takePhotoButton.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.8).isActive = true
         takePhotoButton.heightAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.8).isActive = true
         takePhotoButton.centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true
         takePhotoButton.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
-        
-        captureModeSegmentedControl.bottomAnchor.constraint(equalTo: footerContainerView.topAnchor).isActive = true
-        captureModeSegmentedControl.widthAnchor.constraint(equalTo: footerContainerView.widthAnchor).isActive = true
-        captureModeSegmentedControl.heightAnchor.constraint(equalTo: footerContainerView.heightAnchor, multiplier: 0.5).isActive = true
-        captureModeSegmentedControl.centerXAnchor.constraint(equalTo: footerContainerView.centerXAnchor).isActive = true
-        
-        ScButtomBar.bottomAnchor.constraint(equalTo: captureModeSegmentedControl.bottomAnchor).isActive = true
-        ScButtomBar.heightAnchor.constraint(equalToConstant: 5).isActive = true
-        ScButtomBar.widthAnchor.constraint(equalTo: captureModeSegmentedControl.widthAnchor, multiplier: 1.0 / CGFloat(captureModeSegmentedControl.numberOfSegments)).isActive = true
-        ScButtomBar.leadingAnchor.constraint(equalTo: captureModeSegmentedControl.leadingAnchor).isActive = true
     }
     
     @objc private func handleSetTimer(){
