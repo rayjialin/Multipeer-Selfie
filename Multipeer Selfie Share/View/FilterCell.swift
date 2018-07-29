@@ -14,15 +14,15 @@ class FilterCell: UICollectionViewCell {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textAlignment = .center
-        label.textColor = UIColor.flatWhite()
-        label.font = UIFont(name: "GillSans", size: 12)
+        label.textColor = flatWhite
+        label.font = UIFont(name: gillSansFont, size: 12)
         return label
     }()
     
     let bottomBar: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.backgroundColor = UIColor.flatGreen()
+        view.backgroundColor = flatGreen
         view.isHidden = true
         return view
     }()

@@ -1,21 +1,22 @@
 //
-//  PhotoDetailView.swift
+//  VideoPlayerView.swift
 //  Multipeer Selfie Share
 //
-//  Created by ruijia lin on 7/20/18.
+//  Created by ruijia lin on 7/29/18.
 //  Copyright © 2018 ruijia lin. All rights reserved.
 //
 
 import UIKit
+import AVKit
 
-class PhotoDetailView: UIView {
-
-    var detailImage: UIImage? = nil {
-        didSet{
-            guard let detailCGImage = detailImage?.cgImage else {return}
-            detailImageView.image = UIImage(cgImage: detailCGImage, scale: 1, orientation: .right)
-        }
-    }
+class VideoPlayerView: UIView {
+    
+//    var avPlayer: AVPlayer? = nil {
+//        didSet{
+//            guard let detailCGImage = AVPlayer. else {return}
+//            detailImageView.image = UIImage(cgImage: detailCGImage, scale: 1, orientation: .right)
+//        }
+//    }
     
     // use as constraint to setup button size
     let thumbnailImageView: UIImageView = {
@@ -110,13 +111,13 @@ class PhotoDetailView: UIView {
         return containerView
     }()
     
-    let detailImageView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.isUserInteractionEnabled = true
-        imageView.contentMode = .scaleAspectFit
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        return imageView
-    }()
+//    let detailImageView: UIImageView = {
+//        let imageView = UIImageView()
+//        imageView.isUserInteractionEnabled = true
+//        imageView.contentMode = .scaleAspectFit
+//        imageView.translatesAutoresizingMaskIntoConstraints = false
+//        return imageView
+//    }()
     
     let detailLabel: UILabel = {
         let label = UILabel()
@@ -130,7 +131,7 @@ class PhotoDetailView: UIView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-
+        
         setupView()
         setupConstraint()
     }
@@ -153,10 +154,10 @@ class PhotoDetailView: UIView {
         [filterCollectionView].forEach {footerDetailContainer.addSubview($0)}
         
         // adding all containers to imageView - show all elements on top of image
-        [headerContainerView, footerContainerView, footerDetailContainer].forEach {detailImageView.addSubview($0)}
+//        [headerContainerView, footerContainerView, footerDetailContainer].forEach {detailImageView.addSubview($0)}
         
         // adding image view to parent view
-        [detailImageView].forEach {self.addSubview($0)}
+        [headerContainerView, footerContainerView, footerDetailContainer].forEach {self.addSubview($0)}
     }
     
     func setupConstraint(){
@@ -167,10 +168,10 @@ class PhotoDetailView: UIView {
         thumbnailImageView.centerYAnchor.constraint(equalTo: footerContainerView.centerYAnchor).isActive = true
         thumbnailImageView.leadingAnchor.constraint(equalTo: footerContainerView.leadingAnchor, constant: 10).isActive = true
         
-        detailImageView.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
-        detailImageView.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
-        detailImageView.leadingAnchor.constraint(equalTo: self.leadingAnchor).isActive = true
-        detailImageView.trailingAnchor.constraint(equalTo: self.trailingAnchor).isActive = true
+//        detailImageView.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
+//        detailImageView.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
+//        detailImageView.leadingAnchor.constraint(equalTo: self.leadingAnchor).isActive = true
+//        detailImageView.trailingAnchor.constraint(equalTo: self.trailingAnchor).isActive = true
         
         footerDetailContainer.widthAnchor.constraint(equalTo: footerContainerView.widthAnchor).isActive = true
         footerDetailContainer.heightAnchor.constraint(equalTo: footerContainerView.heightAnchor, multiplier: 0.5).isActive = true
@@ -180,15 +181,15 @@ class PhotoDetailView: UIView {
         filterCollectionView.leadingAnchor.constraint(equalTo: footerDetailContainer.leadingAnchor).isActive = true
         filterCollectionView.trailingAnchor.constraint(equalTo: footerDetailContainer.trailingAnchor).isActive = true
         filterCollectionView.bottomAnchor.constraint(equalTo: footerDetailContainer.bottomAnchor).isActive = true
-
-        headerContainerView.topAnchor.constraint(equalTo: detailImageView.topAnchor).isActive = true
         
-        headerContainerView.widthAnchor.constraint(equalTo: detailImageView.widthAnchor).isActive = true
-        headerContainerView.heightAnchor.constraint(equalTo: detailImageView.heightAnchor, multiplier: 0.1).isActive = true
+        headerContainerView.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
         
-        footerContainerView.bottomAnchor.constraint(equalTo: detailImageView.bottomAnchor).isActive = true
-        footerContainerView.widthAnchor.constraint(equalTo: detailImageView.widthAnchor).isActive = true
-        footerContainerView.heightAnchor.constraint(equalTo: detailImageView.heightAnchor, multiplier: 0.1).isActive = true
+        headerContainerView.widthAnchor.constraint(equalTo: self.widthAnchor).isActive = true
+        headerContainerView.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: 0.1).isActive = true
+        
+        footerContainerView.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
+        footerContainerView.widthAnchor.constraint(equalTo: self.widthAnchor).isActive = true
+        footerContainerView.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: 0.1).isActive = true
         
         view1.leadingAnchor.constraint(equalTo: headerContainerView.leadingAnchor).isActive = true
         view1.topAnchor.constraint(equalTo: headerContainerView.topAnchor).isActive = true

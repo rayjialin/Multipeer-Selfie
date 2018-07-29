@@ -17,3 +17,11 @@ enum flashState: String {
         return self.rawValue
     }
 }
+
+enum selectedFilter: String {
+    case toon
+    case sephia
+    case grayscle
+}
+
+

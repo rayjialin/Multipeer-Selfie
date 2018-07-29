@@ -11,6 +11,15 @@ import MultipeerConnectivity
 import RealmSwift
 
 extension BroadcastViewController: CameraServiceManagerDelegate {
+    
+    func toggleRecording(manager: CameraServiceManager, toggleRecordingRequest: String?) {
+        if toggleRecordingRequest == "startRecordingPressed" {
+            handleStartRecording()
+        }else if toggleRecordingRequest == "stopRecordingPressed" {
+            handleEndRecording()
+        }
+    }
+    
     func updateTimerLabel(timerValue: String?) {
         DispatchQueue.main.async {
             self.broadcasterView.timerLabel.isHidden = false
@@ -57,17 +66,17 @@ extension BroadcastViewController: CameraServiceManagerDelegate {
             session.commitConfiguration()
         }
     }
-        
-        // Find a camera with the specified AVCaptureDevicePosition, returning nil if one is not found
-        private func cameraWithPosition(position: AVCaptureDevice.Position) -> AVCaptureDevice? {
-            let discoverySession = AVCaptureDevice.DiscoverySession(deviceTypes: [.builtInWideAngleCamera], mediaType: AVMediaType.video, position: .unspecified)
-            for device in discoverySession.devices {
-                if device.position == position {
-                    return device
-                }
+    
+    // Find a camera with the specified AVCaptureDevicePosition, returning nil if one is not found
+    private func cameraWithPosition(position: AVCaptureDevice.Position) -> AVCaptureDevice? {
+        let discoverySession = AVCaptureDevice.DiscoverySession(deviceTypes: [.builtInWideAngleCamera], mediaType: AVMediaType.video, position: .unspecified)
+        for device in discoverySession.devices {
+            if device.position == position {
+                return device
             }
-            return nil
         }
+        return nil
+    }
     
     func connectedDevicesChanged(manager: CameraServiceManager, state: MCSessionState, connectedDevices: [String]) {
         DispatchQueue.main.async {
@@ -82,36 +91,64 @@ extension BroadcastViewController: CameraServiceManagerDelegate {
         }
     }
 
-    func shutterButtonTapped(manager: CameraServiceManager, data: Data?) {
+    func transmitVideoData(mediaData: MediaData?) {
+        if cameraService.session.connectedPeers.count > 0 {
+            
+            guard let data = mediaData,
+                  let videoData = data.mediaData,
+                  let thumbnail = data.thumbnail else {return}
+            
+            let mediaData = MediaData()
+            mediaData.timestamp = data.timestamp
+            mediaData.isVideo = data.isVideo
+            mediaData.mediaData = videoData
+            mediaData.thumbnail = thumbnail
+            
+            guard let savedData = self.convertToData(timestamp: mediaData.timestamp, mediaData: videoData, thumbnail: thumbnail, isVideo: mediaData.isVideo) else {return}
+            
+            do {
+                try self.cameraService.session.send(savedData, toPeers: self.cameraService.session.connectedPeers, with: .reliable)
+                
+                // instantiate realm object and write image data to realm object
+                RealmManager.shareInstance.wrtieToRealm(object: mediaData)
+                
+                DispatchQueue.main.async {
+                    self.broadcasterView.thumbnailImageView.image = UIImage(data: thumbnail)
+                    self.broadcasterView.thumbnailImageView.isHidden = false
+                }
+            } catch let error as NSError {
+                let ac = UIAlertController(title: "Send error", message: error.localizedDescription, preferredStyle: .alert)
+                ac.addAction(UIAlertAction(title: "OK", style: .default))
+                self.present(ac, animated: true)
+            }
+        }
+    }
+    
+    func transmitPhotoData(mediaData: MediaData?) {
         if cameraService.session.connectedPeers.count > 0 {
             captureImage { (data, error) in
                 if let error = error {
                     print(error)
                 }
                 
-                guard let data = data else {return}
+                guard let photoData = data else {return}
+                let mediaData = MediaData()
+                mediaData.timestamp = Date()
+                mediaData.isVideo = false
+                mediaData.mediaData = photoData
+                mediaData.thumbnail = photoData
+                
+                guard let savedData = self.convertToData(timestamp: mediaData.timestamp, mediaData: photoData, thumbnail: photoData, isVideo: false) else {return}
+                
                 
                 do {
-                    try self.cameraService.session.send(data, toPeers: self.cameraService.session.connectedPeers, with: .reliable)
-                    let mediaData = MediaData()
-                    mediaData.mediaData = data
-                    mediaData.timestamp = Date()
+                    try self.cameraService.session.send(savedData, toPeers: self.cameraService.session.connectedPeers, with: .reliable)
+                    
                     // instantiate realm object and write image data to realm object
-                    do {
-                        let realm = try Realm()
-                        do {
-                            try realm.write {
-                                realm.add(mediaData)
-                            }
-                        } catch {
-                            print("Failed to write to Realm")
-                        }
-                    } catch {
-                        print("Failed to get default Realm")
-                    }
+                    RealmManager.shareInstance.wrtieToRealm(object: mediaData)
                     
                     DispatchQueue.main.async {
-                        self.broadcasterView.thumbnailImageView.image = UIImage(data: data)
+                        self.broadcasterView.thumbnailImageView.image = UIImage(data: photoData)
                         self.broadcasterView.thumbnailImageView.isHidden = false
                     }
                 } catch let error as NSError {
@@ -123,21 +160,21 @@ extension BroadcastViewController: CameraServiceManagerDelegate {
             }
         }
     }
-
+    
     func toggleFlash(manager: CameraServiceManager, flashState: String) {
         toggleTorch(flashState: flashState)
     }
-
+    
     func acceptInvitation(manager: CameraServiceManager) {
-
+        
     }
-
+    
     func didStartReceivingData(manager: CameraServiceManager, withName resourceName: String, withProgress progress: Progress) {
-
+        
     }
-
+    
     func didFinishReceivingData(manager: CameraServiceManager, url: NSURL) {
-
+        
     }
 }
 
@@ -152,17 +189,17 @@ extension BroadcastViewController: AVCapturePhotoCaptureDelegate {
         
     }
     
-// before iOS 10.0 *
-//    public func photoOutput(_ captureOutput: AVCapturePhotoOutput, didFinishProcessingPhoto photoSampleBuffer: CMSampleBuffer?, previewPhoto previewPhotoSampleBuffer: CMSampleBuffer?, resolvedSettings: AVCaptureResolvedPhotoSettings, bracketSettings: AVCaptureBracketedStillImageSettings?, error: Swift.Error?) {
-//        if let error = error { self.photoCaptureCompletionBlock?(nil, error) }
-//
-//        else if let buffer = photoSampleBuffer, let data = AVCapturePhotoOutput.jpegPhotoDataRepresentation(forJPEGSampleBuffer: buffer, previewPhotoSampleBuffer: nil) {
-//            self.photoCaptureCompletionBlock?(data, nil)
-//        }
-//        else {
-//            self.photoCaptureCompletionBlock?(nil, CameraError.unknown)
-//        }
-//    }
+    // before iOS 10.0 *
+    //    public func photoOutput(_ captureOutput: AVCapturePhotoOutput, didFinishProcessingPhoto photoSampleBuffer: CMSampleBuffer?, previewPhoto previewPhotoSampleBuffer: CMSampleBuffer?, resolvedSettings: AVCaptureResolvedPhotoSettings, bracketSettings: AVCaptureBracketedStillImageSettings?, error: Swift.Error?) {
+    //        if let error = error { self.photoCaptureCompletionBlock?(nil, error) }
+    //
+    //        else if let buffer = photoSampleBuffer, let data = AVCapturePhotoOutput.jpegPhotoDataRepresentation(forJPEGSampleBuffer: buffer, previewPhotoSampleBuffer: nil) {
+    //            self.photoCaptureCompletionBlock?(data, nil)
+    //        }
+    //        else {
+    //            self.photoCaptureCompletionBlock?(nil, CameraError.unknown)
+    //        }
+    //    }
 }
 
 //extension BroadcastViewController: AVCaptureVideoDataOutputSampleBufferDelegate {
@@ -180,8 +217,7 @@ extension BroadcastViewController: AVCapturePhotoCaptureDelegate {
 extension BroadcastViewController: AVCaptureFileOutputRecordingDelegate {
     func fileOutput(_ output: AVCaptureFileOutput, didFinishRecordingTo outputFileURL: URL, from connections: [AVCaptureConnection], error: Error?) {
         
-        let compressedURL = NSURL.fileURL(withPath: NSTemporaryDirectory() + NSUUID().uuidString + ".m4v")
-        compressVideo(inputURL: outputFileURL as URL, outputURL: compressedURL) { (exportSession) in
+        compressVideo(inputURL: outputFileURL as URL, outputURL: tmpPathUrlCompressed) { (exportSession) in
             guard let session = exportSession else {
                 return
             }
@@ -198,33 +234,27 @@ extension BroadcastViewController: AVCaptureFileOutputRecordingDelegate {
                 let media = MediaData()
                 
                 do {
-                    let compressedData = try Data(contentsOf: compressedURL)
+                    let compressedData = try Data(contentsOf: tmpPathUrlCompressed)
                     print("File size after compression: \(Double(compressedData.count / 1048576)) mb")
                     media.mediaData = compressedData
                     media.timestamp = Date()
+                    media.thumbnail = self.getThumbnailFrom(path: tmpPathUrlCompressed)
+                    media.isVideo = true
                 } catch {
                     print("Failed to get data from compressed URL")
                 }
-
-                // remove original file
-                FileManager.default.clearTmpDirectory()
                 
-                // instantiate realm object and write image data to realm object
-                do {
-                    let realm = try Realm()
-                    do {
-                        // write video data file to Realm
-                        try realm.write {
-                            realm.add(media)
-                        }
-                    } catch {
-                        print("Failed to write to Realm")
-                    }
-                } catch {
-                    print("Failed to get default Realm")
-                }
+                // remove original file
+//                FileManager.default.clearTmpDirectory()
+                
+//                RealmManager.shareInstance.wrtieToRealm(object: media)
+                
+                self.transmitVideoData(mediaData: media)
+                
                 
             case .failed:
+                guard let error = session.error else {return}
+                print(error)
                 break
             case .cancelled:
                 break

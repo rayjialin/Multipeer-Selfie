@@ -11,9 +11,18 @@ import NVActivityIndicatorView
 
 class BaseView: UIView {
     
+    let recordingTimer: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.text = "00:00:00"
+        label.textColor = flatWhite
+        label.isHidden = true
+        return label
+    }()
+    
     let timerLabel: UILabel = {
         let label = UILabel()
-        label.textColor = UIColor.flatWhite()
+        label.textColor = flatWhite
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -29,7 +38,7 @@ class BaseView: UIView {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
         button.showsTouchWhenHighlighted = true
-        button.setImage(#imageLiteral(resourceName: "flashOffIcon"), for: .normal)
+        button.setImage(flashAutoIcon, for: .normal)
         return button
     }()
     
@@ -38,7 +47,7 @@ class BaseView: UIView {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
         button.showsTouchWhenHighlighted = true
-        button.setImage(#imageLiteral(resourceName: "timerIcon"), for: .normal)
+        button.setImage(timerIcon, for: .normal)
         return button
     }()
     
@@ -46,14 +55,14 @@ class BaseView: UIView {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
         button.showsTouchWhenHighlighted = true
-        button.setImage(#imageLiteral(resourceName: "connectIcon"), for: .normal)
+        button.setImage(connectionIcon, for: .normal)
         return button
     }()
     
     let backButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.setImage(#imageLiteral(resourceName: "backIcon"), for: .normal)
+        button.setImage(backButtonIcon, for: .normal)
         return button
     }()
     
@@ -69,7 +78,7 @@ class BaseView: UIView {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
         button.showsTouchWhenHighlighted = true
-        button.setImage(#imageLiteral(resourceName: "switchCameraIcon"), for: .normal)
+        button.setImage(switchCameraIcon, for: .normal)
         return button
     }()
     
@@ -100,14 +109,14 @@ class BaseView: UIView {
     let headerContainerView: UIView = {
         let containerView = UIView()
         containerView.translatesAutoresizingMaskIntoConstraints = false
-        containerView.backgroundColor = UIColor.flatBlack()
+        containerView.backgroundColor = flatBlack
         return containerView
     }()
     
     let footerContainerView: UIView = {
         let containerView = UIView()
         containerView.translatesAutoresizingMaskIntoConstraints = false
-        containerView.backgroundColor = UIColor.flatBlack()
+        containerView.backgroundColor = flatBlack
         return containerView
     }()
     
@@ -117,7 +126,7 @@ class BaseView: UIView {
         [view1, view2, view3, view4, backButton, connectButton, flashButton, timerButton, timerLabel].forEach {
             headerContainerView.addSubview($0)
         }
-        [thumbnailImageView, switchCameraButton, progressBarView].forEach { footerContainerView.addSubview($0)}
+        [thumbnailImageView, switchCameraButton, progressBarView, recordingTimer].forEach { footerContainerView.addSubview($0)}
         [headerContainerView, footerContainerView].forEach {self.addSubview($0)}
         setupConstraint()
     }
@@ -128,7 +137,7 @@ class BaseView: UIView {
         [view1, view2, view3, view4, backButton, connectButton, flashButton, timerButton, timerLabel].forEach {
             headerContainerView.addSubview($0)
         }
-        [thumbnailImageView, switchCameraButton, progressBarView].forEach { footerContainerView.addSubview($0)}
+        [thumbnailImageView, switchCameraButton, progressBarView, recordingTimer].forEach { footerContainerView.addSubview($0)}
         [headerContainerView, footerContainerView].forEach {self.addSubview($0)}
         setupConstraint()
         
@@ -198,6 +207,9 @@ class BaseView: UIView {
         timerLabel.centerYAnchor.constraint(equalTo: timerButton.centerYAnchor).isActive = true
         timerLabel.widthAnchor.constraint(equalTo: timerButton.widthAnchor, multiplier: 1.5).isActive = true
         timerLabel.heightAnchor.constraint(equalTo: timerButton.heightAnchor).isActive = true
+        
+        recordingTimer.centerXAnchor.constraint(equalTo: footerContainerView.centerXAnchor).isActive = true
+        recordingTimer.centerYAnchor.constraint(equalTo: footerContainerView.centerYAnchor).isActive = true
     }
     
 }

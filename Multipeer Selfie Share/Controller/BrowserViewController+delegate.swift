@@ -8,9 +8,12 @@
 
 import Foundation
 import MultipeerConnectivity
-import RealmSwift
 
 extension BrowserViewController: CameraServiceManagerDelegate {
+    func toggleRecording(manager: CameraServiceManager, toggleRecordingRequest: String?) {
+        
+    }
+    
     func updateTimerLabel(timerValue: String?) {
         
     }
@@ -23,35 +26,47 @@ extension BrowserViewController: CameraServiceManagerDelegate {
         
     }
     
-    func shutterButtonTapped(manager: CameraServiceManager, data: Data?) {
-        guard let data = data else {return}
-        let media = MediaData()
-        media.mediaData = data
-        media.timestamp = Date()
-        
-        // instantiate realm object and write image data to realm object
-        do {
-            let realm = try Realm()
-            do {
-                try realm.write {
-                    realm.add(media)
-                }
-            } catch {
-                print("Failed to write to Realm")
-            }
-        } catch {
-            print("Failed to get default Realm")
-        }
+    func transmitVideoData(mediaData: MediaData?) {
+        guard let data = mediaData else {return}
+        let mediaData = MediaData()
+        mediaData.mediaData = data.mediaData
+        mediaData.timestamp = data.timestamp
+        mediaData.isVideo = data.isVideo
+        mediaData.thumbnail = data.thumbnail
         
         // segue to collection view to see the captured photos
         
         // re-enable shutter button and stop the timer bool
         DispatchQueue.main.async {
             self.browserView.progressBarView.stopAnimating()
-            self.browserView.thumbnailImageView.image = UIImage(data: data)
+            guard let thumbnailData = mediaData.thumbnail else {return}
+            self.browserView.thumbnailImageView.image = UIImage(data: thumbnailData)
             self.browserView.thumbnailImageView.isHidden = false
             self.browserView.takePhotoButton.isEnabled = true
             self.isTimerRunning = false
+            RealmManager.shareInstance.wrtieToRealm(object: mediaData)
+        }
+    }
+    
+    func transmitPhotoData(mediaData: MediaData?) {
+        guard let data = mediaData else {return}
+        let mediaData = MediaData()
+        mediaData.mediaData = data.mediaData
+        mediaData.timestamp = data.timestamp
+        mediaData.isVideo = data.isVideo
+        mediaData.thumbnail = data.thumbnail
+        
+        // segue to collection view to see the captured photos
+        
+        // re-enable shutter button and stop the timer bool
+        DispatchQueue.main.async {
+            self.browserView.progressBarView.stopAnimating()
+            guard let thumbnailData = mediaData.thumbnail else {return}
+            self.browserView.thumbnailImageView.image = UIImage(data: thumbnailData)
+            self.browserView.thumbnailImageView.isHidden = false
+            self.browserView.takePhotoButton.isEnabled = true
+            self.isTimerRunning = false
+            RealmManager.shareInstance.wrtieToRealm(object: mediaData)
         }
     }
     

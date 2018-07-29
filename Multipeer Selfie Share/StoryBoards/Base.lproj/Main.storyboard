@@ -100,6 +100,21 @@
             </objects>
             <point key="canvasLocation" x="3718" y="287"/>
         </scene>
+        <!--Video Player View Controller-->
+        <scene sceneID="G2k-DS-F6X">
+            <objects>
+                <viewController id="qpq-dJ-FPs" customClass="VideoPlayerViewController" customModule="Multipeer_Selfie_Share" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="cL6-84-xSI">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="ANR-o4-WQ4"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dkZ-65-lmP" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3725" y="958"/>
+        </scene>
         <!--Broadcast View Controller-->
         <scene sceneID="2aq-Uv-lGq">
             <objects>
@@ -112,7 +127,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="WOq-mn-rxc"/>
                     <connections>
-                        <segue destination="zhg-RQ-aF8" kind="show" identifier="segueToPhotoFromCamera" id="WyF-ZW-KnN"/>
+                        <segue destination="zhg-RQ-aF8" kind="show" identifier="segueToPhotosFromCamera" id="WyF-ZW-KnN"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gbT-vU-aGp" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -132,7 +147,7 @@
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <collectionViewLayout key="collectionViewLayout" id="1OZ-wh-p5A" customClass="CollectionViewSlantedLayout" customModule="CollectionViewSlantedLayout"/>
                                 <cells>
-                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" restorationIdentifier="customViewCell" reuseIdentifier="photoId" id="608-hu-TQP" customClass="CustomCollectionCell" customModule="Multipeer_Selfie_Share" customModuleProvider="target">
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" restorationIdentifier="customViewCell" reuseIdentifier="mediaId" id="608-hu-TQP" customClass="CustomCollectionCell" customModule="Multipeer_Selfie_Share" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="0.0" width="375" height="275"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
@@ -179,6 +194,7 @@
                         <outlet property="photoView" destination="w10-Vd-4rl" id="0hu-Ee-qLn"/>
                         <segue destination="epJ-DR-3X5" kind="presentation" identifier="segueToDetails" id="TUR-GA-4A7"/>
                         <segue destination="lXM-9s-J7L" kind="show" identifier="segueToSetting" id="cnD-kb-wYE"/>
+                        <segue destination="qpq-dJ-FPs" kind="show" identifier="segueToVideoPlayer" id="hV6-Yp-qbk"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="KtE-Gl-2eN" sceneMemberID="firstResponder"/>
